@@ -22,7 +22,6 @@ public class AppConfig
 	public static String DOWNLOADPATH_VIDEO = Environment.getExternalStorageDirectory().getPath() + "/bhq/FJ/VIDEO/";
 	/* 多媒体制作保存路径 */
 	public static String MEDIA_PATH = Environment.getExternalStorageDirectory().getPath() + "/bhq/MEDIA/";
-	/* 数据库地址 */
 	//服务器地址
 //	public final static String url = "http://192.168.31.163:8066/";
 //	public final static String url_web = "http://192.168.31.163:8066/";
