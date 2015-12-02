@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white" >
+
+    <ImageButton
+        android:id="@+id/imgbtn_back"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/titlebar_height"
+        android:layout_marginLeft="5dip"
+        android:background="@null"
+        android:contentDescription="@string/contentDescription_tonggao"
+        android:src="@drawable/back" />
+
+    <ProgressBar
+        android:id="@+id/main_head_progress"
+        style="@style/loading_small"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="5.0dip"
+        android:layout_toRightOf="@id/imgbtn_back"
+        android:visibility="gone" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/titlebar_height"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:text="添加事件"
+        android:textSize="@dimen/titlebar_textsize" />
+
+    <Button
+        android:id="@+id/btn_upload"
+        android:layout_width="35dip"
+        android:layout_height="35dip"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="10dip"
+        android:background="@drawable/ic_upload"
+        android:gravity="center"
+        android:textColor="@color/black"
+        android:textSize="@dimen/titlebar_textsize" />
+
+</RelativeLayout>

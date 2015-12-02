@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="180dip"
+    android:background="@color/white"
+    android:descendantFocusability="blocksDescendants" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="10dip"
+        android:layout_marginTop="10dip"
+        android:layout_marginLeft="10dip"
+        android:orientation="horizontal" >
+
+        <ImageView
+            android:id="@+id/img_animal"
+            android:layout_width="@dimen/width_imgage_inlist"
+            android:layout_height="match_parent" />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="15dip"
+            android:layout_marginTop="10dip"
+            android:orientation="vertical" >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dip"
+                android:layout_weight="1" >
+
+                <TextView
+                    android:id="@+id/tv_DCRQ"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="2dip"
+                    android:text="2015-12-25"
+                    android:textSize="@dimen/date_textsize" />
+
+                <TextView
+                    android:id="@+id/tv_ZM"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toLeftOf="@id/tv_DCRQ"
+                    android:singleLine="true"
+                    android:text="鼠刺"
+                    android:textColor="@color/listitem_black"
+                    android:textSize="@dimen/text_size_15" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/tv_SZZK"
+                android:layout_width="match_parent"
+                android:layout_height="0dip"
+                android:layout_weight="1"
+                android:scrollbarStyle="outsideInset"
+                android:text="这棵树长势很好"
+                android:textColor="@color/black"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/tv_xj"
+                android:layout_width="match_parent"
+                android:layout_height="0dip"
+                android:layout_weight="1"
+                android:scrollbarStyle="outsideInset"
+                android:text="3.5m"
+                android:textColor="@color/black"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/tv_sg"
+                android:layout_width="match_parent"
+                android:layout_height="0dip"
+                android:layout_weight="1"
+                android:scrollbarStyle="outsideInset"
+                android:text="34.5m"
+                android:textColor="@color/black"
+                android:textSize="12sp" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dip"
+                android:layout_weight="1" >
+
+                <Button
+                    android:id="@+id/btn_edit"
+                    android:layout_width="@dimen/width_imgbtn_eidt"
+                    android:layout_height="@dimen/height_imgbtn_edit"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="5dip"
+                    android:background="@drawable/shape_round_edit"
+                    android:text="@string/edit"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/btn_edit_textsize" />
+
+                <Button
+                    android:id="@+id/btn_track"
+                    android:layout_width="@dimen/width_imgbtn_eidt"
+                    android:layout_height="@dimen/height_imgbtn_edit"
+                    android:layout_marginRight="5dip"
+                    android:layout_toLeftOf="@id/btn_edit"
+                    android:background="@drawable/shape_round_border_black"
+                    android:text="@string/delete"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/btn_edit_textsize" />
+            </RelativeLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/titlebar_height"
+        android:background="@color/bg_titlebar" >
+
+        <ImageButton
+            android:id="@+id/imgbtn_back"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/titlebar_height"
+            android:layout_marginLeft="5dip"
+            android:background="@null"
+            android:contentDescription=""
+            android:src="@drawable/back" />
+
+        <ProgressBar
+            android:id="@+id/main_head_progress"
+            style="@style/loading_small"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5.0dip"
+            android:layout_toRightOf="@id/imgbtn_back"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/titlebar_height"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:text="查看植物"
+            android:textColor="@color/bg_text"
+            android:textSize="@dimen/titlebar_textsize" />
+
+        <TextView
+            android:id="@+id/tv_edit"
+            android:layout_width="40dip"
+            android:layout_height="@dimen/titlebar_height"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dip"
+            android:gravity="center"
+            android:text="编辑"
+            android:textColor="@color/bg_text"
+            android:textSize="@dimen/size_14" />
+
+        <View
+            android:id="@+id/line"
+            android:layout_width="1px"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="15dip"
+            android:layout_marginTop="15dip"
+            android:layout_toLeftOf="@id/tv_edit"
+            android:background="@color/line_color" />
+
+        <TextView
+            android:id="@+id/tv_delete"
+            android:layout_width="40dip"
+            android:layout_height="@dimen/titlebar_height"
+            android:layout_marginRight="10dip"
+            android:layout_toLeftOf="@id/line"
+            android:gravity="center"
+            android:text="刪除"
+            android:textColor="@color/bg_text"
+            android:textSize="@dimen/size_14" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/black" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
+
+            <FrameLayout
+                android:id="@+id/img_container"
+                android:layout_width="match_parent"
+                android:layout_height="350dip"
+                android:background="@color/white" />
+
+            <ImageView
+                android:id="@+id/img_tip"
+                android:layout_width="match_parent"
+                android:layout_height="350dip"
+                android:background="@drawable/noimg"
+                android:visibility="gone" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/line_color" />
+
+            <include
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                layout="@layout/foundationfragment_plantgrowth" />
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

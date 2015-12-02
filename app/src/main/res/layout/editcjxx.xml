@@ -1,0 +1,820 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/titlebar_height" >
+
+        <ImageButton
+            android:id="@+id/imgbtn_back"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/titlebar_height"
+            android:layout_marginLeft="5dip"
+            android:background="@null"
+            android:contentDescription="@string/contentDescription_tonggao"
+            android:src="@drawable/back" />
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/titlebar_height"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:text="编辑"
+            android:textColor="@color/black"
+            android:textSize="@dimen/titlebar_textsize" />
+
+        <Button
+            android:id="@+id/btn_upload"
+            android:layout_width="60dip"
+            android:layout_height="35dip"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dip"
+            android:background="@null"
+            android:gravity="center"
+            android:text="保存"
+            android:textColor="@color/black"
+            android:textSize="@dimen/size_14" />
+
+        <ProgressBar
+            android:id="@+id/pb_upload"
+            android:layout_width="60dip"
+            android:layout_height="35dip"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dip"
+            android:background="@null"
+            android:gravity="center"
+            android:text="上传"
+            android:textColor="@color/white"
+            android:textSize="@dimen/titlebar_textsize"
+            android:visibility="gone" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/line"
+        android:background="@color/bg_yellow" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dip"
+            android:layout_marginRight="20dip"
+            android:layout_marginTop="5dip"
+            android:stretchColumns="1" >
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="@dimen/width_colum"
+                    android:layout_height="match_parent"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:gravity="left|center_vertical"
+                    android:text="类型"
+                    android:textColor="@color/bg_text"
+                    android:textSize="@dimen/size_14" />
+
+                <TextView
+                    android:id="@+id/tv_type"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/height_colum"
+                    android:layout_span="3"
+                    android:background="@null"
+                    android:gravity="right|center_vertical"
+                    android:hint="请选择类型"
+                    android:paddingLeft="10dip"
+                    android:textColor="@color/bg_yellow"
+                    android:textSize="@dimen/size_14" />
+            </TableRow>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5px"
+                android:layout_marginTop="5dip"
+                android:background="@color/bg_selectitem" />
+            <!-- 种名 -->
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="@dimen/width_colum"
+                    android:layout_height="match_parent"
+                    android:gravity="left|center_vertical"
+                    android:inputType="number"
+                    android:text="种名"
+                    android:textColor="@color/bg_text"
+                    android:textSize="@dimen/size_14" />
+
+                <EditText
+                    android:id="@+id/et_zm"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/height_colum"
+                    android:layout_span="3"
+                    android:background="@null"
+                    android:gravity="right|center_vertical"
+                    android:hint="请输入种名"
+                    android:paddingLeft="10dip"
+                    android:textColor="@color/bg_yellow"
+                    android:textSize="@dimen/size_14" />
+            </TableRow>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5px"
+                android:layout_marginTop="5dip"
+                android:background="@color/bg_selectitem" />
+            <!-- 种名 -->
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="@dimen/width_colum"
+                    android:layout_height="match_parent"
+                    android:gravity="left|center_vertical"
+                    android:inputType="number"
+                    android:text="纲"
+                    android:textColor="@color/bg_text"
+                    android:textSize="@dimen/size_14" />
+
+                <EditText
+                    android:id="@+id/et_gang"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/height_colum"
+                    android:layout_span="3"
+                    android:background="@null"
+                    android:gravity="right|center_vertical"
+                    android:hint="请输入纲"
+                    android:paddingLeft="10dip"
+                    android:textColor="@color/bg_yellow"
+                    android:textSize="@dimen/size_14" />
+            </TableRow>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5px"
+                android:layout_marginTop="5dip"
+                android:background="@color/bg_selectitem" />
+            <!-- 种名 -->
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="@dimen/width_colum"
+                    android:layout_height="match_parent"
+                    android:gravity="left|center_vertical"
+                    android:inputType="number"
+                    android:text="目"
+                    android:textColor="@color/bg_text"
+                    android:textSize="@dimen/size_14" />
+
+                <EditText
+                    android:id="@+id/et_mu"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/height_colum"
+                    android:layout_span="3"
+                    android:background="@null"
+                    android:gravity="right|center_vertical"
+                    android:hint="请输入目"
+                    android:paddingLeft="10dip"
+                    android:textColor="@color/bg_yellow"
+                    android:textSize="@dimen/size_14" />
+            </TableRow>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5px"
+                android:layout_marginTop="5dip"
+                android:background="@color/bg_selectitem" />
+            <!-- 胸径(cm) -->
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="@dimen/width_colum"
+                    android:layout_height="match_parent"
+                    android:gravity="left|center_vertical"
+                    android:text="科"
+                    android:textColor="@color/bg_text"
+                    android:textSize="@dimen/size_14" />
+
+                <EditText
+                    android:id="@+id/et_ke"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/height_colum"
+                    android:layout_span="3"
+                    android:background="@null"
+                    android:gravity="right|center_vertical"
+                    android:hint="请输入科"
+                    android:paddingLeft="10dip"
+                    android:textColor="@color/bg_yellow"
+                    android:textSize="@dimen/size_14" />
+            </TableRow>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5px"
+                android:layout_marginTop="5dip"
+                android:background="@color/bg_selectitem" />
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="@dimen/width_colum"
+                    android:layout_height="match_parent"
+                    android:gravity="left|center_vertical"
+                    android:text="保护级别"
+                    android:textColor="@color/bg_text"
+                    android:textSize="@dimen/size_14" />
+
+                <TextView
+                    android:id="@+id/tv_bhjb"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/height_colum"
+                    android:layout_span="3"
+                    android:background="@null"
+                    android:gravity="right|center_vertical"
+                    android:hint="请选择保护级别"
+                    android:inputType="numberDecimal"
+                    android:paddingLeft="10dip"
+                    android:textColor="@color/bg_yellow"
+                    android:textSize="@dimen/size_14" />
+            </TableRow>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5px"
+                android:layout_marginTop="5dip"
+                android:background="@color/bg_selectitem" />
+            <!-- 枝下高(m) -->
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="@dimen/width_colum"
+                    android:layout_height="match_parent"
+                    android:gravity="left|center_vertical"
+                    android:text="濒危度"
+                    android:textColor="@color/bg_text"
+                    android:textSize="@dimen/size_14" />
+
+                <TextView
+                    android:id="@+id/tv_bwd"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/height_colum"
+                    android:layout_span="3"
+                    android:background="@null"
+                    android:gravity="right|center_vertical"
+                    android:hint="请选择濒危度"
+                    android:paddingLeft="10dip"
+                    android:textColor="@color/bg_yellow"
+                    android:textSize="@dimen/size_14" />
+            </TableRow>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5px"
+                android:layout_marginTop="5dip"
+                android:background="@color/bg_selectitem" />
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="@dimen/width_colum"
+                    android:layout_height="match_parent"
+                    android:gravity="left|center_vertical"
+                    android:text="特征"
+                    android:textColor="@color/bg_text"
+                    android:textSize="@dimen/size_14" />
+
+                <EditText
+                    android:id="@+id/et_tz"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/height_colum"
+                    android:layout_span="3"
+                    android:background="@null"
+                    android:gravity="right|center_vertical"
+                    android:hint="请输入特征"
+                    android:paddingLeft="10dip"
+                    android:textColor="@color/bg_yellow"
+                    android:textSize="@dimen/size_14" />
+            </TableRow>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5px"
+                android:layout_marginTop="5dip"
+                android:background="@color/bg_selectitem" />
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="@dimen/width_colum"
+                    android:layout_height="match_parent"
+                    android:gravity="left|center_vertical"
+                    android:text="习性"
+                    android:textColor="@color/bg_text"
+                    android:textSize="@dimen/size_14" />
+
+                <EditText
+                    android:id="@+id/et_xx"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/height_colum"
+                    android:layout_span="3"
+                    android:background="@null"
+                    android:gravity="right|center_vertical"
+                    android:hint="请输入习性"
+                    android:paddingLeft="10dip"
+                    android:textColor="@color/bg_yellow"
+                    android:textSize="@dimen/size_14" />
+            </TableRow>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5px"
+                android:layout_marginTop="5dip"
+                android:background="@color/bg_selectitem" />
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="@dimen/width_colum"
+                    android:layout_height="match_parent"
+                    android:gravity="left|center_vertical"
+                    android:text="生长环境"
+                    android:textColor="@color/bg_text"
+                    android:textSize="@dimen/size_14" />
+
+                <EditText
+                    android:id="@+id/et_szhj"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/height_colum"
+                    android:layout_span="3"
+                    android:background="@null"
+                    android:gravity="right|center_vertical"
+                    android:hint="请输入生长环境"
+                    android:paddingLeft="10dip"
+                    android:textColor="@color/bg_yellow"
+                    android:textSize="@dimen/size_14" />
+            </TableRow>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5px"
+                android:layout_marginTop="5dip"
+                android:background="@color/bg_selectitem" />
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="@dimen/width_colum"
+                    android:layout_height="match_parent"
+                    android:gravity="left|center_vertical"
+                    android:text="濒危因素"
+                    android:textColor="@color/bg_text"
+                    android:textSize="@dimen/size_14" />
+
+                <EditText
+                    android:id="@+id/et_bwys"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/height_colum"
+                    android:layout_span="3"
+                    android:background="@null"
+                    android:gravity="right|center_vertical"
+                    android:hint="请输入濒危因素"
+                    android:paddingLeft="10dip"
+                    android:textColor="@color/bg_yellow"
+                    android:textSize="@dimen/size_14" />
+            </TableRow>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5px"
+                android:layout_marginTop="5dip"
+                android:background="@color/bg_selectitem" />
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="@dimen/width_colum"
+                    android:layout_height="match_parent"
+                    android:gravity="left|center_vertical"
+                    android:text="备注"
+                    android:textColor="@color/bg_text"
+                    android:textSize="@dimen/size_14" />
+
+                <EditText
+                    android:id="@+id/et_bz"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/height_colum"
+                    android:layout_span="3"
+                    android:background="@null"
+                    android:gravity="right|center_vertical"
+                    android:hint="请输入备注"
+                    android:paddingLeft="10dip"
+                    android:textColor="@color/bg_yellow"
+                    android:textSize="@dimen/size_14" />
+            </TableRow>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5px"
+                android:layout_marginTop="5dip"
+                android:background="@color/bg_selectitem" />
+
+            <LinearLayout
+                android:id="@+id/ll_addplantpicture"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:id="@+id/tv_wholepicture"
+                        android:layout_width="@dimen/width_colum"
+                        android:layout_height="120dip"
+                        android:gravity="left|center_vertical"
+                        android:text="整体-照片"
+                        android:textColor="@color/bg_text"
+                        android:textSize="@dimen/size_14" />
+
+                    <HorizontalScrollView
+                        android:layout_width="match_parent"
+                        android:layout_height="120dip"
+                        android:layout_marginRight="@dimen/size_60"
+                        android:layout_toRightOf="@id/tv_wholepicture" >
+
+                        <LinearLayout
+                            android:id="@+id/ll_wholepicture"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal" />
+                    </HorizontalScrollView>
+
+                    <ImageButton
+                        android:id="@+id/imgbtn_addwholepicture"
+                        android:layout_width="@dimen/size_60"
+                        android:layout_height="120dip"
+                        android:layout_alignParentRight="true"
+                        android:background="@null"
+                        android:src="@drawable/plus" />
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5px"
+                    android:layout_marginTop="5dip"
+                    android:background="@color/bg_selectitem" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:id="@+id/tv_Leafpicture"
+                        android:layout_width="@dimen/width_colum"
+                        android:layout_height="120dip"
+                        android:gravity="left|center_vertical"
+                        android:text="叶-照片"
+                        android:textColor="@color/bg_text"
+                        android:textSize="@dimen/size_14" />
+
+                    <HorizontalScrollView
+                        android:layout_width="match_parent"
+                        android:layout_height="120dip"
+                        android:layout_marginRight="@dimen/size_60"
+                        android:layout_toRightOf="@id/tv_Leafpicture" >
+
+                        <LinearLayout
+                            android:id="@+id/ll_Leafpicture"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal" />
+                    </HorizontalScrollView>
+
+                    <ImageButton
+                        android:id="@+id/imgbtn_addLeafpicture"
+                        android:layout_width="@dimen/size_60"
+                        android:layout_height="120dip"
+                        android:layout_alignParentRight="true"
+                        android:background="@null"
+                        android:src="@drawable/plus" />
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5px"
+                    android:layout_marginTop="5dip"
+                    android:background="@color/bg_selectitem" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:id="@+id/tv_flowerpicture"
+                        android:layout_width="@dimen/width_colum"
+                        android:layout_height="120dip"
+                        android:gravity="left|center_vertical"
+                        android:text="花-照片"
+                        android:textColor="@color/bg_text"
+                        android:textSize="@dimen/size_14" />
+
+                    <HorizontalScrollView
+                        android:layout_width="match_parent"
+                        android:layout_height="120dip"
+                        android:layout_marginRight="@dimen/size_60"
+                        android:layout_toRightOf="@id/tv_flowerpicture" >
+
+                        <LinearLayout
+                            android:id="@+id/ll_flowerpicture"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal" />
+                    </HorizontalScrollView>
+
+                    <ImageButton
+                        android:id="@+id/imgbtn_addflowerpicture"
+                        android:layout_width="@dimen/size_60"
+                        android:layout_height="120dip"
+                        android:layout_alignParentRight="true"
+                        android:background="@null"
+                        android:src="@drawable/plus" />
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5px"
+                    android:layout_marginTop="5dip"
+                    android:background="@color/bg_selectitem" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:id="@+id/tv_fruitpicture"
+                        android:layout_width="@dimen/width_colum"
+                        android:layout_height="120dip"
+                        android:gravity="left|center_vertical"
+                        android:text="果-照片"
+                        android:textColor="@color/bg_text"
+                        android:textSize="@dimen/size_14" />
+
+                    <HorizontalScrollView
+                        android:layout_width="match_parent"
+                        android:layout_height="120dip"
+                        android:layout_marginRight="@dimen/size_60"
+                        android:layout_toRightOf="@id/tv_fruitpicture" >
+
+                        <LinearLayout
+                            android:id="@+id/ll_fruitpicture"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal" />
+                    </HorizontalScrollView>
+
+                    <ImageButton
+                        android:id="@+id/imgbtn_addfruitpicture"
+                        android:layout_width="@dimen/size_60"
+                        android:layout_height="120dip"
+                        android:layout_alignParentRight="true"
+                        android:background="@null"
+                        android:src="@drawable/plus" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_addanimalpicture"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:id="@+id/tv_addanimalpicture"
+                        android:layout_width="@dimen/width_colum"
+                        android:layout_height="120dip"
+                        android:gravity="left|center_vertical"
+                        android:text="整体-照片"
+                        android:textColor="@color/bg_text"
+                        android:textSize="@dimen/size_14" />
+
+                    <HorizontalScrollView
+                        android:layout_width="match_parent"
+                        android:layout_height="120dip"
+                        android:layout_marginRight="@dimen/size_60"
+                        android:layout_toRightOf="@id/tv_addanimalpicture" >
+
+                        <LinearLayout
+                            android:id="@+id/ll_animal_wholepicture"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal" />
+                    </HorizontalScrollView>
+
+                    <ImageButton
+                        android:id="@+id/imgbtn_animal_addwholepicture"
+                        android:layout_width="@dimen/size_60"
+                        android:layout_height="120dip"
+                        android:layout_alignParentRight="true"
+                        android:background="@null"
+                        android:src="@drawable/plus" />
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5px"
+                    android:layout_marginTop="5dip"
+                    android:background="@color/bg_selectitem" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:id="@+id/tv_animal_JYpicture"
+                        android:layout_width="@dimen/width_colum"
+                        android:layout_height="120dip"
+                        android:gravity="left|center_vertical"
+                        android:text="脚印-照片"
+                        android:textColor="@color/bg_text"
+                        android:textSize="@dimen/size_14" />
+
+                    <HorizontalScrollView
+                        android:layout_width="match_parent"
+                        android:layout_height="120dip"
+                        android:layout_marginRight="@dimen/size_60"
+                        android:layout_toRightOf="@id/tv_animal_JYpicture" >
+
+                        <LinearLayout
+                            android:id="@+id/ll_animal_JYpicture"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal" />
+                    </HorizontalScrollView>
+
+                    <ImageButton
+                        android:id="@+id/imgbtn_animal_addJYpicture"
+                        android:layout_width="@dimen/size_60"
+                        android:layout_height="120dip"
+                        android:layout_alignParentRight="true"
+                        android:background="@null"
+                        android:src="@drawable/plus" />
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5px"
+                    android:layout_marginTop="5dip"
+                    android:background="@color/bg_selectitem" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:id="@+id/tv_animal_FBpicture"
+                        android:layout_width="@dimen/width_colum"
+                        android:layout_height="120dip"
+                        android:gravity="left|center_vertical"
+                        android:text="粪便-照片"
+                        android:textColor="@color/bg_text"
+                        android:textSize="@dimen/size_14" />
+
+                    <HorizontalScrollView
+                        android:layout_width="match_parent"
+                        android:layout_height="120dip"
+                        android:layout_marginRight="@dimen/size_60"
+                        android:layout_toRightOf="@id/tv_animal_FBpicture" >
+
+                        <LinearLayout
+                            android:id="@+id/ll_animal_FBpicture"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal" />
+                    </HorizontalScrollView>
+
+                    <ImageButton
+                        android:id="@+id/imgbtn_animal_addFBpicture"
+                        android:layout_width="@dimen/size_60"
+                        android:layout_height="120dip"
+                        android:layout_alignParentRight="true"
+                        android:background="@null"
+                        android:src="@drawable/plus" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_addwswpicture"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5px"
+                    android:layout_marginTop="5dip"
+                    android:background="@color/bg_selectitem" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:id="@+id/tv_wsw_picture"
+                        android:layout_width="@dimen/width_colum"
+                        android:layout_height="120dip"
+                        android:gravity="left|center_vertical"
+                        android:text="照片"
+                        android:textColor="@color/bg_text"
+                        android:textSize="@dimen/size_14" />
+
+                    <HorizontalScrollView
+                        android:layout_width="match_parent"
+                        android:layout_height="120dip"
+                        android:layout_marginRight="@dimen/size_60"
+                        android:layout_span="2"
+                        android:layout_toRightOf="@id/tv_wsw_picture" >
+
+                        <LinearLayout
+                            android:id="@+id/ll_wsw_picture"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal" />
+                    </HorizontalScrollView>
+
+                    <ImageButton
+                        android:id="@+id/imgbtn_wsw_addpicture"
+                        android:layout_width="@dimen/size_60"
+                        android:layout_height="120dip"
+                        android:layout_alignParentRight="true"
+                        android:background="@null"
+                        android:src="@drawable/plus" />
+                </RelativeLayout>
+            </LinearLayout>
+        </TableLayout>
+    </ScrollView>
+
+</LinearLayout>

@@ -1,0 +1,192 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" >
+
+    <FrameLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="55dip" />
+
+    <LinearLayout
+        android:id="@+id/main_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="55dip"
+        android:layout_alignParentBottom="true"
+        android:background="@color/white"
+        android:orientation="horizontal" >
+
+        <TableLayout
+            android:id="@+id/tl_home"
+            android:layout_width="0dip"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="horizontal" >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dip"
+                android:layout_weight="1.5" >
+
+                <ImageButton
+                    android:id="@+id/imgbtn_home"
+                    android:layout_width="20dip"
+                    android:layout_height="20dip"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/btn_home_selector"
+                    android:clickable="false"
+                    android:contentDescription="" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/tv_home"
+                android:layout_width="match_parent"
+                android:layout_height="0dip"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:text="首页"
+                android:textColor="@color/menu_textcolor"
+                android:textSize="@dimen/home_menu_textsize" />
+        </TableLayout>
+
+        <TableLayout
+            android:id="@+id/tl_patrol"
+            android:layout_width="0dip"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="horizontal" >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dip"
+                android:layout_weight="1.5" >
+
+                <ImageButton
+                    android:id="@+id/imgbtn_xh"
+                    android:layout_width="20dip"
+                    android:layout_height="20dip"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/btn_cmd_selector"
+                    android:clickable="false"
+                    android:contentDescription="" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/tv_patro"
+                android:layout_width="match_parent"
+                android:layout_height="0dip"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:text="巡护"
+                android:textColor="@color/menu_textcolor"
+                android:textSize="@dimen/home_menu_textsize" />
+        </TableLayout>
+
+        <TableLayout
+            android:id="@+id/tl_sale"
+            android:layout_width="0dip"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:visibility="gone" >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dip"
+                android:layout_weight="1.5" >
+
+                <ImageButton
+                    android:id="@+id/imgbtn_sale"
+                    android:layout_width="20dip"
+                    android:layout_height="20dip"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/btn_sc_selector"
+                    android:clickable="false"
+                    android:contentDescription="" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/tv_sale"
+                android:layout_width="match_parent"
+                android:layout_height="0dip"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:text="生产"
+                android:textColor="@color/menu_textcolor"
+                android:textSize="@dimen/home_menu_textsize" />
+        </TableLayout>
+
+        <TableLayout
+            android:id="@+id/tl_data"
+            android:layout_width="0dip"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="horizontal" >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dip"
+                android:layout_weight="1.5" >
+
+                <ImageButton
+                    android:id="@+id/imgbtn_data"
+                    android:layout_width="20dip"
+                    android:layout_height="20dip"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/btn_zsk_selector"
+                    android:clickable="false"
+                    android:contentDescription="" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/tv_knowledge"
+                android:layout_width="match_parent"
+                android:layout_height="0dip"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:text="知识库"
+                android:textColor="@color/menu_textcolor"
+                android:textSize="@dimen/home_menu_textsize" />
+        </TableLayout>
+
+        <TableLayout
+            android:id="@+id/tl_message"
+            android:layout_width="0dip"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="horizontal" >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dip"
+                android:layout_weight="1.5" >
+
+                <ImageButton
+                    android:id="@+id/imgbtn_message"
+                    android:layout_width="20dip"
+                    android:layout_height="20dip"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/selector_message"
+                    android:clickable="false"
+                    android:contentDescription="" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/tv_setting"
+                android:layout_width="match_parent"
+                android:layout_height="0dip"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:text="我的"
+                android:textColor="@color/menu_textcolor"
+                android:textSize="@dimen/home_menu_textsize" />
+        </TableLayout>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_above="@id/main_bottom"
+        android:background="@color/line_color" />
+
+</RelativeLayout>

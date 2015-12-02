@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_login2"
+        android:orientation="vertical" >
+
+        <ImageView
+            android:layout_width="90dip"
+            android:layout_height="90dip"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="60dip"
+            android:background="@drawable/appicon" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dip"
+            android:background="@null"
+            android:gravity="center"
+            android:text="广东石门台国家级自然保护区"
+            android:textColor="@color/bg_text"
+            android:textSize="28sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dip"
+            android:background="@null"
+            android:gravity="center"
+            android:text="移动巡护平台"
+            android:textColor="@color/bg_blue"
+            android:textSize="18sp" />
+
+        <LinearLayout
+            android:id="@+id/ll_login"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dip"
+            android:layout_marginRight="15dip"
+            android:layout_marginTop="40dip"
+            android:background="#ffffff"
+            android:orientation="vertical" >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dip" >
+
+                <ImageView
+                    android:id="@+id/iv_tip1"
+                    android:layout_width="30dip"
+                    android:layout_height="30dip"
+                    android:layout_margin="15dip"
+                    android:background="@drawable/count_contact_pressed" />
+
+                <EditText
+                    android:id="@+id/et_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="30dip"
+                    android:layout_toRightOf="@id/iv_tip1"
+                    android:background="@null"
+                    android:gravity="left|center_vertical"
+                    android:hint="请输入用户名"
+                    android:textSize="14sp" />
+
+                <ImageView
+                    android:id="@+id/iv_down"
+                    android:layout_width="20dip"
+                    android:layout_height="10dip"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dip"
+                    android:background="@drawable/opportunity_arrow_close" />
+            </RelativeLayout>
+
+            <View
+                android:id="@+id/line"
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/line_color" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dip"
+                android:orientation="horizontal" >
+
+                <ImageView
+                    android:layout_width="30dip"
+                    android:layout_height="30dip"
+                    android:layout_margin="15dip"
+                    android:background="@drawable/count_approval" />
+
+                <EditText
+                    android:id="@+id/et_psw"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@null"
+                    android:gravity="left|center_vertical"
+                    android:hint="请输入密码"
+                    android:inputType="textPassword"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <!-- <View -->
+            <!-- android:layout_width="match_parent" -->
+            <!-- android:layout_height="@dimen/height_line" -->
+            <!-- android:background="@color/line_color" /> -->
+
+
+            <!-- <LinearLayout -->
+            <!-- android:layout_width="match_parent" -->
+            <!-- android:layout_height="60dip" -->
+            <!-- android:orientation="horizontal" > -->
+
+
+            <!-- <ImageView -->
+            <!-- android:layout_width="30dip" -->
+            <!-- android:layout_height="30dip" -->
+            <!-- android:layout_margin="15dip" -->
+            <!-- android:background="@drawable/ic_survey" /> -->
+
+
+            <!-- <EditText -->
+            <!-- android:id="@+id/et_serverpath" -->
+            <!-- android:layout_width="match_parent" -->
+            <!-- android:layout_height="match_parent" -->
+            <!-- android:background="@null" -->
+            <!-- android:gravity="left|center_vertical" -->
+            <!-- android:hint="默认地址：192.168.1.102" -->
+            <!-- android:textSize="14sp" /> -->
+            <!-- </LinearLayout> -->
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/line_color" />
+
+            <Button
+                android:id="@+id/btn_login"
+                android:layout_width="match_parent"
+                android:layout_height="60dip"
+                android:layout_marginTop="10dip"
+                android:background="@null"
+                android:hint="登陆"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <CheckBox
+            android:id="@+id/cb_autologin"
+            android:layout_width="match_parent"
+            android:layout_height="60dip"
+            android:layout_marginLeft="15dip"
+            android:layout_marginTop="10dip"
+            android:background="@null"
+            android:hint="自动登陆"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/pb_logining"
+        android:layout_width="60dip"
+        android:layout_height="60dip"
+        android:layout_gravity="center"
+        android:visibility="gone" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginBottom="20dip"
+        android:background="@null"
+        android:gravity="center"
+        android:text="技术支持：盈创星空（北京）科技有限公司"
+        android:textColor="@color/gray"
+        android:textSize="13sp" />
+
+</FrameLayout>

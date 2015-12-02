@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <include
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/titlebar_height"
+        layout="@layout/titlebar_showqmtree" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <ScrollView
+                android:id="@+id/sl1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical" >
+
+                    <FrameLayout
+                        android:id="@+id/img_container"
+                        android:layout_width="match_parent"
+                        android:layout_height="350dip"
+                        android:background="@color/white" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="65dip" >
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_alignParentLeft="true"
+                            android:layout_marginLeft="15dip"
+                            android:orientation="horizontal" >
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:gravity="center"
+                                android:text="植株号"
+                                android:textColor="@color/black"
+                                android:textSize="10sp" />
+
+                            <TextView
+                                android:id="@+id/tv_number"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_marginLeft="5dip"
+                                android:gravity="center"
+                                android:text="38"
+                                android:textColor="@color/black"
+                                android:textSize="18sp" />
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/tv_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_centerInParent="true"
+                            android:layout_marginLeft="15dip"
+                            android:gravity="center"
+                            android:text="短嘴山椒鸟"
+                            android:textColor="@color/black"
+                            android:textSize="17sp" />
+                    </RelativeLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.1px"
+                        android:layout_marginTop="6dip"
+                        android:background="@color/black" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="8dip"
+                        android:orientation="vertical" >
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="20dip"
+                            android:layout_gravity="center"
+                            android:layout_marginBottom="10dip"
+                            android:layout_marginTop="14dip"
+                            android:orientation="horizontal" >
+
+                            <Button
+                                android:id="@+id/btn_foundation"
+                                android:layout_width="0dip"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:background="@null"
+                                android:text="基础信息"
+                                android:textColor="@color/black"
+                                android:textSize="13sp" />
+
+                            <View
+                                android:layout_width="3px"
+                                android:layout_height="match_parent"
+                                android:layout_gravity="center"
+                                android:background="@color/black" />
+
+                            <Button
+                                android:id="@+id/btn_other"
+                                android:layout_width="0dip"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:background="@null"
+                                android:text="其他信息"
+                                android:textColor="@color/black"
+                                android:textSize="13sp" />
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="3px"
+                            android:layout_marginLeft="15dip"
+                            android:layout_marginRight="15dip"
+                            android:background="@color/black" />
+
+                        <FrameLayout
+                            android:id="@+id/fl_contain"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="5dip"
+                            android:orientation="vertical" >
+                        </FrameLayout>
+                    </LinearLayout>
+                </LinearLayout>
+            </ScrollView>
+        </RelativeLayout>
+    </ScrollView>
+
+</LinearLayout>

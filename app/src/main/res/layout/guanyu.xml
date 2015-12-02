@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/titlebar_height"
+        android:background="@color/bg_titlebar" >
+
+        <ImageButton
+            android:id="@+id/btn_back"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dip"
+            android:background="@null"
+            android:contentDescription=""
+            android:src="@drawable/back" />
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:text="关于"
+            android:textColor="@color/bg_text"
+            android:textSize="@dimen/titlebar_textsize" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/black" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="180dip"
+        android:gravity="center"
+        android:hint="版本号：1.0 \n\n @copyright：北京盈创星空 \n\n合作方：广东石门台自然保护区" />
+
+</LinearLayout>

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/search_result_item"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
+
+        <include
+            android:layout_width="match_parent"
+            android:layout_height="60dip"
+            layout="@layout/titlebar_animal" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dip"
+                android:background="#ffffff"
+                android:gravity="center"
+                android:singleLine="false"
+                android:text="通告一\ndddddddd"
+                android:textColor="#545454"
+                android:textSize="16sp"
+                android:typeface="sans" />
+
+            <TextView
+                android:id="@+id/tv_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dip"
+                android:background="#ffffff"
+                android:gravity="center"
+                android:text="2014-11-11"
+                android:textColor="#000000"
+                android:textSize="14sp" />
+
+            <ImageView
+                android:id="@+id/iv_ima"
+                android:layout_width="match_parent"
+                android:layout_height="190dip"
+                android:layout_marginLeft="20dip"
+                android:layout_marginRight="20dip"
+                android:layout_marginTop="20dip" />
+
+            <TextView
+                android:id="@+id/tv_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="20dip"
+                android:layout_marginRight="20dip"
+                android:layout_marginTop="20dip"
+                android:background="#ffffff"
+                android:lineSpacingExtra="7dip"
+                android:text=""
+                android:textColor="#383838"
+                android:textSize="15sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+</ScrollView>

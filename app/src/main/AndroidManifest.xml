@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.bhq"
+    android:versionCode="1"
+    android:versionName="1.2" >
+
+    <uses-sdk
+        android:minSdkVersion="14"
+        android:targetSdkVersion="22" />
+
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_MOCK_LOCATION" />
+
+    <!-- 通过GPS得到精确位置 -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <!-- 通过网络得到粗略位置 -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <!-- 访问网络. 某些位置信息需要从网络服务器获取 -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <!-- 访问WiFi状态. 需要WiFi信息用于网络定位 -->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <!-- 修改WiFi状态. 发起WiFi扫描, 需要WiFi信息用于网络定位 -->
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <!-- 访问网络状态, 检测网络的可用性. 需要网络运营商相关信息用于网络定位 -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <!-- 访问网络的变化, 需要某些信息用于网络定位 -->
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+    <!-- 访问手机当前状态, 需要某些信息用于网络定位 -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+
+    <application
+        android:name=".app.AppContext"
+        android:allowBackup="true"
+        android:icon="@drawable/appicon"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        <meta-data
+            android:name="TencentMapSDK"
+            android:value="ITNBZ-74OW3-FDK3D-3V6DX-RXX3J-RSFVP" />
+
+        <activity
+            android:name="com.bhq.ui.GuideViewDoor"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <!-- 在线ui -->
+        <activity android:name="com.bhq.ui.Login_" />
+        <activity android:name="com.bhq.ui.GuideViewActivity" />
+        <activity android:name="com.bhq.ui.MainActivity_" />
+        <activity android:name="com.bhq.ui.ShowAnimal_" />
+        <activity android:name="com.bhq.ui.AddAnimal_" />
+        <activity android:name="com.bhq.ui.EditAnimal_" />
+        <activity android:name="com.bhq.ui.DiscoveryActivity_" />
+        <activity android:name="com.bhq.ui.Survey_" />
+        <activity android:name="com.bhq.ui.Task_" />
+        <activity android:name="com.bhq.ui.TaskContent_" />
+        <activity android:name="com.bhq.ui.EventList_" />
+        <activity android:name="com.bhq.ui.PatrolContent_" />
+        <activity android:name="com.bhq.ui.ShowEventContent_" />
+        <activity android:name="com.bhq.ui.ShowPlant_" />
+        <activity android:name="com.bhq.ui.ShowPest_" />
+        <activity android:name="com.bhq.ui.AddEvent_" />
+        <activity android:name="com.bhq.ui.AddQMC_" />
+        <activity android:name="com.bhq.ui.AddXMCBC_" />
+        <activity android:name="com.bhq.ui.ShowPatroChart_" />
+        <activity android:name="com.bhq.ui.YangFangList_" />
+        <activity android:name="com.bhq.ui.ShowQiaoMu_" />
+        <activity android:name="com.bhq.ui.AddCJXX_" />
+        <activity android:name="com.bhq.ui.EditQMC_" />
+        <activity android:name="com.bhq.ui.EditCJXX_" />
+        <activity android:name="com.bhq.ui.ChangePwd_" />
+        <activity android:name="com.bhq.ui.ShowCJXX_" />
+        <activity android:name="com.bhq.ui.ShowPhoto_" />
+        <activity android:name="com.bhq.ui.ShowLocationInMap_" />
+        <activity android:name="com.bhq.ui.EditEvent_" />
+        <activity android:name="com.bhq.ui.GuanYu_" />
+        <activity android:name="com.bhq.ui.YiJianFanKui_" />
+        <activity android:name="com.bhq.ui.Helper_" />
+        <activity android:name="com.bhq.ui.ShowKnowledge_" />
+        <activity android:name="com.media.RecordActivity" />
+        <activity android:name="com.media.HomeFragmentActivity" />
+        <!-- 离线ui -->
+        <activity android:name="com.bhq.ui.Offline_MainActivity_" />
+        <activity android:name="com.bhq.ui.Offline_PatrolContent_" />
+        <activity android:name="com.bhq.ui.Offline_ShowKnowledge_" />
+        <activity android:name="com.bhq.ui.Offline_DiscoveryActivity_" />
+        <activity android:name="com.bhq.ui.Offline_AddCJXX_" />
+        <activity android:name="com.bhq.ui.Offline_EditCJXX_" />
+        <activity android:name="com.bhq.ui.Offline_ShowCJXX_" />
+        <activity android:name="com.bhq.ui.Offline_ShowPhoto_" />
+        <activity android:name="com.bhq.ui.Offline_EventList_" />
+        <activity android:name="com.bhq.ui.Offline_AddEvent_" />
+        <activity android:name="com.bhq.ui.Offline_EditEvent_" />
+        <activity android:name="com.bhq.ui.Offline_ShowEventContent_" />
+        <activity android:name="com.bhq.ui.Offline_Task_" />
+        <activity android:name="com.bhq.ui.Offline_TaskContent_" />
+        <activity android:name="com.bhq.ui.Offline_ChangePwd_" />
+        <!-- 服务 -->
+        <service
+            android:name="com.service.UpdateApk"
+            android:exported="false" >
+        </service>
+        <service
+            android:name="com.service.UpdateApkInBackground"
+            android:exported="false" >
+        </service>
+        <service android:name="com.bhq.service.MarkLocationService" />
+        <service android:name="com.service.SynchronousData" />
+        <service android:name="com.service.DownloadData" />
+    </application>
+
+</manifest>

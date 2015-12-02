@@ -1,0 +1,321 @@
+<com.bhq.widget.DragLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/dl"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_draglayout" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="30dp"
+        android:paddingLeft="15dp"
+        android:paddingTop="50dp" >
+
+        <LinearLayout
+            android:id="@+id/ll1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <com.bhq.widget.CircleImageView
+                android:id="@+id/circle_img"
+                android:layout_width="60dip"
+                android:layout_height="60dip"
+                android:src="@drawable/ic_login"
+                app:border_color="#00000000"
+                app:border_width="0dp" />
+
+            <TextView
+                android:id="@+id/tv_xm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="10dp"
+                android:text="张三"
+                android:textColor="@color/bg_text"
+                android:textSize="15sp" />
+        </LinearLayout>
+
+        <View
+            android:id="@+id/line"
+            android:layout_width="300dip"
+            android:layout_height="1px"
+            android:layout_below="@id/ll1"
+            android:layout_marginTop="15dip"
+            android:background="@color/line_color" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/line"
+            android:layout_marginTop="10dp"
+            android:orientation="vertical" >
+
+            <RelativeLayout
+                android:id="@+id/rl_changepwd"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/size_50" >
+
+                <ImageView
+                    android:id="@+id/iv_changepwd"
+                    android:layout_width="@dimen/size_20"
+                    android:layout_height="@dimen/size_20"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="15dip"
+                    android:background="@drawable/menu_product" />
+
+                <TextView
+                    android:id="@+id/tv_changepwd"
+                    android:layout_width="@dimen/size_150"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="20dip"
+                    android:layout_toRightOf="@id/iv_changepwd"
+                    android:gravity="left|center_vertical"
+                    android:text="修改密码"
+                    android:textColor="@color/bg_text"
+                    android:textSize="@dimen/size_13" />
+
+                <ImageView
+                    android:layout_width="12dip"
+                    android:layout_height="12dip"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_margin="25dip"
+                    android:src="@drawable/ic_back_red" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_exist"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/size_50" >
+
+                <ImageView
+                    android:id="@+id/iv_exist"
+                    android:layout_width="@dimen/size_20"
+                    android:layout_height="@dimen/size_20"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="15dip"
+                    android:background="@drawable/menu_dashboard" />
+
+                <TextView
+                    android:id="@+id/tv_exist"
+                    android:layout_width="@dimen/size_150"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="20dip"
+                    android:layout_toRightOf="@id/iv_exist"
+                    android:gravity="left|center_vertical"
+                    android:text="退出账户"
+                    android:textColor="@color/bg_text"
+                    android:textSize="@dimen/size_13" />
+
+                <ImageView
+                    android:layout_width="12dip"
+                    android:layout_height="12dip"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_margin="25dip"
+                    android:src="@drawable/ic_back_red" />
+            </RelativeLayout>
+        </LinearLayout>
+    </RelativeLayout>
+
+    <com.bhq.widget.MyRelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/white" >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <FrameLayout
+                android:id="@+id/container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="55dip" />
+
+            <LinearLayout
+                android:id="@+id/main_bottom"
+                android:layout_width="match_parent"
+                android:layout_height="55dip"
+                android:layout_alignParentBottom="true"
+                android:background="@color/white"
+                android:orientation="horizontal" >
+
+                <TableLayout
+                    android:id="@+id/tl_home"
+                    android:layout_width="0dip"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="horizontal" >
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dip"
+                        android:layout_weight="1.5" >
+
+                        <ImageButton
+                            android:id="@+id/imgbtn_home"
+                            android:layout_width="20dip"
+                            android:layout_height="20dip"
+                            android:layout_centerInParent="true"
+                            android:background="@drawable/btn_home_selector"
+                            android:clickable="false"
+                            android:contentDescription="" />
+                    </RelativeLayout>
+
+                    <TextView
+                        android:id="@+id/tv_home"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dip"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal"
+                        android:text="首页"
+                        android:textColor="@color/menu_textcolor"
+                        android:textSize="@dimen/home_menu_textsize" />
+                </TableLayout>
+
+                <TableLayout
+                    android:id="@+id/tl_patrol"
+                    android:layout_width="0dip"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="horizontal" >
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dip"
+                        android:layout_weight="1.5" >
+
+                        <ImageButton
+                            android:id="@+id/imgbtn_xh"
+                            android:layout_width="20dip"
+                            android:layout_height="20dip"
+                            android:layout_centerInParent="true"
+                            android:background="@drawable/btn_cmd_selector"
+                            android:clickable="false"
+                            android:contentDescription="" />
+                    </RelativeLayout>
+
+                    <TextView
+                        android:id="@+id/tv_patro"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dip"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal"
+                        android:text="巡护"
+                        android:textColor="@color/menu_textcolor"
+                        android:textSize="@dimen/home_menu_textsize" />
+                </TableLayout>
+
+                <TableLayout
+                    android:id="@+id/tl_sale"
+                    android:layout_width="0dip"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="horizontal"
+                    android:visibility="gone" >
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dip"
+                        android:layout_weight="1.5" >
+
+                        <ImageButton
+                            android:id="@+id/imgbtn_sale"
+                            android:layout_width="20dip"
+                            android:layout_height="20dip"
+                            android:layout_centerInParent="true"
+                            android:background="@drawable/btn_sc_selector"
+                            android:clickable="false"
+                            android:contentDescription="" />
+                    </RelativeLayout>
+
+                    <TextView
+                        android:id="@+id/tv_sale"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dip"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal"
+                        android:text="生产"
+                        android:textColor="@color/menu_textcolor"
+                        android:textSize="@dimen/home_menu_textsize" />
+                </TableLayout>
+
+                <TableLayout
+                    android:id="@+id/tl_data"
+                    android:layout_width="0dip"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="horizontal" >
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dip"
+                        android:layout_weight="1.5" >
+
+                        <ImageButton
+                            android:id="@+id/imgbtn_data"
+                            android:layout_width="20dip"
+                            android:layout_height="20dip"
+                            android:layout_centerInParent="true"
+                            android:background="@drawable/btn_zsk_selector"
+                            android:clickable="false"
+                            android:contentDescription="" />
+                    </RelativeLayout>
+
+                    <TextView
+                        android:id="@+id/tv_knowledge"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dip"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal"
+                        android:text="知识库"
+                        android:textColor="@color/menu_textcolor"
+                        android:textSize="@dimen/home_menu_textsize" />
+                </TableLayout>
+
+                <TableLayout
+                    android:id="@+id/tl_message"
+                    android:layout_width="0dip"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="horizontal" >
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dip"
+                        android:layout_weight="1.5" >
+
+                        <ImageButton
+                            android:id="@+id/imgbtn_message"
+                            android:layout_width="20dip"
+                            android:layout_height="20dip"
+                            android:layout_centerInParent="true"
+                            android:background="@drawable/selector_message"
+                            android:clickable="false"
+                            android:contentDescription="" />
+                    </RelativeLayout>
+
+                    <TextView
+                        android:id="@+id/tv_setting"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dip"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal"
+                        android:text="我的"
+                        android:textColor="@color/menu_textcolor"
+                        android:textSize="@dimen/home_menu_textsize" />
+                </TableLayout>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_above="@id/main_bottom"
+                android:background="@color/line_color" />
+        </RelativeLayout>
+    </com.bhq.widget.MyRelativeLayout>
+
+</com.bhq.widget.DragLayout>

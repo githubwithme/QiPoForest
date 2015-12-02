@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="320dip"
+        android:layout_height="60dip" >
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="同步数据"
+            android:textColor="#000000"
+            android:textSize="15sp" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1px"
+        android:background="#dcdc" />
+
+    <RelativeLayout
+        android:layout_width="320dip"
+        android:layout_height="90dip" >
+
+        <TextView
+            android:id="@+id/tv_tips"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dip"
+            android:gravity="center"
+            android:text="同步数据需要联网，请保持网络顺畅！"
+            android:textColor="#000000"
+            android:textSize="15sp" />
+
+        <ProgressBar
+            android:id="@+id/pb"
+            style="@android:style/Widget.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="10dip"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="15dip"
+            android:layout_marginRight="15dip"
+            android:max="100"
+            android:progress="0"
+            android:visibility="gone" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1px"
+        android:background="#dcdc" />
+
+    <LinearLayout
+        android:layout_width="320dip"
+        android:layout_height="60dip" >
+
+        <LinearLayout
+            android:id="@+id/ll_syn"
+            android:layout_width="320dip"
+            android:layout_height="60dip" >
+
+            <Button
+                android:id="@+id/btn_syn"
+                android:layout_width="0dip"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@null"
+                android:text="同步"
+                android:textSize="15sp" />
+
+            <View
+                android:layout_width="1dip"
+                android:layout_height="match_parent"
+                android:background="#dcdc" />
+
+            <Button
+                android:id="@+id/btn_cancle"
+                android:layout_width="0dip"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@null"
+                android:text="取消"
+                android:textSize="15sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_sure"
+            android:layout_width="320dip"
+            android:layout_height="60dip" >
+
+            <Button
+                android:id="@+id/btn_sure"
+                android:layout_width="0dip"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@null"
+                android:text="确定"
+                android:textSize="15sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

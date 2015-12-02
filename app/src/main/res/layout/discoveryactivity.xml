@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical" >
+
+    <include
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/titlebar_height"
+        layout="@layout/titlebar_animal" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.1px"
+        android:background="@color/black" />
+
+    <include
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/searchview_height"
+        layout="@layout/navigation_find" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.1px"
+        android:background="@color/black" />
+
+    <com.bhq.widget.PullToRefreshListView
+        android:id="@+id/frame_listview_news"
+        style="@style/widget_listview"
+        android:background="@color/white" />
+
+</LinearLayout>

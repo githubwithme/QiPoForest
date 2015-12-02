@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="white">#ffffff</color>
+    <!-- 圆形样式颜色 -->
+    <color name="base_start_color_pressed">#ff3590c4</color>
+    <color name="base_end_color_pressed">#ff2570ba</color>
+    <color name="rounded_container_border">#dcdcdc</color>
+    <color name="search_rounded_border">#000000</color>
+    <color name="base_start_color_default">#FFFFFF</color>
+    <color name="base_end_color_default">#FFFFFF</color>
+    <!-- 编辑按钮背景色 -->
+    <color name="rounded_container_border_edit">#ff0000</color>
+    <color name="start_color_default">#FF0000</color>
+    <color name="end_color_default">#FF0000</color>
+    <color name="start_color_green">#669900</color>
+    <color name="end_color_green">#669900</color>
+    <color name="border_color_green">#669900</color>
+    <!-- 地图按钮样式 -->
+    <color name="start_color_btn_map">#b5555555</color>
+    <color name="end_color_btn_map">#b5555555</color>
+    <!-- 分割线颜色 -->
+    <color name="line_color">#dcdcdc</color>
+    <color name="line_color_black">#000000</color>
+    <!-- listview分割线颜色 -->
+    <color name="divider_color">#FFFAFA</color>
+    <!-- actionbar按钮文字颜色 -->
+    <color name="actionbar_textcolor">#000000</color>
+    <!-- 信息采集文字颜色 -->
+    <color name="xxcj_textcolor">#000000</color>
+    <!-- 首页文字颜色 -->
+    <color name="transparent">#00000000</color>
+    <!-- 首页文字颜色 -->
+    <color name="gray">#909090</color>
+    <color name="darkgray">#959595</color>
+    <color name="find_textcolor">#000000</color>
+    <color name="hasfind_textcolor">#909090</color>
+    <color name="menu_textcolor">#000000</color>
+    <!-- 地图popupwindow字体颜色 -->
+    <color name="popupwindow_textcolor">#ffffff</color>
+    <color name="btn_map">#ffffff</color>
+    <color name="bg_popupwindow">#b5555555</color>
+    <color name="black">#000000</color>
+    <color name="listitem_transparent">#00000000</color>
+    <color name="listitem_black">#ff000000</color>
+    <color name="listitem_gray">#ff9da19e</color>
+    <color name="red">#ff0000</color>
+    <color name="light_blue">#6593cb</color>
+    <color name="yellow">#FFFF00</color>
+    <color name="province_line_border">#C7C7C7</color>
+    <color name="bg_yellow">#fed15c</color>
+    <color name="bg_selectitem">#FAFAFA</color>
+    <color name="bg_text_small">#bdbdbd</color>
+    <color name="bg_text">#333333</color>
+    <color name="bg_work">#fed15c </color>
+    <color name="bg_titlebar">#ffffff</color>
+    <color name="bg_green">#4fcf72</color>
+    <color name="bg_blue">#59aeef</color>
+
+</resources>

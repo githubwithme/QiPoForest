@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white" >
+
+    <ImageButton
+        android:id="@+id/imgbtn_back"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/titlebar_height"
+        android:layout_marginLeft="5dip"
+        android:background="@null"
+        android:contentDescription="@string/contentDescription_tonggao"
+        android:src="@drawable/back" />
+
+    <ProgressBar
+        android:id="@+id/main_head_progress"
+        style="@style/loading_small"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="5.0dip"
+        android:layout_toRightOf="@id/imgbtn_back"
+        android:visibility="gone" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/titlebar_height"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:text="事件详情"
+        android:textSize="@dimen/titlebar_textsize" />
+
+    <Button
+        android:id="@+id/btn_edit"
+        android:layout_width="40dip"
+        android:layout_height="@dimen/titlebar_height"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="5dip"
+        android:background="@null"
+        android:gravity="center"
+        android:text="编辑"
+        android:textSize="@dimen/size_14" />
+
+    <Button
+        android:id="@+id/tv_delete"
+        android:layout_width="40dip"
+        android:layout_height="@dimen/titlebar_height"
+        android:layout_marginRight="5dip"
+        android:layout_toLeftOf="@id/btn_edit"
+        android:background="@null"
+        android:gravity="center"
+        android:text="删除"
+        android:textSize="@dimen/size_14" />
+
+</RelativeLayout>
