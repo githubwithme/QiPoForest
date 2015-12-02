@@ -8,7 +8,6 @@ import java.io.FileInputStream;
 import java.util.Properties;
 
 /**
- * @author :sima
  * @version :1.0
  * @createTime：2015-8-6 上午10:54:13
  * @description :应用程序的配置类：用于保存用户相关信息及设置
