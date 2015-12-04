@@ -196,6 +196,7 @@ public class UpdateApk extends Service
 			@Override
 			public void onFailure(HttpException error, String msg)
 			{
+                String aa=error.getMessage();
 				if (msg.equals("maybe the file has downloaded completely"))
 				{
 					Toast.makeText(UpdateApk.this, "下载成功!", Toast.LENGTH_SHORT).show();

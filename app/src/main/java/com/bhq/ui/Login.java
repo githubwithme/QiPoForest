@@ -114,11 +114,11 @@ public class Login extends Activity
 		if (isChecked)
 		{
 			model = "0";
-			markmodel("0");// 离线模式
+			markmodel("0");// 离线模式0
 		} else
 		{
-			model = "1";
-			markmodel("1");// 在线模式
+			model = "0";
+			markmodel("0");// 在线模式1
 		}
 	}
 
@@ -190,7 +190,7 @@ public class Login extends Activity
 		getActionBar().hide();
 		AppManager.getAppManager().addActivity(this);
 		sp = this.getSharedPreferences("MY_PRE", MODE_PRIVATE);
-		model = sp.getString("model", "");
+		model = sp.getString("model", "0");
 
 	}
 
