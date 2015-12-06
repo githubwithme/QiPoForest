@@ -8,17 +8,17 @@
         revision="20.0.0"
         sha1="1b1a4ec9f3321fee0f107f97539c1b9a6bd2ff3c"/>
     <item
-        dex="F:\project\smtbhq\app\build\intermediates\pre-dexed\debug\support-annotations-23.0.1-b1b366c52ff5378641de89540c734b21661c0b6d.jar"
-        jar="C:\softwareinstall\androidstudio\sdk\extras\android\m2repository\com\android\support\support-annotations\23.0.1\support-annotations-23.0.1.jar"
-        jumboMode="false"
-        revision="20.0.0"
-        sha1="1fce89a6428c51467090d7f424e4c9c3dbd55f7e"/>
-    <item
         dex="F:\project\smtbhq\app\build\intermediates\pre-dexed\debug\TencentLocationSDK_v4.3.0_r196568-897b033b0d2d8f769cd72c7becdb5df5b3a3b981.jar"
         jar="F:\project\smtbhq\app\libs\TencentLocationSDK_v4.3.0_r196568.jar"
         jumboMode="false"
         revision="20.0.0"
         sha1="01749396cbdaef97f91e41ce5092a41dec8d94d9"/>
+    <item
+        dex="F:\project\smtbhq\app\build\intermediates\pre-dexed\debug\support-annotations-23.0.1-b1b366c52ff5378641de89540c734b21661c0b6d.jar"
+        jar="C:\softwareinstall\androidstudio\sdk\extras\android\m2repository\com\android\support\support-annotations\23.0.1\support-annotations-23.0.1.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="1fce89a6428c51467090d7f424e4c9c3dbd55f7e"/>
     <item
         dex="F:\project\smtbhq\app\build\intermediates\pre-dexed\debug\nineoldandroids-2.4.0-c2e2e0bdcfae25c40fddbd9579a25a04479f38a8.jar"
         jar="F:\project\smtbhq\app\libs\nineoldandroids-2.4.0.jar"
