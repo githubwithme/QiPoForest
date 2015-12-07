@@ -47,7 +47,7 @@ import java.util.List;
  * @createTime：2015-8-14 下午6:33:24
  * @description :展示动物类
  */
-@SuppressLint("NewApi")
+@SuppressLint("ValidFragment")
 @EActivity(R.layout.showqiaomu)
 public class ShowQiaoMu extends Activity
 {
