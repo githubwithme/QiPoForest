@@ -67,7 +67,7 @@ public class Offline_ChangePwd extends Activity
 	{
 		dt_manager_offline dt_manager = (com.bhq.bean.dt_manager_offline) SqliteDb.getCurrentUser(Offline_ChangePwd.this, dt_manager_offline.class);
 		String oldpdw = encryptPassword(dt_manager, et_oldpwd.getText().toString());
-		dt_manager_offline dt_manager_offlinetemp = (com.bhq.bean.dt_manager_offline) SqliteDb.login(Offline_ChangePwd.this, dt_manager_offline.class, dt_manager.getreal_name(), oldpdw);
+		dt_manager_offline dt_manager_offlinetemp = (com.bhq.bean.dt_manager_offline) SqliteDb.login(Offline_ChangePwd.this, dt_manager_offline.class, dt_manager.getuser_name(), oldpdw);
 		if (dt_manager_offlinetemp == null)
 		{
 			Toast.makeText(Offline_ChangePwd.this, "原密码错误!", Toast.LENGTH_SHORT).show();
