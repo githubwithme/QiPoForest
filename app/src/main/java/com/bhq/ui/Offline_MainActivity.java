@@ -293,7 +293,8 @@ public class Offline_MainActivity extends Activity
 				switch (v.getId())
 				{
 				case R.id.btn_sure:
-					finish();
+//					finish();
+                    AppManager.getAppManager().AppExit(Offline_MainActivity.this);
 					break;
 				case R.id.btn_cancle:
 					myDialog.dismiss();

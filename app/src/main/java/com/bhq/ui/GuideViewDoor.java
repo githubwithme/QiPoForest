@@ -57,8 +57,7 @@ public class GuideViewDoor extends Activity
 		animationTop = AnimationUtils.loadAnimation(GuideViewDoor.this, R.anim.tutorail_scalate_top);
 		ll_txt.startAnimation(animationTop);
 		image.startAnimation(animationTop);
-		sp = GuideViewDoor.this.getSharedPreferences("MY_PRE", MODE_PRIVATE);
-		userId = sp.getString("UserId", "");
+
 		new Handler().postDelayed(new Runnable()// 5秒开屏界面,之后检查是否自动登录，可以自动登录就直接进入主界面，否则进入注册登录界面
 				{
 					@Override
@@ -66,9 +65,8 @@ public class GuideViewDoor extends Activity
 					{
 						Intent intent = new Intent(GuideViewDoor.this, Login_.class);
 						startActivity(intent);
-						GuideViewDoor.this.finish();
 					}
-				}, 3000);
+				}, 4000);
 	}
 
 }

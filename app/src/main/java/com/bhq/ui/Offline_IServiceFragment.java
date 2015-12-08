@@ -728,6 +728,7 @@ public class Offline_IServiceFragment extends Fragment
 	{
 		dt_manager_offline dt_manager_offline = (com.bhq.bean.dt_manager_offline) SqliteDb.getCurrentUser(getActivity(), dt_manager_offline.class);
 		dt_manager_offline.setAutoLogin("0");
+		dt_manager_offline.setIsLogin("0");
 		SqliteDb.existSystemoffline(getActivity(), dt_manager_offline);
 	}
 }

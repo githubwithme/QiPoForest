@@ -25,6 +25,7 @@
                 app:border_width="0dp" />
 
             <LinearLayout
+                android:id="@+id/ll_txt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/image"
@@ -217,11 +218,13 @@
                         app:border_color="#00000000"
                         app:border_width="0dp" />
 
-                    <ImageView
+                    <TextView
                         android:layout_width="50dip"
                         android:layout_height="50dip"
                         android:layout_gravity="center"
-                        android:background="@drawable/ic_next_white" />
+                        android:text="登录"
+                        android:gravity="center"
+                        android:textColor="@color/white"/>
                 </FrameLayout>
 
                 <CheckBox

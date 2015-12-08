@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.View.OnKeyListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
@@ -72,6 +73,7 @@ import java.util.concurrent.CountDownLatch;
 @EActivity(R.layout.logintemp)
 public class Login extends Activity
 {
+    private Animation animationTop;
 	String model = "";
 	int ThreadNumber = 0;
 	boolean isfail = false;
@@ -96,8 +98,12 @@ public class Login extends Activity
 	EditText et_psw;
 	@ViewById
 	CircleImageView btn_login;
-	@ViewById
+    @ViewById
+    CircleImageView image;
+    @ViewById
 	LinearLayout ll_login;
+    @ViewById
+    LinearLayout ll_txt;
 	@ViewById
 	ProgressBar pb_logining;
 	@ViewById
@@ -173,6 +179,9 @@ public class Login extends Activity
 	@AfterViews
 	void afterOncreate()
 	{
+//        animationTop = AnimationUtils.loadAnimation(this, R.anim.tutorail_scalate_top);
+//        ll_txt.startAnimation(animationTop);
+//        image.startAnimation(animationTop);
 		if (model.equals("0"))
 		{
 			cb_offline.setChecked(true);
@@ -241,6 +250,12 @@ public class Login extends Activity
 
 	private void startInitData()
 	{
+//        SqliteDb.dropTable(Login.this, dt_manager_offline.class);
+//        SqliteDb.dropTable(Login.this, Dictionary.class);
+//        SqliteDb.dropTable(Login.this, BHQ_ZSK.class);
+//        SqliteDb.dropTable(Login.this, RW_RW.class);
+//        SqliteDb.dropTable(Login.this, RW_CYR.class);
+//        SqliteDb.dropTable(Login.this, RW_YQB.class);
 		rl_inittip.setVisibility(View.GONE);
 		rl_pb.setVisibility(View.VISIBLE);
 		InitTable("APP.InitUserTable", dt_manager_offline.class);
