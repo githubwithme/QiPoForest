@@ -66,6 +66,8 @@ public class Offline_KnowledgeFragment extends Fragment
 	@Click
 	void btn_zcwj()
 	{
+        listData.clear();// 先清除原有数据
+        listAdapter.notifyDataSetChanged();
 		ZYDL = "1";
 		getListData(UIHelper.LISTVIEW_ACTION_INIT, UIHelper.LISTVIEW_DATATYPE_NEWS, frame_listview_news, listAdapter, list_foot_more, list_foot_progress, AppContext.PAGE_SIZE, 0);
 		btn_zcwj.setSelected(true);
@@ -76,6 +78,8 @@ public class Offline_KnowledgeFragment extends Fragment
 	@Click
 	void btn_flfg()
 	{
+        listData.clear();// 先清除原有数据
+        listAdapter.notifyDataSetChanged();
 		ZYDL = "2";
 		getListData(UIHelper.LISTVIEW_ACTION_INIT, UIHelper.LISTVIEW_DATATYPE_NEWS, frame_listview_news, listAdapter, list_foot_more, list_foot_progress, AppContext.PAGE_SIZE, 0);
 		btn_flfg.setSelected(true);
@@ -86,6 +90,8 @@ public class Offline_KnowledgeFragment extends Fragment
 	@Click
 	void btn_da()
 	{
+        listData.clear();// 先清除原有数据
+        listAdapter.notifyDataSetChanged();
 		ZYDL = "3";
 		getListData(UIHelper.LISTVIEW_ACTION_INIT, UIHelper.LISTVIEW_DATATYPE_NEWS, frame_listview_news, listAdapter, list_foot_more, list_foot_progress, AppContext.PAGE_SIZE, 0);
 		btn_da.setSelected(true);

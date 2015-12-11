@@ -282,14 +282,10 @@ public class Offline_PatrolControlFragment extends Fragment implements TencentLo
 
         TencentLocationRequest request = TencentLocationRequest.create();
         TencentLocationManager locationManager = TencentLocationManager.getInstance(getActivity());
-        locationManager.setCoordinateType(1);//设置坐标系为gcj02坐标
-        int type=locationManager.getCoordinateType();
-        int b=locationManager.COORDINATE_TYPE_GCJ02;//1
-        int a=locationManager.COORDINATE_TYPE_WGS84;//0
-        Toast.makeText(getActivity(),""+type, Toast.LENGTH_SHORT).show();
+        locationManager.setCoordinateType(1);//设置坐标系为gcj02坐标，1为GCJ02，0为WGS84
         error = locationManager.requestLocationUpdates(request, this);
         Overlays = new ArrayList<Object>();
-//        getLoacion();
+//        getLoacion();//仅仅使用gps模块，测试可用（可能需要走动到信号好的地方测试）
         return rootView;
     }
 

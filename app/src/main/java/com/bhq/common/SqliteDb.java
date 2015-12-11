@@ -288,6 +288,7 @@ public class SqliteDb
             obj = db.findFirst(Selector.from(c).where("ZSID", "=", ZSID));
         } catch (DbException e)
         {
+            String  aa=e.getMessage();
             e.printStackTrace();
         }
         return obj;

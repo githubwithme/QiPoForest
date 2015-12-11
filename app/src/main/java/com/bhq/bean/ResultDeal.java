@@ -37,6 +37,16 @@ public class ResultDeal
 		{
 			return null;
 		}
+	}	public static String ConvertAllRow(JSONArray jsonArray_Rows,String[] Column )
+	{
+		if (jsonArray_Rows != null && jsonArray_Rows.size() > 0)// //有符合条件的数据
+		{
+			String str = dealAllRows(jsonArray_Rows,Column);
+			return str;
+		} else
+		{
+			return null;
+		}
 	}
 
 	/**
@@ -51,6 +61,17 @@ public class ResultDeal
 		if (jsonArray_Rows != null && jsonArray_Rows.size() > 0)// //有符合条件的数据
 		{
 			String str = dealSingleRows(jsonArray_Rows, result.getColumnNames());
+			return str;
+		} else
+		{
+			return null;
+		}
+	}	public static String convertSingleRow(JSONArray jsonArray_Rows ,String[] Column)
+	{
+		if (jsonArray_Rows != null && jsonArray_Rows.size() > 0)// //有符合条件的数据
+		{
+
+			String str = dealSingleRows(jsonArray_Rows,Column);
 			return str;
 		} else
 		{

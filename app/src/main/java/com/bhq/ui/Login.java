@@ -556,9 +556,13 @@ public class Login extends Activity
 								for (int i = 0; i < listData.size(); i++)
 								{
 									dt_manager_offline dt_manager_offline = (dt_manager_offline) listData.get(i);
-									String BDLJ = AppConfig.MEDIA_PATH + dt_manager_offline.getUserPhoto().subSequence(dt_manager_offline.getUserPhoto().lastIndexOf("/") + 1, dt_manager_offline.getUserPhoto().length());
-									dt_manager_offline.setBDLJ(BDLJ);
-									getUserPhotos(AppConfig.url + dt_manager_offline.getUserPhoto(), BDLJ);
+                                    if (dt_manager_offline.getUserPhoto()!=null && !dt_manager_offline.getUserPhoto().equals("") )
+                                    {
+                                        String BDLJ = AppConfig.MEDIA_PATH + dt_manager_offline.getUserPhoto().subSequence(dt_manager_offline.getUserPhoto().lastIndexOf("/") + 1, dt_manager_offline.getUserPhoto().length());
+                                        dt_manager_offline.setBDLJ(BDLJ);
+                                        getUserPhotos(AppConfig.url + dt_manager_offline.getUserPhoto(), BDLJ);
+                                    }
+
 								}
 							}
 							boolean issuccess = SqliteDb.saveAll(Login.this, listData);

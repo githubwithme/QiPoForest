@@ -137,13 +137,7 @@ public class Offline_MainActivity extends Activity
 	@AfterViews
 	void afterOncreate()
 	{
-		Intent intenttemp = new Intent(Offline_MainActivity.this, DownloadData.class);
-		intenttemp.setAction(DownloadData.ACTION_DOWNLOADDATA);
-		Offline_MainActivity.this.startService(intenttemp);
 
-		Intent intent = new Intent(this, UpdateApk.class);
-		intent.setAction(UpdateApk.ACTION_NOTIFICATION_CONTROL);
-		startService(intent);
 
 		tv_home.setTextColor(getResources().getColor(R.color.red));
 		tv_knowledge.setTextColor(getResources().getColor(R.color.black));
@@ -172,6 +166,14 @@ public class Offline_MainActivity extends Activity
 		knowledgeFragment = new Offline_KnowledgeFragment_();
 		iServiceFragment_ = new Offline_IServiceFragment_();
 		this.savedInstanceState = savedInstanceState;
+
+        Intent intenttemp = new Intent(Offline_MainActivity.this, DownloadData.class);
+        intenttemp.setAction(DownloadData.ACTION_DOWNLOADDATA);
+        Offline_MainActivity.this.startService(intenttemp);
+
+        Intent intent = new Intent(this, UpdateApk.class);
+        intent.setAction(UpdateApk.ACTION_NOTIFICATION_CONTROL);
+        startService(intent);
 	}
 
 	BroadcastReceiver ConnectionChangeReceiver = new BroadcastReceiver()

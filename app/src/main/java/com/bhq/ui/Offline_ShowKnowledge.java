@@ -138,7 +138,7 @@ public class Offline_ShowKnowledge extends Activity
 	private void getListData(String zsid)
 	{
 		BHQ_ZSK bhq_ZSK = (BHQ_ZSK) SqliteDb.getZSNR(Offline_ShowKnowledge.this, BHQ_ZSK.class, zsid);
-		if (bhq_ZSK.ZSNR.toString().equals(""))
+		if (bhq_ZSK.ZSNR==null || bhq_ZSK.ZSNR.toString().equals(""))
 		{
 			String url = "file:///android_asset/demo.html";
 			webview.getSettings().setDefaultTextEncodingName("UTF-8");
