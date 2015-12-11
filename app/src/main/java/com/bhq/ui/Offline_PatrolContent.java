@@ -13,6 +13,8 @@ import com.bhq.R;
 import com.bhq.app.AppContext;
 import com.bhq.bean.BHQ_XHQK;
 import com.bhq.bean.BHQ_XHQK_GJ;
+import com.bhq.common.CoordinateConvertUtil;
+import com.bhq.common.Gps;
 import com.bhq.common.SqliteDb;
 import com.bhq.common.utils;
 import com.lidroid.xutils.DbUtils;
@@ -145,10 +147,12 @@ public class Offline_PatrolContent extends Activity
 		List<Object> Overlays = new ArrayList<Object>();
 		for (int i = 0; i < listNewData.size(); i++)
 		{
-			LatLng latLng = new LatLng(Double.valueOf(listNewData.get(i).getY()), Double.valueOf(listNewData.get(i).getX()));
+            Gps gPS= CoordinateConvertUtil.gps84_To_Gcj02(Double.valueOf(listNewData.get(i).getY()), Double.valueOf(listNewData.get(i).getX()));
+			LatLng latLng = new LatLng(gPS.getWgLat(), gPS.getWgLon());
 			if (i == 0)
 			{
-				startlatLng = new LatLng(Double.valueOf(listNewData.get(0).getY()), Double.valueOf(listNewData.get(0).getX()));
+                Gps gPS0= CoordinateConvertUtil.gps84_To_Gcj02(Double.valueOf(listNewData.get(i).getY()), Double.valueOf(listNewData.get(i).getX()));
+				startlatLng = new LatLng(gPS0.getWgLat(), gPS0.getWgLon());
 				addMarker(startlatLng, R.drawable.location_start);
 				tencentMap.animateTo(startlatLng);
 				lastlatLng = latLng;

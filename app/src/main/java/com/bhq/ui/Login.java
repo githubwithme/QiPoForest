@@ -38,9 +38,6 @@ import com.bhq.app.AppConfig;
 import com.bhq.app.AppManager;
 import com.bhq.bean.BHQ_ZSK;
 import com.bhq.bean.Dictionary;
-import com.bhq.bean.RW_CYR;
-import com.bhq.bean.RW_RW;
-import com.bhq.bean.RW_YQB;
 import com.bhq.bean.Result;
 import com.bhq.bean.ResultDeal;
 import com.bhq.bean.dt_manager;
@@ -244,14 +241,17 @@ public class Login extends Activity
 
 		} else
 		{
-			getAllCount();
+//			getAllCount();
+            startInitData();
 		}
 	}
 
 	private void startInitData()
 	{
-//        SqliteDb.dropTable(Login.this, dt_manager_offline.class);
-//        SqliteDb.dropTable(Login.this, Dictionary.class);
+        ThreadNumber =2;
+        latch = new CountDownLatch(ThreadNumber);
+        SqliteDb.dropTable(Login.this, dt_manager_offline.class);
+        SqliteDb.dropTable(Login.this, Dictionary.class);
 //        SqliteDb.dropTable(Login.this, BHQ_ZSK.class);
 //        SqliteDb.dropTable(Login.this, RW_RW.class);
 //        SqliteDb.dropTable(Login.this, RW_CYR.class);
@@ -260,10 +260,10 @@ public class Login extends Activity
 		rl_pb.setVisibility(View.VISIBLE);
 		InitTable("APP.InitUserTable", dt_manager_offline.class);
 		InitTable("APP.InitDictionaryTable", Dictionary.class);
-		InitTable("APP.InitZSKTable", BHQ_ZSK.class);
-		InitTable("APP.getRW_RW", RW_RW.class);
-		InitTable("APP.getRW_CYR", RW_CYR.class);
-		InitTable("APP.getRW_YQB", RW_YQB.class);
+//		InitTable("APP.InitZSKTable", BHQ_ZSK.class);
+//		InitTable("APP.getRW_RW", RW_RW.class);
+//		InitTable("APP.getRW_CYR", RW_CYR.class);
+//		InitTable("APP.getRW_YQB", RW_YQB.class);
 	}
 
 	private void startLogin(final String username, final String psw)

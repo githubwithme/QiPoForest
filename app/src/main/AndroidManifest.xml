@@ -49,11 +49,13 @@
             </intent-filter>
         </activity>
         <!-- 在线ui -->
+        <activity android:name="com.bhq.ui.AddPest_" />
+        <activity android:name="com.bhq.ui.AddInterfere_" />
+        <activity android:name="com.bhq.ui.AddSurvey_" />
         <activity android:name="com.bhq.ui.GuideViewDoor" />
         <activity android:name="com.bhq.ui.GuideViewActivity" />
         <activity android:name="com.bhq.ui.MainActivity_" />
         <activity android:name="com.bhq.ui.ShowAnimal_" />
-        <activity android:name="com.bhq.ui.AddAnimal_" />
         <activity android:name="com.bhq.ui.EditAnimal_" />
         <activity android:name="com.bhq.ui.DiscoveryActivity_" />
         <activity android:name="com.bhq.ui.Survey_" />
@@ -85,6 +87,7 @@
         <activity android:name="com.media.RecordActivity" />
         <activity android:name="com.media.HomeFragmentActivity" />
         <!-- 离线ui -->
+        <activity android:name="com.bhq.ui.Offline_Diary_" />
         <activity android:name="com.bhq.ui.Offline_MainActivity_" />
         <activity android:name="com.bhq.ui.Offline_PatrolContent_" />
         <activity android:name="com.bhq.ui.Offline_ShowKnowledge_" />
