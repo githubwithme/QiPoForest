@@ -12,6 +12,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -31,11 +32,11 @@ import com.bhq.bean.FJ_SCFJ;
 import com.bhq.bean.Result;
 import com.bhq.bean.ResultDeal;
 import com.bhq.bean.dt_manager_offline;
+import com.bhq.common.BitmapHelper;
 import com.bhq.common.ConnectionHelper;
 import com.bhq.common.SqliteDb;
 import com.bhq.common.utils;
 import com.bhq.net.HttpUrlConnect;
-import com.bhq.widget.CircleImageView;
 import com.bhq.widget.CustomDialog;
 import com.lidroid.xutils.HttpUtils;
 import com.lidroid.xutils.exception.HttpException;
@@ -58,7 +59,7 @@ import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
 /**
- * @author :hc-sima
+ * @author :hc-setImageViewBackground
  * @version :1.0
  * @createTime：2015-8-31 上午9:59:21
  * @description :意见反馈、技术支持、帮助、关于、
@@ -93,7 +94,7 @@ public class Offline_IServiceFragment extends Fragment
     @ViewById
     TextView tv_phone;
     @ViewById
-    CircleImageView circle_img;
+    ImageView circle_img;
     @ViewById
     FrameLayout fl_new;
 
@@ -163,12 +164,6 @@ public class Offline_IServiceFragment extends Fragment
     //
     // }
 
-    // @Click
-    // void tv_changepwd()
-    // {
-    // Intent intent = new Intent(getActivity(), ChangePwd_.class);
-    // startActivity(intent);
-    // }
 
     @AfterViews
     void afterOncreate()
@@ -177,7 +172,7 @@ public class Offline_IServiceFragment extends Fragment
         dt_manager_offline dt_manager_offline = (dt_manager_offline) SqliteDb.getCurrentUser(getActivity(), dt_manager_offline.class);
         tv_name.setText(dt_manager_offline.getreal_name());
         tv_phone.setText(dt_manager_offline.getPhone());
-//        BitmapHelper.loadImage(getActivity(), circle_img, dt_manager_offline.getBDLJ());
+        BitmapHelper.loadImage(getActivity(), circle_img, dt_manager_offline.getBDLJ());
 //        BitmapHelper.setImageViewBackground(getActivity(), circle_img, "http://img.popoho.com/UploadPic/2010-12/201012297441441.png");
     }
 

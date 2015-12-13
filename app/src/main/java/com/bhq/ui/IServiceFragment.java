@@ -124,12 +124,6 @@ public class IServiceFragment extends Fragment
 	//
 	// }
 
-	// @Click
-	// void tv_changepwd()
-	// {
-	// Intent intent = new Intent(getActivity(), ChangePwd_.class);
-	// startActivity(intent);
-	// }
 
 	@AfterViews
 	void afterOncreate()
