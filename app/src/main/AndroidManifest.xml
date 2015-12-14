@@ -87,6 +87,7 @@
         <activity android:name="com.media.RecordActivity" />
         <activity android:name="com.media.HomeFragmentActivity" />
         <!-- 离线ui -->
+        <activity android:name="com.bhq.ui.Temp_" />
         <activity android:name="com.bhq.ui.Offline_Diary_" />
         <activity android:name="com.bhq.ui.Offline_MainActivity_" />
         <activity android:name="com.bhq.ui.Offline_PatrolContent_" />
