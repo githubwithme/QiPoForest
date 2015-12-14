@@ -18,7 +18,7 @@ import org.androidannotations.annotations.ViewById;
 
 import java.io.UnsupportedEncodingException;
 
-@EActivity(R.layout.changepwd)
+@EActivity(R.layout.diary)
 public class Offline_Diary extends Activity
 {
 
