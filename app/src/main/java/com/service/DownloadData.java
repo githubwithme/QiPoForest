@@ -13,6 +13,7 @@ import com.bhq.bean.RW_RW;
 import com.bhq.bean.RW_YQB;
 import com.bhq.bean.Result;
 import com.bhq.bean.ResultDeal;
+import com.bhq.bean.dt_manager_offline;
 import com.bhq.common.ConnectionHelper;
 import com.bhq.common.SqliteDb;
 import com.lidroid.xutils.HttpUtils;
@@ -51,7 +52,15 @@ public class DownloadData extends Service
 
         if (ACTION_DOWNLOADDATA.equals(action))
         {
-            startInitData();
+            Thread thread = new Thread(new Runnable()
+            {
+                @Override
+                public void run()
+                {
+                    startInitData();
+                }
+            });
+            thread.start();
         } else
         {
         }
@@ -66,6 +75,7 @@ public class DownloadData extends Service
         InitTable("APP.getRW_RW", RW_RW.class);
         InitTable("APP.getRW_CYR", RW_CYR.class);
         InitTable("APP.getRW_YQB", RW_YQB.class);
+        InitTable("APP.InitUserTable", dt_manager_offline.class);
     }
 
     private <T> void InitTable(final String action, final Class<T> className)
@@ -187,6 +197,18 @@ public class DownloadData extends Service
                     bhq_ZSK.setBDLJ(bdlj);
                     getPhotos(AppConfig.url + bhq_ZSK.getimgurl(), bdlj);
                 }
+            }
+            if (action.equals("APP.InitUserTable"))
+            {
+//                dt_manager_offline dt_manager_offline = (dt_manager_offline) obj;
+//                if (dt_manager_offline.getUserPhoto() != null && !dt_manager_offline.getUserPhoto().equals(""))
+//                {
+//                    String BDLJ = AppConfig.MEDIA_PATH + dt_manager_offline.getUserPhoto().subSequence(dt_manager_offline.getUserPhoto().lastIndexOf("/") + 1, dt_manager_offline.getUserPhoto().length());
+//                    dt_manager_offline.setBDLJ(BDLJ);
+//                    getPhotos(AppConfig.url + dt_manager_offline.getUserPhoto(), BDLJ);
+//                }
+                boolean issuccess = SqliteDb.saveUserInfo(DownloadData.this, obj);
+                return;
             }
             boolean issuccess = SqliteDb.save(DownloadData.this, obj);
             if (issuccess)

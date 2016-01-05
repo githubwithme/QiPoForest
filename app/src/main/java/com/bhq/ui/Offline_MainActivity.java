@@ -30,7 +30,6 @@ import com.bhq.service.MarkLocationService;
 import com.bhq.widget.MyDialog;
 import com.bhq.widget.MyDialog.CustomDialogListener;
 import com.service.DownloadData;
-import com.service.UpdateApk;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -171,9 +170,9 @@ public class Offline_MainActivity extends Activity
         intenttemp.setAction(DownloadData.ACTION_DOWNLOADDATA);
         Offline_MainActivity.this.startService(intenttemp);
 
-        Intent intent = new Intent(this, UpdateApk.class);
-        intent.setAction(UpdateApk.ACTION_NOTIFICATION_CONTROL);
-        startService(intent);
+//        Intent intent = new Intent(this, UpdateApk.class);
+//        intent.setAction(UpdateApk.ACTION_NOTIFICATION_CONTROL);
+//        startService(intent);
 	}
 
 	BroadcastReceiver ConnectionChangeReceiver = new BroadcastReceiver()

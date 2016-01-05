@@ -202,7 +202,7 @@ public class UpdateApk extends Service
 					Toast.makeText(UpdateApk.this, "下载成功!", Toast.LENGTH_SHORT).show();
 				} else
 				{
-					Toast.makeText(UpdateApk.this, "更新失败!", Toast.LENGTH_SHORT).show();
+					Toast.makeText(UpdateApk.this, "更新失败!服务器上Apk不存在", Toast.LENGTH_SHORT).show();
 				}
 			}
 

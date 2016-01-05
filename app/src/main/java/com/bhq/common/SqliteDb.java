@@ -36,6 +36,21 @@ public class SqliteDb
         return true;
     }
 
+    public static boolean saveUserInfo(Context context, Object obj)
+    {
+        DbUtils db = DbUtils.create(context);
+        try
+        {
+            db.update(obj, "salt","telephone", "real_name", "user_name", "password","UserType","DepartId","isPatrol","SFSC");
+        } catch (DbException e)
+        {
+            e.printStackTrace();
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
     public static <T> boolean deleteRecord(Context context, Class<T> c, String firsttype, String secondType, String thirdtype)
     {
         DbUtils db = DbUtils.create(context);
@@ -71,7 +86,7 @@ public class SqliteDb
         DbUtils db = DbUtils.create(context);
         try
         {
-            db.dropTable(c);
+            db.deleteAll(c);
         } catch (DbException e)
         {
             e.printStackTrace();
@@ -288,7 +303,7 @@ public class SqliteDb
             obj = db.findFirst(Selector.from(c).where("ZSID", "=", ZSID));
         } catch (DbException e)
         {
-            String  aa=e.getMessage();
+            String aa = e.getMessage();
             e.printStackTrace();
         }
         return obj;
@@ -311,7 +326,7 @@ public class SqliteDb
         DbUtils db = DbUtils.create(context);
         try
         {
-            db.update(dt_manager_offline, "AutoLogin","isLogin");
+            db.update(dt_manager_offline, "AutoLogin", "isLogin");
         } catch (DbException e)
         {
             e.printStackTrace();
