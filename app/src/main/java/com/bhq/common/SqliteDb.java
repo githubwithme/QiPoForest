@@ -653,6 +653,8 @@ public class SqliteDb
         } catch (DbException e)
         {
             e.printStackTrace();
+            List<RW_RW> list = new ArrayList<RW_RW>();
+            return list;
         }
         List<RW_RW> list = new ArrayList<RW_RW>();
         for (int i = 0; i < dbModels.size(); i++)

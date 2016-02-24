@@ -2,6 +2,7 @@ package com.service;
 
 import android.app.Service;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.IBinder;
 
 import com.alibaba.fastjson.JSON;
@@ -16,6 +17,7 @@ import com.bhq.bean.ResultDeal;
 import com.bhq.bean.dt_manager_offline;
 import com.bhq.common.ConnectionHelper;
 import com.bhq.common.SqliteDb;
+import com.bhq.common.utils;
 import com.lidroid.xutils.HttpUtils;
 import com.lidroid.xutils.exception.HttpException;
 import com.lidroid.xutils.http.ResponseInfo;
@@ -70,17 +72,24 @@ public class DownloadData extends Service
 
     private void startInitData()
     {
+        SharedPreferences sp= this.getSharedPreferences("MY_PRE", MODE_PRIVATE);
+        String sysntime = sp.getString("sysntime", "1900-01-01");
         //		InitTable("APP.InitDictionaryTable", Dictionary.class);
-        InitTable("APP.InitZSKTable", BHQ_ZSK.class);
-        InitTable("APP.getRW_RW", RW_RW.class);
-        InitTable("APP.getRW_CYR", RW_CYR.class);
-        InitTable("APP.getRW_YQB", RW_YQB.class);
-        InitTable("APP.InitUserTable", dt_manager_offline.class);
+        InitTable("APP.InitZSKTable",sysntime, BHQ_ZSK.class);
+        InitTable("APP.getRW_RW",sysntime, RW_RW.class);
+        InitTable("APP.getRW_CYR",sysntime, RW_CYR.class);
+        InitTable("APP.getRW_YQB",sysntime, RW_YQB.class);
+        InitTable("APP.InitUserTable",sysntime, dt_manager_offline.class);
+
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putString("sysntime", utils.getTime());
+        editor.commit();
     }
 
-    private <T> void InitTable(final String action, final Class<T> className)
+    private <T> void InitTable(final String action,final String sysntime, final Class<T> className)
     {
         HashMap<String, String> hashMap = new HashMap<String, String>();
+        hashMap.put("sysntime", sysntime);
         String params = ConnectionHelper.setParams(action, "0", hashMap);
         new HttpUtils().send(HttpRequest.HttpMethod.POST, AppConfig.dataBaseUrl, ConnectionHelper.getParas(params), new RequestCallBack<String>()
         {
