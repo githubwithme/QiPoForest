@@ -1,7 +1,6 @@
 package com.bhq.app;
 
 import android.app.Activity;
-import android.app.ActivityManager;
 import android.content.Context;
 
 import java.util.Stack;
@@ -113,9 +112,9 @@ public class AppManager
 		try
 		{
 			finishAllActivity();
-			ActivityManager activityMgr = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
-			activityMgr.restartPackage(context.getPackageName());
-			System.exit(0);
+//			ActivityManager activityMgr = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+//			activityMgr.restartPackage(context.getPackageName());
+//			System.exit(0);
 		} catch (Exception e)
 		{
 		}

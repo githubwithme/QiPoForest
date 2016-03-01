@@ -198,7 +198,7 @@ public class Offline_TaskContent extends Activity
 		RW_CYR rw_CYR = new RW_CYR();
 		rw_CYR.setRWID(RWID);
 		rw_CYR.setRYID(dt_manager_offline.getid());
-		rw_CYR.setSFWC("1");
+		rw_CYR.setSFWC("true");
 		rw_CYR.setWCSJ(utils.getTime());
 		rw_CYR.setXGSJ(utils.getTime());
 		boolean issuccess = SqliteDb.setRenWuComplete(Offline_TaskContent.this, rw_CYR, RWID, dt_manager_offline.getid());

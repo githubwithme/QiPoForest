@@ -41,7 +41,7 @@ public class SqliteDb
         DbUtils db = DbUtils.create(context);
         try
         {
-            db.update(obj, "salt","telephone", "real_name", "user_name", "password","UserType","DepartId","isPatrol","SFSC");
+            db.update(obj, "salt", "telephone", "real_name", "user_name", "password", "UserType", "DepartId", "isPatrol", "SFSC");
         } catch (DbException e)
         {
             e.printStackTrace();
@@ -643,7 +643,7 @@ public class SqliteDb
         List<DbModel> dbModels = null;
         try
         {
-            String sql = "SELECT  * FROM RW_RW LEFT OUTER JOIN RW_CYR ON RW_RW.RWID = RW_CYR.RWID WHERE RYID = " + RYID + " AND RW_CYR.SFSC='false' and HYSFQX='false' ORDER BY RWMC ASC";
+            String sql = "SELECT  * FROM RW_RW LEFT OUTER JOIN RW_CYR ON RW_RW.RWID = RW_CYR.RWID WHERE RYID = " + RYID + " AND RW_CYR.SFSC='false' and HYSFQX='false' ORDER BY XGSJ desc";
             SqlInfo sqlInfo = new SqlInfo(sql);
             dbModels = db.findDbModelAll(sqlInfo); // 自定义sql查询
             if (dbModels == null)
@@ -657,6 +657,49 @@ public class SqliteDb
             return list;
         }
         List<RW_RW> list = new ArrayList<RW_RW>();
+        for (int i = 0; i < dbModels.size(); i++)
+        {
+            RW_RW rw_RW = new RW_RW();
+            rw_RW.setCJR(dbModels.get(i).getString("CJR"));
+            rw_RW.setCJRXM(dbModels.get(i).getString("CJRXM"));
+            rw_RW.setCJSJ(dbModels.get(i).getString("CJSJ"));
+            rw_RW.setHYQXSJ(dbModels.get(i).getString("HYQXSJ"));
+            rw_RW.setHYSFQX(dbModels.get(i).getString("HYSFQX"));
+            rw_RW.setQXR(dbModels.get(i).getString("QXR"));
+            rw_RW.setQXRXM(dbModels.get(i).getString("QXRXM"));
+            rw_RW.setRWID(dbModels.get(i).getString("RWID"));
+            rw_RW.setRWJSSJ(dbModels.get(i).getString("RWJSSJ"));
+            rw_RW.setRWMC(dbModels.get(i).getString("RWMC"));
+            rw_RW.setRWMS(dbModels.get(i).getString("RWMS"));
+            rw_RW.setRWSFJS(dbModels.get(i).getString("RWSFJS"));
+            rw_RW.setSFSC(dbModels.get(i).getString("SFSC"));
+            rw_RW.setWRJZSJ(dbModels.get(i).getString("WRJZSJ"));
+            rw_RW.setWRKSSJ(dbModels.get(i).getString("WRKSSJ"));
+            rw_RW.setWRTXSJ(dbModels.get(i).getString("WRTXSJ"));
+            rw_RW.setXGR(dbModels.get(i).getString("XGR"));
+            rw_RW.setXGRXM(dbModels.get(i).getString("XGRXM"));
+            rw_RW.setXGSJ(dbModels.get(i).getString("XGSJ"));
+            rw_RW.setZCRXM(dbModels.get(i).getString("ZCRXM"));
+            rw_RW.setZRR(dbModels.get(i).getString("ZRR"));
+            rw_RW.setZYD(dbModels.get(i).getString("ZYD"));
+            list.add(rw_RW);
+        }
+
+        try
+        {
+            String sql = "SELECT  * FROM RW_RW WHERE ZRR = " + RYID + " AND SFSC='false' and HYSFQX='false' ORDER BY XGSJ desc";
+            SqlInfo sqlInfo = new SqlInfo(sql);
+            dbModels = db.findDbModelAll(sqlInfo); // 自定义sql查询
+            if (dbModels == null)
+            {
+                dbModels = new ArrayList<DbModel>();
+            }
+        } catch (DbException e)
+        {
+            e.printStackTrace();
+            return list;
+        }
+
         for (int i = 0; i < dbModels.size(); i++)
         {
             RW_RW rw_RW = new RW_RW();

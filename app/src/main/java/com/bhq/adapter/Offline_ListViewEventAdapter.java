@@ -133,7 +133,11 @@ public class Offline_ListViewEventAdapter extends BaseAdapter
 		listItemView.tv_description.setText(bhq_XHSJ.getSJMS());
 		listItemView.tv_time.setText(bhq_XHSJ.getSBSJ());
 		List<FJ_SCFJ> list_FJ_SCFJ = SqliteDb.getFJ_SCFJList(context, FJ_SCFJ.class, bhq_XHSJ.getSJID(), "1");
-		BitmapHelper.loadImage(context, listItemView.img_plant, list_FJ_SCFJ.get(0).getFJBDLJ());
+		if (list_FJ_SCFJ.size()>0)
+		{
+			BitmapHelper.loadImage(context, listItemView.img_plant, list_FJ_SCFJ.get(0).getFJBDLJ());
+		}
+
 		return convertView;
 	}
 }

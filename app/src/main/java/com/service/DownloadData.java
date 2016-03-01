@@ -75,7 +75,7 @@ public class DownloadData extends Service
         SharedPreferences sp= this.getSharedPreferences("MY_PRE", MODE_PRIVATE);
         String sysntime = sp.getString("sysntime", "1900-01-01");
         //		InitTable("APP.InitDictionaryTable", Dictionary.class);
-        InitTable("APP.InitZSKTable",sysntime, BHQ_ZSK.class);
+//        InitTable("APP.InitZSKTable",sysntime, BHQ_ZSK.class);
         InitTable("APP.getRW_RW",sysntime, RW_RW.class);
         InitTable("APP.getRW_CYR",sysntime, RW_CYR.class);
         InitTable("APP.getRW_YQB",sysntime, RW_YQB.class);
@@ -105,6 +105,7 @@ public class DownloadData extends Service
                     {
                         JSONArray jsonArray_Rows = result.getRows();
                         String[] ColumnNames = result.getColumnNames();
+                        int size=jsonArray_Rows.size();
                         for (int i = 0; i < jsonArray_Rows.size(); i++)
                         {
                             JSONArray jsonArry = new JSONArray();
