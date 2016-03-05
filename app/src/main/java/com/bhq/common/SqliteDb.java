@@ -1,12 +1,19 @@
 package com.bhq.common;
 
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONException;
 import com.bhq.bean.BHQ_XHSJ;
 import com.bhq.bean.BHQ_XHSJCJ;
 import com.bhq.bean.BHQ_ZSK;
+import com.bhq.bean.Dictionary;
 import com.bhq.bean.FJ_SCFJ;
+import com.bhq.bean.RW_CYR;
 import com.bhq.bean.RW_RW;
+import com.bhq.bean.RW_YQB;
 import com.bhq.bean.dt_manager;
 import com.bhq.bean.dt_manager_offline;
 import com.lidroid.xutils.DbUtils;
@@ -21,6 +28,7 @@ import java.util.List;
 
 public class SqliteDb
 {
+    static SQLiteDatabase sqLiteDatabase=null;
     public static boolean save(Context context, Object obj)
     {
         DbUtils db = DbUtils.create(context);
@@ -80,6 +88,7 @@ public class SqliteDb
         }
         return true;
     }
+
 
     public static <T> boolean dropTable(Context context, Class<T> c)
     {
@@ -764,5 +773,105 @@ public class SqliteDb
             list = new ArrayList<T>();
         }
         return list;
+    }
+    public static void updatedt_manager_offline(Context context,String table,String id,String values)
+    {
+        if ( sqLiteDatabase==null)
+        {
+            DbUtils db = DbUtils.create(context);
+            sqLiteDatabase=db.getDatabase();
+        }
+        ContentValues cv=new ContentValues();
+        cv.put("BDLJ",values);
+        sqLiteDatabase.update(table, cv, "BDLJ = ?", new String[]{id});
+    }
+    public static void updateZSK(Context context,String table,String ZDID,String values)
+    {
+        if ( sqLiteDatabase==null)
+        {
+            DbUtils db = DbUtils.create(context);
+            sqLiteDatabase=db.getDatabase();
+        }
+        ContentValues cv=new ContentValues();
+        cv.put("ZSNR",values);
+        sqLiteDatabase.update(table, cv, "ZSID = ?", new String[]{ZDID});
+    }
+    public static void insertData(Context context,String classname,String[] columnnames,JSONArray jsonArray_Rows)
+    {
+        if ( sqLiteDatabase==null)
+        {
+            DbUtils db = DbUtils.create(context);
+            sqLiteDatabase=db.getDatabase();
+        }
+//        StringBuffer buff = new StringBuffer();;
+//        for (int i = 0; i <columnnames.length; i++)
+//        {
+//            if (columnnames[i].equals(primarykey))
+//            {
+//                buff.append(columnnames[i]+" text primary key  not null"+",");
+//            }else
+//            {
+//                buff.append(columnnames[i]+" text"+",");
+//            }
+//        }
+//        buff.replace(buff.length() - 1, buff.length(), "");
+//        String sql_createtable="create table  if not exists "+classname+"("+buff+")";
+//        sqLiteDatabase.execSQL(sql_createtable);
+        if (jsonArray_Rows.size() != 0)
+        {
+            StringBuffer columnn = new StringBuffer();;
+            for (int i = 0; i <columnnames.length; i++)
+            {
+                columnn.append(columnnames[i]+",");
+            }
+            columnn.replace(columnn.length() - 1, columnn.length(), "");
+            for (int i = 0; i < jsonArray_Rows.size(); i++)
+            {
+                StringBuffer values = new StringBuffer();;
+                for (int j = 0; j <columnnames.length; j++)
+                {
+                    values.append( "\"" +jsonArray_Rows.getJSONArray(i).getString(j)+ "\"" +",");
+                }
+                values.replace(values.length()-1,values.length(),"");
+                String sql="replace into "+ classname+"("+columnn+")values("+values+")";
+                try
+                {
+                    sqLiteDatabase.execSQL(sql);
+                } catch (JSONException e)
+                {
+                    String a=e.getMessage();
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    public static void createTable(Context context)
+    {
+        DbUtils db = DbUtils.create(context);
+        try
+        {
+            db.createTableIfNotExist(BHQ_ZSK.class);
+            db.createTableIfNotExist(dt_manager_offline.class);
+            db.createTableIfNotExist(RW_YQB.class);
+            db.createTableIfNotExist(RW_RW.class);
+            db.createTableIfNotExist(RW_CYR.class);
+            db.createTableIfNotExist(Dictionary.class);
+        } catch (DbException e)
+        {
+            e.printStackTrace();
+        }
+//        String sql_BHQ_ZSK="create table  if not exists BHQ_ZSK(ZSID text primary key  not null,ZSBT text,ZSDL text,ZSXL text,imgurl text,ZSZY text,CJR text,CJSJ text,CJRXM text,XGR text,XGSJ text,XGRXM text,XXZT text,ZSNR text,BDLJ text)";
+//        String sql_dt_manager_offline="create table  if not exists dt_manager_offline(id text primary key  not null,role_id text,role_type text,user_name text,password text,salt text,real_name text,telephone text,email text,is_lock text,add_time text,wxNum text,agentId text,reg_ip text,qq text,province text,city text,county text,remark text,sort_id text,agentLevel text,DepartId text,Phone text,Address text,UserType text,isPatrol text,UserPhoto text,Change text,SFSC text,XGSJ text,AutoLogin text,onceUsed text,BDLJ text,isLogin text,IsUpload text)";
+//        String sql_RW_YQB="create table  if not exists RW_YQB(id text ,YQID text primary key  not null,RWID text,RWCYID text,YQSJ text,YQSM text,YQSQSJ text,SFPZ text,Change text)";
+//        String sql_RW_RW="create table  if not exists RW_RW(RWID text primary key  not null,RWMC text,WRKSSJ text,WRJZSJ text,WRTXSJ text,ZYD text,ZRR text,ZCRXM text,RWMS text,HYSFQX text,HYQXSJ text,QXR text,QXRXM text,RWSFJS text,RWJSSJ text,CJSJ text,CJR text,CJRXM text,XGSJ text,XGR text,XGRXM text,SFSC text,Change text)";
+//        String sql_RW_CYR="create table  if not exists RW_CYR(id text,RWCYID text primary key  not null,RWID text,RYID text,RYXM text,SFWC text,WCSJ text,SFYSQYQ text,XGSJ text,Change text,SFSC text)";
+//        String sql_Dictionary="create table  if not exists Dictionary(id text ,DID text,NAME text,SORT text,LX text,PID text)";
+//        sqLiteDatabase.execSQL(sql_BHQ_ZSK);
+//        sqLiteDatabase.execSQL(sql_dt_manager_offline);
+//        sqLiteDatabase.execSQL(sql_RW_YQB);
+//        sqLiteDatabase.execSQL(sql_RW_RW);
+//        sqLiteDatabase.execSQL(sql_RW_CYR);
+//        sqLiteDatabase.execSQL(sql_Dictionary);
     }
 }

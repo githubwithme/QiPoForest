@@ -1,16 +1,19 @@
 package com.bhq.bean;
 
+import com.lidroid.xutils.db.annotation.Id;
 import com.lidroid.xutils.db.annotation.Table;
 
 @Table(name = "Dictionary")
 public class Dictionary
 {
+	@Id
 	int id;
 	String DID;
 	String NAME;
 	String SORT;
 	String LX;
 	String PID;
+
 
 	public void setId(int id)
 	{

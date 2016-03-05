@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bhq.R;
 import com.bhq.bean.BHQ_XHSJ;
@@ -113,11 +114,17 @@ public class Offline_ListViewEventAdapter extends BaseAdapter
 //					intent.putExtra("lat", listItems.get(v.getId()).getX());
 //					intent.putExtra("lng", listItems.get(v.getId()).getY());
 //					context.startActivity(intent);
-					
-					Intent intent = new Intent(context, ShowLocationInMap_.class);
-					intent.putExtra("lat", listItems.get(v.getId()).getX());
-					intent.putExtra("lng", listItems.get(v.getId()).getY());
-					context.startActivity(intent);
+					if (!listItems.get(v.getId()).getX().equals("") && !listItems.get(v.getId()).getY().equals(""))
+					{
+						Intent intent = new Intent(context, ShowLocationInMap_.class);
+						intent.putExtra("lat", listItems.get(v.getId()).getX());
+						intent.putExtra("lng", listItems.get(v.getId()).getY());
+						context.startActivity(intent);
+					}else
+					{
+						Toast.makeText(context,"暂无定位信息！",Toast.LENGTH_SHORT).show();
+					}
+
 				}
 			});
 			// 设置控件集到convertView

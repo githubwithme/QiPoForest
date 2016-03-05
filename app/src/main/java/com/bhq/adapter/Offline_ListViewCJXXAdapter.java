@@ -11,6 +11,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bhq.R;
 import com.bhq.bean.BHQ_XHSJCJ;
@@ -101,10 +102,17 @@ public class Offline_ListViewCJXXAdapter extends BaseAdapter
 				@Override
 				public void onClick(View v)
 				{
-					Intent intent = new Intent(context, ShowLocationInMap_.class);
-					intent.putExtra("lat", listItems.get(v.getId()).getX());
-					intent.putExtra("lng", listItems.get(v.getId()).getY());
-					context.startActivity(intent);
+					if (!listItems.get(v.getId()).getX().equals("") && !listItems.get(v.getId()).getY().equals(""))
+					{
+						Intent intent = new Intent(context, ShowLocationInMap_.class);
+						intent.putExtra("lat", listItems.get(v.getId()).getX());
+						intent.putExtra("lng", listItems.get(v.getId()).getY());
+						context.startActivity(intent);
+					}else
+					{
+						Toast.makeText(context, "暂无定位信息！", Toast.LENGTH_SHORT).show();
+					}
+
 				}
 			});
 			// 设置控件集到convertView
@@ -128,7 +136,11 @@ public class Offline_ListViewCJXXAdapter extends BaseAdapter
 		listItemView.tv_fxsj.setText(BHQ_XHSJCJ.getCJSJ().toString());
 
 		List<FJ_SCFJ> list_FJ_SCFJ = SqliteDb.getFJ_SCFJList(context, FJ_SCFJ.class, BHQ_XHSJCJ.getCJID(), "1");
-		BitmapHelper.loadImage(context, listItemView.img, list_FJ_SCFJ.get(0).getFJBDLJ());
+		if (list_FJ_SCFJ != null && list_FJ_SCFJ.size()>0)
+		{
+			BitmapHelper.loadImage(context, listItemView.img, list_FJ_SCFJ.get(0).getFJBDLJ());
+		}
+
 		return convertView;
 	}
 

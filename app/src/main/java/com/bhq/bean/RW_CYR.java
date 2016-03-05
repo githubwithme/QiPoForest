@@ -27,7 +27,7 @@ public class RW_CYR implements Parcelable
 		{
 			// 必须按成员变量声明的顺序读取数据，不然会出现获取数据出错
 			RW_CYR p = new RW_CYR();
-			p.setId(source.readInt());
+			p.setId(source.readString());
 			p.setRWCYID(source.readString());
 			p.setRWID(source.readString());
 			p.setRYID(source.readString());
@@ -46,7 +46,7 @@ public class RW_CYR implements Parcelable
 	};
 
 	String XGSJ;
-	int id;
+	String id;
 	String Change;
 	String SFSC;
 
@@ -110,12 +110,13 @@ public class RW_CYR implements Parcelable
 
 	private String SFYSQYQ;
 
-	public void setId(int id)
+
+	public void setId(String id)
 	{
 		this.id = id;
 	}
 
-	public int getId()
+	public String getId()
 	{
 		return id;
 	}

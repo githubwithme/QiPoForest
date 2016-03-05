@@ -33,6 +33,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.bhq.R;
 import com.bhq.app.AppConfig;
 import com.bhq.app.AppManager;
@@ -250,10 +251,12 @@ public class Login extends Activity
 
     private void startInitData()
     {
+        SqliteDb.createTable(Login.this);
+
         ThreadNumber = 2;
         latch = new CountDownLatch(ThreadNumber);
-        SqliteDb.dropTable(Login.this, dt_manager_offline.class);
-        SqliteDb.dropTable(Login.this, Dictionary.class);
+//        SqliteDb.dropTable(Login.this, dt_manager_offline.class);
+//        SqliteDb.dropTable(Login.this, Dictionary.class);
 //        SqliteDb.dropTable(Login.this, BHQ_ZSK.class);
 //        SqliteDb.dropTable(Login.this, RW_RW.class);
 //        SqliteDb.dropTable(Login.this, RW_CYR.class);
@@ -536,59 +539,76 @@ public class Login extends Activity
                 {
                     if (result.getAffectedRows() != 0)
                     {
-                        listData = JSON.parseArray(ResultDeal.getAllRow(result), className);
-                        if (listData == null)
+                        JSONArray jsonArray_Rows = result.getRows();
+                        String[] ColumnNames = result.getColumnNames();
+                        if (jsonArray_Rows.size()>0)
                         {
-                            isfail = true;
-                            showProgress();
-                        } else
-                        {
-                            if (action.equals("APP.InitZSKTable"))
-                            {
-                                for (int i = 0; i < listData.size(); i++)
-                                {
-                                    BHQ_ZSK bhq_ZSK = (BHQ_ZSK) listData.get(i);
-                                    String bdlj = AppConfig.MEDIA_PATH + bhq_ZSK.getimgurl().subSequence(bhq_ZSK.getimgurl().lastIndexOf("/") + 1, bhq_ZSK.getimgurl().length());
-                                    bhq_ZSK.setBDLJ(bdlj);
-                                    getPhotos(AppConfig.url + bhq_ZSK.getimgurl(), bdlj);
-                                }
-                            }
                             if (action.equals("APP.InitUserTable"))
                             {
-                                for (int i = 0; i < listData.size(); i++)
-                                {
-                                    dt_manager_offline dt_manager_offline = (dt_manager_offline) listData.get(i);
-                                    if (dt_manager_offline.getUserPhoto() != null && !dt_manager_offline.getUserPhoto().equals(""))
-                                    {
-                                        String BDLJ = AppConfig.MEDIA_PATH + dt_manager_offline.getUserPhoto().subSequence(dt_manager_offline.getUserPhoto().lastIndexOf("/") + 1, dt_manager_offline.getUserPhoto().length());
-                                        dt_manager_offline.setBDLJ(BDLJ);
-                                        getUserPhotos(AppConfig.url + dt_manager_offline.getUserPhoto(), BDLJ);
-                                    }
-
-                                }
-                            }
-                            boolean issuccess = SqliteDb.saveAll(Login.this, listData);
-                            if (issuccess)
+                                SqliteDb.insertData(Login.this, "dt_manager_offline", ColumnNames, jsonArray_Rows);
+                            } else if (action.equals("APP.InitDictionaryTable"))
                             {
-                                if (action.equals("APP.InitZSKTable"))
-                                {
-                                    for (int i = 0; i < listData.size(); i++)
-                                    {
-                                        BHQ_ZSK bhq_ZSK = (BHQ_ZSK) listData.get(i);
-                                        getZSNR(bhq_ZSK.getZSID());
-                                    }
-                                }
-                                showProgress();
-                                int aa = Integer.valueOf(utils.getRate(ThreadNumber - Integer.valueOf(String.valueOf(latch.getCount())), ThreadNumber));
-                                pb.setProgress(Integer.valueOf(utils.getRate(ThreadNumber - Integer.valueOf(String.valueOf(latch.getCount())), ThreadNumber)));
-
-                            } else
-                            {
-                                isfail = true;
-                                showProgress();
+                                SqliteDb.insertData(Login.this,  "Dictionary", ColumnNames, jsonArray_Rows);
                             }
+                            showProgress();
+                            pb.setProgress(Integer.valueOf(utils.getRate(ThreadNumber - Integer.valueOf(String.valueOf(latch.getCount())), ThreadNumber)));
                         }
                     }
+//                    if (result.getAffectedRows() != 0)
+//                    {
+//                        listData = JSON.parseArray(ResultDeal.getAllRow(result), className);
+//                        if (listData == null)
+//                        {
+//                            isfail = true;
+//                            showProgress();
+//                        } else
+//                        {
+//                            if (action.equals("APP.InitZSKTable"))
+//                            {
+//                                for (int i = 0; i < listData.size(); i++)
+//                                {
+//                                    BHQ_ZSK bhq_ZSK = (BHQ_ZSK) listData.get(i);
+//                                    String bdlj = AppConfig.MEDIA_PATH + bhq_ZSK.getimgurl().subSequence(bhq_ZSK.getimgurl().lastIndexOf("/") + 1, bhq_ZSK.getimgurl().length());
+//                                    bhq_ZSK.setBDLJ(bdlj);
+//                                    getPhotos(AppConfig.url + bhq_ZSK.getimgurl(), bdlj);
+//                                }
+//                            }
+//                            if (action.equals("APP.InitUserTable"))
+//                            {
+//                                for (int i = 0; i < listData.size(); i++)
+//                                {
+//                                    dt_manager_offline dt_manager_offline = (dt_manager_offline) listData.get(i);
+//                                    if (dt_manager_offline.getUserPhoto() != null && !dt_manager_offline.getUserPhoto().equals(""))
+//                                    {
+//                                        String BDLJ = AppConfig.MEDIA_PATH + dt_manager_offline.getUserPhoto().subSequence(dt_manager_offline.getUserPhoto().lastIndexOf("/") + 1, dt_manager_offline.getUserPhoto().length());
+//                                        dt_manager_offline.setBDLJ(BDLJ);
+//                                        getUserPhotos(AppConfig.url + dt_manager_offline.getUserPhoto(), BDLJ);
+//                                    }
+//
+//                                }
+//                            }
+//                            boolean issuccess = SqliteDb.saveAll(Login.this, listData);
+//                            if (issuccess)
+//                            {
+//                                if (action.equals("APP.InitZSKTable"))
+//                                {
+//                                    for (int i = 0; i < listData.size(); i++)
+//                                    {
+//                                        BHQ_ZSK bhq_ZSK = (BHQ_ZSK) listData.get(i);
+//                                        getZSNR(bhq_ZSK.getZSID());
+//                                    }
+//                                }
+//                                showProgress();
+//                                int aa = Integer.valueOf(utils.getRate(ThreadNumber - Integer.valueOf(String.valueOf(latch.getCount())), ThreadNumber));
+//                                pb.setProgress(Integer.valueOf(utils.getRate(ThreadNumber - Integer.valueOf(String.valueOf(latch.getCount())), ThreadNumber)));
+//
+//                            } else
+//                            {
+//                                isfail = true;
+//                                showProgress();
+//                            }
+//                        }
+//                    }
                 } else
                 {
                     isfail = true;

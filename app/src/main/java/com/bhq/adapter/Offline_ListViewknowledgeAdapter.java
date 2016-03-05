@@ -5,12 +5,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bhq.R;
 import com.bhq.bean.BHQ_ZSK;
-import com.bhq.common.BitmapHelper;
 import com.bhq.common.utils;
 
 import java.util.HashMap;
@@ -28,10 +26,8 @@ public class Offline_ListViewknowledgeAdapter extends BaseAdapter
 
 	static class ListItemView
 	{ // 自定义控件集合
-		public ImageView img;
-		public TextView tv_ZSBT;
-		public TextView tv_ZSZY;
-		public TextView tv_RKSJ;
+		public TextView tv_title;
+		public TextView tv_time;
 	}
 
 	/**
@@ -75,13 +71,11 @@ public class Offline_ListViewknowledgeAdapter extends BaseAdapter
 		if (lmap.get(position) == null)
 		{
 			// 获取list_item布局文件的视图
-			convertView = listContainer.inflate(R.layout.knowledgelist_item, null);
+			convertView = listContainer.inflate(R.layout.knowledge_item, null);
 			listItemView = new ListItemView();
 			// 获取控件对象
-			listItemView.img = (ImageView) convertView.findViewById(R.id.img);
-			listItemView.tv_ZSBT = (TextView) convertView.findViewById(R.id.tv_ZSBT);
-			listItemView.tv_ZSZY = (TextView) convertView.findViewById(R.id.tv_ZSZY);
-			listItemView.tv_RKSJ = (TextView) convertView.findViewById(R.id.tv_RKSJ);
+			listItemView.tv_title = (TextView) convertView.findViewById(R.id.tv_title);
+			listItemView.tv_time = (TextView) convertView.findViewById(R.id.tv_time);
 			// 设置控件集到convertView
 			lmap.put(position, convertView);
 			convertView.setTag(listItemView);
@@ -93,10 +87,8 @@ public class Offline_ListViewknowledgeAdapter extends BaseAdapter
 
 		// 设置文字和图片
 
-		listItemView.tv_ZSBT.setText(BHQ_ZSK.getZSBT());
-		listItemView.tv_ZSZY.setText(BHQ_ZSK.getZSZY());
-		listItemView.tv_RKSJ.setText(utils.DateString2Date(BHQ_ZSK.getCJSJ().toString()));
-		BitmapHelper.loadImage(context, listItemView.img, BHQ_ZSK.getBDLJ());
+		listItemView.tv_title.setText(BHQ_ZSK.getZSBT());
+		listItemView.tv_time.setText("入库时间："+utils.DateString2Date(BHQ_ZSK.getCJSJ().toString()));
 		return convertView;
 	}
 

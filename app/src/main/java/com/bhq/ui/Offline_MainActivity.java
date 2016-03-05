@@ -11,7 +11,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.view.KeyEvent;
@@ -30,6 +29,7 @@ import com.bhq.service.MarkLocationService;
 import com.bhq.widget.MyDialog;
 import com.bhq.widget.MyDialog.CustomDialogListener;
 import com.service.DownloadData;
+import com.service.UpdateData;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -166,7 +166,7 @@ public class Offline_MainActivity extends Activity
 		iServiceFragment_ = new Offline_IServiceFragment_();
 		this.savedInstanceState = savedInstanceState;
 
-        Intent intenttemp = new Intent(Offline_MainActivity.this, DownloadData.class);
+        Intent intenttemp = new Intent(Offline_MainActivity.this, UpdateData.class);
         intenttemp.setAction(DownloadData.ACTION_DOWNLOADDATA);
         Offline_MainActivity.this.startService(intenttemp);
 
@@ -181,19 +181,19 @@ public class Offline_MainActivity extends Activity
 		@Override
 		public void onReceive(Context context, Intent intent)
 		{
-			ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-			NetworkInfo mobNetInfo = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
-			NetworkInfo wifiNetInfo = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-
-			if (!mobNetInfo.isConnected() && !wifiNetInfo.isConnected())
-			{
-				// 改变背景或者 处理网络的全局变量
-			} else
-			{
-				Intent intenttemp = new Intent(Offline_MainActivity.this, DownloadData.class);
-				intenttemp.setAction(DownloadData.ACTION_DOWNLOADDATA);
-				Offline_MainActivity.this.startService(intenttemp);
-			}
+//			ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+//			NetworkInfo mobNetInfo = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+//			NetworkInfo wifiNetInfo = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+//
+//			if (!mobNetInfo.isConnected() && !wifiNetInfo.isConnected())
+//			{
+//				// 改变背景或者 处理网络的全局变量
+//			} else
+//			{
+//				Intent intenttemp = new Intent(Offline_MainActivity.this, UpdateData.class);
+//				intenttemp.setAction(DownloadData.ACTION_DOWNLOADDATA);
+//				Offline_MainActivity.this.startService(intenttemp);
+//			}
 		}
 	};
 

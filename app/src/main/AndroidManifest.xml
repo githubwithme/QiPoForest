@@ -110,6 +110,10 @@
             android:exported="false" >
         </service>
         <service
+            android:name="com.service.UpdateData"
+            android:exported="false" >
+        </service>
+        <service
             android:name="com.service.UpdateApkInBackground"
             android:exported="false" >
         </service>
