@@ -10,6 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bhq.R;
+import com.bhq.bean.Dictionary;
 import com.bhq.bean.RW_CYR;
 import com.bhq.bean.RW_RW;
 import com.bhq.bean.SysUserInfo;
@@ -162,12 +163,13 @@ public class Offline_TaskContent extends Activity
 
 	private void showData(RW_RW rw_RW)
 	{
+		Dictionary dictionary= (Dictionary) SqliteDb.getZYDbyID(Offline_TaskContent.this, Dictionary.class, rw_RW.getZYD());
 		tv_WRTXSJ.setText(utils.DateString2Day(rw_RW.getWRTXSJ()));
 		tv_WRJZSJ.setText(utils.DateString2Day(rw_RW.getWRJZSJ()));
 		tv_WRKSSJ.setText(utils.DateString2Day(rw_RW.getWRKSSJ()));
 		tv_RWMC.setText(rw_RW.getRWMC());
 		tv_ZCRXM.setText(rw_RW.getZCRXM());
-		tv_ZYD.setText("重要");
+		tv_ZYD.setText(dictionary.getNAME());
 		tv_RWMS.setText(rw_RW.getRWMS());
 	}
 
@@ -182,7 +184,7 @@ public class Offline_TaskContent extends Activity
 			String ryxm = new String();
 			for (int i = 0; i < listNewData.size(); i++)
 			{
-				if (listNewData.get(i).getSFWC().equals("true") && listNewData.get(i).getRYID().equals(dt_manager_offline.getid()))
+				if (listNewData.get(i).getSFWC()!=null && listNewData.get(i).getSFWC().equals("true") && listNewData.get(i).getRYID().equals(dt_manager_offline.getid()))
 				{
 					btn_wc.setText("已完成");
 					btn_wc.setClickable(false);
@@ -201,6 +203,7 @@ public class Offline_TaskContent extends Activity
 		rw_CYR.setSFWC("true");
 		rw_CYR.setWCSJ(utils.getTime());
 		rw_CYR.setXGSJ(utils.getTime());
+		rw_CYR.setIsUpload("0");
 		boolean issuccess = SqliteDb.setRenWuComplete(Offline_TaskContent.this, rw_CYR, RWID, dt_manager_offline.getid());
 		if (issuccess)
 		{

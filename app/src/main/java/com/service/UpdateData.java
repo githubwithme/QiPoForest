@@ -75,9 +75,9 @@ public class UpdateData extends Service
         SharedPreferences sp= this.getSharedPreferences("MY_PRE", MODE_PRIVATE);
         String sysntime = sp.getString("sysntime", "1900-01-01");
         InitTable("APP.InitDictionaryTable",sysntime, Dictionary.class);
-        InitTable("APP.InitZSKTable",sysntime, BHQ_ZSK.class);
-        InitTable("APP.getRW_RW",sysntime, RW_RW.class);
-        InitTable("APP.getRW_CYR",sysntime, RW_CYR.class);
+        InitTable("APP.InitZSK",sysntime, BHQ_ZSK.class);
+        InitTable("APP.InitRW_RW",sysntime, RW_RW.class);
+        InitTable("APP.InitRW_CYR",sysntime, RW_CYR.class);
         InitTable("APP.getRW_YQB",sysntime, RW_YQB.class);
 //        InitTable("APP.InitUserTable", sysntime, dt_manager_offline.class);
 
@@ -108,7 +108,7 @@ public class UpdateData extends Service
                         String[] ColumnNames = result.getColumnNames();
                         if (jsonArray_Rows.size() > 0)
                         {
-                            if (action.equals("APP.InitZSKTable"))
+                            if (action.equals("APP.InitZSK"))
                             {
                                 SqliteDb.insertData(UpdateData.this, "BHQ_ZSK", ColumnNames, jsonArray_Rows);
                                 initZSNR(sysntime);
@@ -116,12 +116,12 @@ public class UpdateData extends Service
 //                                {
 //                                    getZSNR(jsonArray_Rows.getJSONArray(i).getString(0));
 //                                }
-                            } else if (action.equals("APP.getRW_RW"))
+                            } else if (action.equals("APP.InitRW_RW"))
                             {
-                                SqliteDb.insertData(UpdateData.this, "RW_RW", ColumnNames, jsonArray_Rows);
-                            } else if (action.equals("APP.getRW_CYR"))
+                                SqliteDb.insertRW_RWData(UpdateData.this, "RW_RW", ColumnNames, jsonArray_Rows);
+                            } else if (action.equals("APP.InitRW_CYR"))
                             {
-                                SqliteDb.insertData(UpdateData.this, "RW_CYR", ColumnNames, jsonArray_Rows);
+                                SqliteDb.insertRW_CYRData(UpdateData.this, "RW_CYR", ColumnNames, jsonArray_Rows);
                             } else if (action.equals(" APP.getRW_YQB"))
                             {
                                 SqliteDb.insertData(UpdateData.this, "RW_YQB", ColumnNames, jsonArray_Rows);

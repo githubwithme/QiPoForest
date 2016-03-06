@@ -331,6 +331,7 @@
         android:id="@+id/ll_CYR"
         android:layout_width="match_parent"
         android:layout_height="60dip"
+        android:visibility="gone"
         android:orientation="horizontal" >
 
         <Button

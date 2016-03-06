@@ -2,6 +2,7 @@ package com.bhq.common;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.alibaba.fastjson.JSONArray;
@@ -302,7 +303,19 @@ public class SqliteDb
         }
         return obj;
     }
-
+    public static <T> Object getZYDbyID(Context context, Class<T> c,String did)
+    {
+        DbUtils db = DbUtils.create(context);
+        Object obj = null;
+        try
+        {
+            obj = db.findFirst(Selector.from(c).where("LX", "=", "ZYD").and("DID", "=", did));
+        } catch (DbException e)
+        {
+            e.printStackTrace();
+        }
+        return obj;
+    }
     public static <T> Object getZSNR(Context context, Class<T> c, String ZSID)
     {
         DbUtils db = DbUtils.create(context);
@@ -467,7 +480,7 @@ public class SqliteDb
         DbUtils db = DbUtils.create(context);
         try
         {
-            db.update(obj, WhereBuilder.b("RWID", "=", RWID).and("RYID", "=", RYID), "SFWC", "WCSJ", "XGSJ");
+            db.update(obj, WhereBuilder.b("RWID", "=", RWID).and("RYID", "=", RYID), "SFWC", "WCSJ", "XGSJ", "IsUpload");
         } catch (DbException e)
         {
             e.printStackTrace();
@@ -743,7 +756,7 @@ public class SqliteDb
         List<DbModel> dbModels = null;
         try
         {
-            String sql = "SELECT  * FROM RW_RW LEFT OUTER JOIN RW_CYR ON RW_RW.RWID = RW_CYR.RWID WHERE RYID = " + RYID + " AND RW_CYR.SFSC='false' and RW_CYR.SFWC='false' and HYSFQX='false' ORDER BY XGSJ desc";
+            String sql = "SELECT  * FROM RW_RW LEFT OUTER JOIN RW_CYR ON RW_RW.RWID = RW_CYR.RWID WHERE RYID = " + RYID + " AND RW_CYR.SFSC='false' and RW_CYR.SFWC is null and HYSFQX='false' ORDER BY XGSJ desc";
             SqlInfo sqlInfo = new SqlInfo(sql);
             dbModels = db.findDbModelAll(sqlInfo); // 自定义sql查询
             if (dbModels == null)
@@ -787,7 +800,7 @@ public class SqliteDb
 
         try
         {
-            String sql = "SELECT  * FROM RW_RW WHERE ZRR = " + RYID + " AND SFSC='false' and  RWSFJS='false' and HYSFQX='false' ORDER BY XGSJ desc";
+            String sql = "SELECT  * FROM RW_RW WHERE ZRR = " + RYID + " AND SFSC='false' and  RWSFJS is null and HYSFQX='false' ORDER BY XGSJ desc";
             SqlInfo sqlInfo = new SqlInfo(sql);
             dbModels = db.findDbModelAll(sqlInfo); // 自定义sql查询
             if (dbModels == null)
@@ -854,7 +867,7 @@ public class SqliteDb
         List<T> list = null;
         try
         {
-            list = db.findAll(Selector.from(c).where("RWID ", "=", RWID).and("SFWC", "=", 1).and("SFSC", "=", "false"));
+            list = db.findAll(Selector.from(c).where("RWID ", "=", RWID).and("SFWC", "=", "true").and("SFSC", "=", "false"));
         } catch (DbException e)
         {
             e.printStackTrace();
@@ -936,7 +949,125 @@ public class SqliteDb
             }
         }
     }
+    public static void insertRW_CYRData(Context context,String classname,String[] columnnames,JSONArray jsonArray_Rows)
+    {
+        if ( sqLiteDatabase==null)
+        {
+            DbUtils db = DbUtils.create(context);
+            sqLiteDatabase=db.getDatabase();
+        }
+        if (jsonArray_Rows.size() != 0)
+        {
+            StringBuffer columnn = new StringBuffer();;
+            for (int i = 0; i <columnnames.length; i++)
+            {
+                    columnn.append(columnnames[i]+",");
+            }
+            columnn.replace(columnn.length() - 1, columnn.length(), "");
+            for (int i = 0; i < jsonArray_Rows.size(); i++)
+            {
+                StringBuffer values = new StringBuffer();;
 
+
+                String sql_count="select count(*) from "+classname+" where RWCYID =?";
+                String args=jsonArray_Rows.getJSONArray(i).getString(0);
+                Cursor cursor = sqLiteDatabase.rawQuery("select count(*) from " + classname + " where RWCYID =?", new String[]{jsonArray_Rows.getJSONArray(i).getString(0)});
+                cursor.moveToFirst();
+                String c = cursor.getString(0);
+                int count=Integer.valueOf(c);
+                if (count >0)
+                {
+                    for (int j = 0; j <columnnames.length; j++)
+                    {
+                        values.append( columnnames[j]+"="+"\"" +jsonArray_Rows.getJSONArray(i).getString(j)+ "\"" +",");
+                    }
+                    values.replace(values.length()-1,values.length(),"");
+                    String sql_update="update "+ classname+" set "+values+" where  RWCYID ="+"\""+jsonArray_Rows.getJSONArray(i).getString(0)+"\"";
+                    sqLiteDatabase.execSQL(sql_update);
+                }else
+                {
+                    for (int j = 0; j <columnnames.length; j++)
+                    {
+                        values.append("\"" +jsonArray_Rows.getJSONArray(i).getString(j)+ "\"" +",");
+                    }
+                    values.replace(values.length()-1,values.length(),"");
+                    String sql_insert="insert into "+ classname+"("+columnn+")values("+values+")";
+                    sqLiteDatabase.execSQL(sql_insert);
+                }
+
+//                if (sql == null)
+//                {
+//
+//                }
+//                try
+//                {
+//                    sqLiteDatabase.execSQL(sql);
+//                } catch (JSONException e)
+//                {
+//                    String a=e.getMessage();
+//                    e.printStackTrace();
+//                }
+            }
+        }
+    }
+    public static void insertRW_RWData(Context context,String classname,String[] columnnames,JSONArray jsonArray_Rows)
+    {
+        if ( sqLiteDatabase==null)
+        {
+            DbUtils db = DbUtils.create(context);
+            sqLiteDatabase=db.getDatabase();
+        }
+        if (jsonArray_Rows.size() != 0)
+        {
+            StringBuffer columnn = new StringBuffer();;
+            for (int i = 0; i <columnnames.length; i++)
+            {
+                    columnn.append(columnnames[i]+",");
+            }
+            columnn.replace(columnn.length() - 1, columnn.length(), "");
+            for (int i = 0; i < jsonArray_Rows.size(); i++)
+            {
+                StringBuffer values = new StringBuffer();;
+
+
+                String sql_count="select count(*) from "+classname+" where RWID =?";
+                String args=jsonArray_Rows.getJSONArray(i).getString(0);
+                Cursor cursor = sqLiteDatabase.rawQuery(sql_count, new String[]{args});
+                cursor.moveToFirst();
+                String c = cursor.getString(0);
+                int count=Integer.valueOf(c);
+                if (count >0)
+                {
+                    for (int j = 0; j <columnnames.length; j++)
+                    {
+                        values.append(columnnames[j]+"="+ "\"" +jsonArray_Rows.getJSONArray(i).getString(j)+ "\"" +",");
+                    }
+                    values.replace(values.length()-1,values.length(),"");
+                    String sql_update="update "+ classname+" set "+values+" where  RWID ="+"\""+jsonArray_Rows.getJSONArray(i).getString(0)+"\"";
+                    sqLiteDatabase.execSQL(sql_update);
+                }else
+                {
+                    for (int j = 0; j <columnnames.length; j++)
+                    {
+                        values.append("\"" +jsonArray_Rows.getJSONArray(i).getString(j)+ "\"" +",");
+                    }
+                    values.replace(values.length()-1,values.length(),"");
+                    String sql_insert="insert into "+ classname+"("+columnn+")values("+values+")";
+                    sqLiteDatabase.execSQL(sql_insert);
+                }
+//                values.replace(values.length()-1,values.length(),"");
+//                String sql="replace into "+ classname+"("+columnn+")values("+values+")";
+//                try
+//                {
+//                    sqLiteDatabase.execSQL(sql);
+//                } catch (JSONException e)
+//                {
+//                    String a=e.getMessage();
+//                    e.printStackTrace();
+//                }
+            }
+        }
+    }
     public static void createTable(Context context)
     {
         DbUtils db = DbUtils.create(context);
@@ -964,5 +1095,12 @@ public class SqliteDb
 //        sqLiteDatabase.execSQL(sql_RW_RW);
 //        sqLiteDatabase.execSQL(sql_RW_CYR);
 //        sqLiteDatabase.execSQL(sql_Dictionary);
+    }
+
+    public static void updateRW_CYR(Context context, String RWCYID)// 这个方式可以
+    {
+        DbUtils db = DbUtils.create(context);
+        String sql_update="update RW_CYR  set IsUpload=1 where  RWCYID ="+"\""+RWCYID+"\"";
+        sqLiteDatabase.execSQL(sql_update);
     }
 }

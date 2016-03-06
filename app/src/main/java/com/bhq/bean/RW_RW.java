@@ -45,6 +45,17 @@ public class RW_RW implements Parcelable
 	public String XGRXM;
 	public String SFSC;
 	public String Change;
+	public String IsUpload;
+
+	public void setIsUpload(String isUpload)
+	{
+		IsUpload = isUpload;
+	}
+
+	public String getIsUpload()
+	{
+		return IsUpload;
+	}
 
 	public String getRWID()
 	{
@@ -316,6 +327,7 @@ public class RW_RW implements Parcelable
 			p.setXGRXM(source.readString());
 			p.setSFSC(source.readString());
 			p.setChange(source.readString());
+			p.setIsUpload(source.readString());
 			return p;
 		}
 
@@ -352,6 +364,7 @@ public class RW_RW implements Parcelable
 		p.writeString(XGRXM);
 		p.writeString(SFSC);
 		p.writeString(Change);
+		p.writeString(IsUpload);
 	}
 
 	@Override

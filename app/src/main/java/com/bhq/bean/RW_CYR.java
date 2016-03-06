@@ -49,6 +49,17 @@ public class RW_CYR implements Parcelable
 	String id;
 	String Change;
 	String SFSC;
+	String IsUpload;
+
+	public void setIsUpload(String isUpload)
+	{
+		IsUpload = isUpload;
+	}
+
+	public String getIsUpload()
+	{
+		return IsUpload;
+	}
 
 	public void setXGSJ(String xGSJ)
 	{
