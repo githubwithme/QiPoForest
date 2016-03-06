@@ -619,7 +619,7 @@ public class Offline_IServiceFragment extends Fragment
             hashMap.put("XHFZS", bhq_XHQK.getXHFZS());
             hashMap.put("XHZT", bhq_XHQK.getXHZT());
             hashMap.put("v_flag", "A");
-            String params = HttpUrlConnect.setParams("APP.AddBHQ_XHQK", "0", hashMap);
+            String params = HttpUrlConnect.setParams("APP.InsertBHQ_XHQK", "0", hashMap);
             new HttpUtils().send(HttpRequest.HttpMethod.POST, AppConfig.dataBaseUrl, ConnectionHelper.getParas(params), new RequestCallBack<String>()
             {
                 @Override
@@ -724,7 +724,8 @@ public class Offline_IServiceFragment extends Fragment
                 public void onFailure(HttpException error, String msg)
                 {
                     String aa = error.getMessage();
-                    failupload();
+//                    failupload();
+                    showProgress();
                 }
             });
         }
