@@ -106,27 +106,28 @@ public class UpdateData extends Service
                     {
                         JSONArray jsonArray_Rows = result.getRows();
                         String[] ColumnNames = result.getColumnNames();
-                        if (jsonArray_Rows.size()>0)
+                        if (jsonArray_Rows.size() > 0)
                         {
                             if (action.equals("APP.InitZSKTable"))
                             {
                                 SqliteDb.insertData(UpdateData.this, "BHQ_ZSK", ColumnNames, jsonArray_Rows);
-                                for (int i = 0; i < jsonArray_Rows.size(); i++)
-                                {
-                                    getZSNR(jsonArray_Rows.getJSONArray(i).getString(0));
-                                }
-                            }else if (action.equals("APP.getRW_RW"))
+                                initZSNR(sysntime);
+//                                for (int i = 0; i < jsonArray_Rows.size(); i++)
+//                                {
+//                                    getZSNR(jsonArray_Rows.getJSONArray(i).getString(0));
+//                                }
+                            } else if (action.equals("APP.getRW_RW"))
                             {
                                 SqliteDb.insertData(UpdateData.this, "RW_RW", ColumnNames, jsonArray_Rows);
-                            }else if (action.equals("APP.getRW_CYR"))
+                            } else if (action.equals("APP.getRW_CYR"))
                             {
                                 SqliteDb.insertData(UpdateData.this, "RW_CYR", ColumnNames, jsonArray_Rows);
-                            }else if (action.equals(" APP.getRW_YQB"))
+                            } else if (action.equals(" APP.getRW_YQB"))
                             {
                                 SqliteDb.insertData(UpdateData.this, "RW_YQB", ColumnNames, jsonArray_Rows);
-                            }else if (action.equals("APP.InitUserTable"))
+                            } else if (action.equals("APP.InitUserTable"))
                             {
-                                SqliteDb.insertData(UpdateData.this,"dt_manager_offline", ColumnNames, jsonArray_Rows);
+                                SqliteDb.insertData(UpdateData.this, "dt_manager_offline", ColumnNames, jsonArray_Rows);
 //                                for (int i = 0; i < jsonArray_Rows.size(); i++)
 //                                {
 //                                            String id=jsonArray_Rows.getJSONArray(i).getString(0);
@@ -139,10 +140,10 @@ public class UpdateData extends Service
 //                                            }
 //                                }
 
-                            }else if (action.equals("APP.InitDictionaryTable"))
+                            } else if (action.equals("APP.InitDictionaryTable"))
                             {
-                                SqliteDb.deleteAllRecord(UpdateData.this,Dictionary.class);//因为该表无法创建主键，所以避免重复数据插入，执行此。
-                                SqliteDb.insertData(UpdateData.this,  "Dictionary", ColumnNames, jsonArray_Rows);
+                                SqliteDb.deleteAllRecord(UpdateData.this, Dictionary.class);//因为该表无法创建主键，所以避免重复数据插入，执行此。
+                                SqliteDb.insertData(UpdateData.this, "Dictionary", ColumnNames, jsonArray_Rows);
                             }
                         }
 
@@ -185,7 +186,45 @@ public class UpdateData extends Service
         });
 
     }
+    private <T> void initZSNR(String sysntime)
+    {
+        HashMap<String, String> hashMap = new HashMap<String, String>();
+        hashMap.put("sysntime", sysntime);
+        String params = ConnectionHelper.setParams("APP.InitZSNR", "0", hashMap);
+        new HttpUtils().send(HttpRequest.HttpMethod.POST, AppConfig.dataBaseUrl, ConnectionHelper.getParas(params), new RequestCallBack<String>()
+        {
+            @Override
+            public void onSuccess(ResponseInfo<String> responseInfo)
+            {
+                String a = responseInfo.result;
+                List<?> listData = null;
+                Result result = JSON.parseObject(responseInfo.result, Result.class);
+                if (result.getResultCode() == 200)
+                {
 
+                    if (result.getAffectedRows() != 0)
+                    {
+                        JSONArray jsonArray_Rows = result.getRows();
+                        String[] ColumnNames = result.getColumnNames();
+                        for (int i = 0; i < jsonArray_Rows.size(); i++)
+                        {
+                            String zsid = result.getRows().getJSONArray(i).get(0).toString();
+                            String zsnr = result.getRows().getJSONArray(i).get(1).toString();
+                            SqliteDb.updateZSK(UpdateData.this,"BHQ_ZSK",zsid,zsnr);
+                        }
+                    }
+                } else
+                {
+                }
+            }
+
+            @Override
+            public void onFailure(HttpException error, String msg)
+            {
+            }
+        });
+
+    }
     public void saveData(List<?> listData, String action)
     {
         if (listData == null)

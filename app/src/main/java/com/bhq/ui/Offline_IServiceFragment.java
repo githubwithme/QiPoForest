@@ -660,6 +660,7 @@ public class Offline_IServiceFragment extends Fragment
             params.addQueryStringParameter("file", file.getName());
             params.setBodyEntity(new FileUploadEntity(file, "text/html"));
             HttpUtils http = new HttpUtils();
+            http.configTimeout(60000);
             http.send(HttpRequest.HttpMethod.POST, AppConfig.uploadUrl, params, new RequestCallBack<String>()
             {
                 @Override

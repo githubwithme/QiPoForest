@@ -5,6 +5,7 @@ import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import com.bhq.R;
 
@@ -22,9 +23,14 @@ import org.androidannotations.annotations.ViewById;
 @EActivity(R.layout.task)
 public class Offline_Task extends Activity
 {
-
+	Offline_TaskFragment offline_taskFragment;
+	Offline_TaskFragment_Complete offline_taskFragment_complete;
 	@ViewById
 	ImageButton imgbtn_back;
+	@ViewById
+	TextView tv_rw_now;
+	@ViewById
+	TextView tv_rw_complete;
 	Fragment mContent = new Fragment();
 
 	@Click
@@ -32,10 +38,24 @@ public class Offline_Task extends Activity
 	{
 		finish();
 	}
+	@Click
+	void tv_rw_complete()
+	{
+		setBackground(1);
+		switchContent(mContent, offline_taskFragment_complete);
+	}
+	@Click
+	void tv_rw_now()
+	{
+		setBackground(0);
+		switchContent(mContent, offline_taskFragment);
+	}
 
 	@AfterViews
 	void afterOncreate()
 	{
+		setBackground(0);
+		switchContent(mContent, offline_taskFragment);
 	}
 
 	@Override
@@ -43,9 +63,34 @@ public class Offline_Task extends Activity
 	{
 		super.onCreate(savedInstanceState);
 		getActionBar().hide();
-		switchContent(mContent, new Offline_TaskFragment_());
+		offline_taskFragment=new Offline_TaskFragment_();
+		offline_taskFragment_complete=new Offline_TaskFragment_Complete_();
 	}
+	private void setBackground(int pos)
+	{
+		tv_rw_now.setSelected(false);
+		tv_rw_complete.setSelected(false);
 
+		tv_rw_now.setBackgroundResource(R.color.white);
+		tv_rw_complete.setBackgroundResource(R.color.white);
+
+		tv_rw_now.setTextColor(getResources().getColor(R.color.menu_textcolor));
+		tv_rw_complete.setTextColor(getResources().getColor(R.color.menu_textcolor));
+		switch (pos)
+		{
+			case 0:
+				tv_rw_now.setSelected(false);
+				tv_rw_now.setTextColor(getResources().getColor(R.color.bg_blue));
+				tv_rw_now.setBackgroundResource(R.drawable.red_bottom);
+				break;
+			case 1:
+				tv_rw_complete.setSelected(false);
+				tv_rw_complete.setTextColor(getResources().getColor(R.color.bg_blue));
+				tv_rw_complete.setBackgroundResource(R.drawable.red_bottom);
+				break;
+		}
+
+	}
 	public void switchContent(Fragment from, Fragment to)
 	{
 		if (mContent != to)

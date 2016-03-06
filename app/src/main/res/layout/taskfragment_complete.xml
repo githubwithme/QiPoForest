@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical" >
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <View
+            android:id="@+id/main_line"
+            android:layout_width="0.1dip"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="65dip"
+            android:background="#C7C7C7" />
+
+        <ListView
+            android:id="@+id/swipe_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <com.swipelistview.ExpandAniLinearLayout
+                android:id="@+id/swipe_list_ani"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dip"
+                android:orientation="vertical"
+                android:showDividers="middle" >
+            </com.swipelistview.ExpandAniLinearLayout>
+        </ScrollView>
+
+        <TextView
+            android:id="@+id/tv_tip"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:gravity="center"
+            android:text="暂无您参与的任务！"
+            android:visibility="gone" />
+    </FrameLayout>
+
+</LinearLayout>

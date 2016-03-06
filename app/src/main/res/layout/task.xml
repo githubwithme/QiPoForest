@@ -12,8 +12,39 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="0.1px"
-        android:background="@color/black" />
-
+        android:background="@color/line_color" />
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="45dip"
+    android:background="@color/white"
+    android:orientation="horizontal">
+    <TextView
+        android:id="@+id/tv_rw_now"
+        android:layout_width="0dip"
+        android:layout_weight="1"
+        android:layout_height="match_parent"
+        android:textColor="@color/bg_text"
+        android:textSize="16sp"
+        android:gravity="center"
+        android:text="进行中"/>
+    <View
+        android:layout_width="1px"
+        android:layout_height="match_parent"
+        android:background="@color/line_color" />
+    <TextView
+        android:id="@+id/tv_rw_complete"
+        android:layout_width="0dip"
+        android:layout_weight="1"
+        android:layout_height="match_parent"
+        android:textColor="@color/bg_text"
+        android:textSize="16sp"
+        android:gravity="center"
+        android:text="已完成"/>
+</LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.1px"
+        android:background="@color/line_color" />
 <!--     <include -->
 <!--         android:layout_width="match_parent" -->
 <!--         android:layout_height="@dimen/searchview_height" -->
