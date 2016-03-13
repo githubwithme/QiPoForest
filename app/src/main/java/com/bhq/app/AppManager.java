@@ -3,6 +3,8 @@ package com.bhq.app;
 import android.app.Activity;
 import android.content.Context;
 
+import com.lidroid.xutils.HttpUtils;
+
 import java.util.Stack;
 
 /**
@@ -109,6 +111,9 @@ public class AppManager
 	 */
 	public void AppExit(Context context)
 	{
+		HttpUtils http = new HttpUtils();
+		http.getHttpClient().getConnectionManager().closeExpiredConnections();
+		http.getHttpClient().getConnectionManager().shutdown();
 		try
 		{
 			finishAllActivity();

@@ -16,7 +16,6 @@ import com.bhq.bean.RW_YQB;
 import com.bhq.bean.Result;
 import com.bhq.common.ConnectionHelper;
 import com.bhq.common.SqliteDb;
-import com.bhq.common.utils;
 import com.lidroid.xutils.HttpUtils;
 import com.lidroid.xutils.exception.HttpException;
 import com.lidroid.xutils.http.ResponseInfo;
@@ -29,7 +28,7 @@ import java.util.List;
 
 public class UpdateData extends Service
 {
-
+    SharedPreferences sp;
     public static final String ACTION_DOWNLOADDATA = "ACTION_DOWNLOADDATA";
     String action;
 
@@ -72,18 +71,16 @@ public class UpdateData extends Service
 
     private void startInitData()
     {
-        SharedPreferences sp= this.getSharedPreferences("MY_PRE", MODE_PRIVATE);
+         sp= this.getSharedPreferences("MY_PRE", MODE_PRIVATE);
         String sysntime = sp.getString("sysntime", "1900-01-01");
         InitTable("APP.InitDictionaryTable",sysntime, Dictionary.class);
         InitTable("APP.InitZSK",sysntime, BHQ_ZSK.class);
         InitTable("APP.InitRW_RW",sysntime, RW_RW.class);
-        InitTable("APP.InitRW_CYR",sysntime, RW_CYR.class);
-        InitTable("APP.getRW_YQB",sysntime, RW_YQB.class);
+        InitTable("APP.InitRW_CYR", sysntime, RW_CYR.class);
+        InitTable("APP.getRW_YQB", sysntime, RW_YQB.class);
 //        InitTable("APP.InitUserTable", sysntime, dt_manager_offline.class);
 
-        SharedPreferences.Editor editor = sp.edit();
-        editor.putString("sysntime", utils.getTime());
-        editor.commit();
+        getServerSystemTime();
     }
 
     private <T> void InitTable(final String action,final String sysntime, final Class<T> className)
@@ -304,7 +301,41 @@ public class UpdateData extends Service
             }
         }
     }
+    private <T> void getServerSystemTime()
+    {
+        HashMap<String, String> hashMap = new HashMap<String, String>();
+        String params = ConnectionHelper.setParams("APP.getServerSystemTime", "0", hashMap);
+        new HttpUtils().send(HttpRequest.HttpMethod.POST, AppConfig.dataBaseUrl, ConnectionHelper.getParas(params), new RequestCallBack<String>()
+        {
+            @Override
+            public void onSuccess(ResponseInfo<String> responseInfo)
+            {
+                String a = responseInfo.result;
+                Result result = JSON.parseObject(responseInfo.result, Result.class);
+                if (result.getResultCode() == 200)
+                {
+                    if (result.getAffectedRows() != 0)
+                    {
+                        JSONArray jsonArray_Rows = result.getRows();
+                        if (jsonArray_Rows.size() > 0)
+                        {
+                            SharedPreferences.Editor editor = sp.edit();
+                            editor.putString("sysntime", jsonArray_Rows.getJSONArray(0).get(0).toString());
+                            editor.commit();
+                        }
+                    }
+                } else
+                {
+                }
+            }
 
+            @Override
+            public void onFailure(HttpException error, String msg)
+            {
+            }
+        });
+
+    }
     public void getPhotos(String path, final String target)
     {
         HttpUtils http = new HttpUtils();
