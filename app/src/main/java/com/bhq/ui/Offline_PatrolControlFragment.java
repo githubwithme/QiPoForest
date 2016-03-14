@@ -388,7 +388,7 @@ public class Offline_PatrolControlFragment extends Fragment implements TencentLo
             int diff = (int) (newtime - lasttime) / 1000;
             if (diff > 15)// 每隔15秒记录一次
             {
-                uploadLocationInfo(location_latLng);
+                uploadLocationInfo(location,location_latLng);
                 lasttime = newtime;
                 if (isStart)
                 {
@@ -658,7 +658,7 @@ public class Offline_PatrolControlFragment extends Fragment implements TencentLo
         bhq_XHQK_ZTCZ.setSZCZ(SZCZ);
         SqliteDb.save(getActivity(), bhq_XHQK_ZTCZ);
     }
-    public void uploadLocationInfo(LatLng latlng)
+    public void uploadLocationInfo(TencentLocation location,LatLng latlng)
     {
         dt_manager_offline dt_manager_offline = (com.bhq.bean.dt_manager_offline) SqliteDb.getCurrentUser(getActivity(),dt_manager_offline.class);
         HashMap<String, String> hashMap = new HashMap<String, String>();
@@ -666,6 +666,8 @@ public class Offline_PatrolControlFragment extends Fragment implements TencentLo
         hashMap.put("username", dt_manager_offline.getreal_name());
         hashMap.put("lat", String.valueOf(latlng.getLatitude()));
         hashMap.put("lng", String.valueOf(latlng.getLongitude()));
+        hashMap.put("altitude", String.valueOf(location.getAltitude()));
+        hashMap.put("accuracy", String.valueOf(location.getAccuracy()));
         hashMap.put("jlsj", utils.getTime());
         hashMap.put("v_flag", "A");
         String params = HttpUrlConnect.setParams("APP.uploadLocationInfo", "0", hashMap);
