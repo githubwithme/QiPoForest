@@ -756,7 +756,7 @@ public class SqliteDb
         List<DbModel> dbModels = null;
         try
         {
-            String sql = "SELECT  * FROM RW_RW LEFT OUTER JOIN RW_CYR ON RW_RW.RWID = RW_CYR.RWID WHERE RYID = " + RYID + " AND RW_CYR.SFSC='false' and RW_CYR.SFWC is null and HYSFQX='false' ORDER BY XGSJ desc";
+            String sql = "SELECT  * FROM RW_RW LEFT OUTER JOIN RW_CYR ON RW_RW.RWID = RW_CYR.RWID WHERE RYID = " + RYID + " AND RW_CYR.SFSC='false' and RW_CYR.SFWC='false' and HYSFQX='false' ORDER BY XGSJ desc";
             SqlInfo sqlInfo = new SqlInfo(sql);
             dbModels = db.findDbModelAll(sqlInfo); // 自定义sql查询
             if (dbModels == null)
@@ -800,7 +800,7 @@ public class SqliteDb
 
         try
         {
-            String sql = "SELECT  * FROM RW_RW WHERE ZRR = " + RYID + " AND SFSC='false' and  RWSFJS is null and HYSFQX='false' ORDER BY XGSJ desc";
+            String sql = "SELECT  * FROM RW_RW WHERE ZRR = " + RYID + " AND SFSC='false' and  RWSFJS='false' and HYSFQX='false' ORDER BY XGSJ desc";
             SqlInfo sqlInfo = new SqlInfo(sql);
             dbModels = db.findDbModelAll(sqlInfo); // 自定义sql查询
             if (dbModels == null)
@@ -1051,9 +1051,17 @@ public class SqliteDb
                     {
                         values.append("\"" +jsonArray_Rows.getJSONArray(i).getString(j)+ "\"" +",");
                     }
-                    values.replace(values.length()-1,values.length(),"");
+                    values.replace(values.length() - 1, values.length(), "");
                     String sql_insert="insert into "+ classname+"("+columnn+")values("+values+")";
-                    sqLiteDatabase.execSQL(sql_insert);
+
+                    try
+                    {
+                        sqLiteDatabase.execSQL(sql_insert);
+                    } catch (JSONException e)
+                    {
+                        String a=e.getMessage();
+                        e.printStackTrace();
+                    }
                 }
 //                values.replace(values.length()-1,values.length(),"");
 //                String sql="replace into "+ classname+"("+columnn+")values("+values+")";

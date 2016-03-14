@@ -37,6 +37,17 @@ public class BHQ_ZSK implements Parcelable
 	public String XGRXM;
 	public String XXZT;
 	public String BDLJ;
+	public String FB;
+
+	public void setFB(String FB)
+	{
+		this.FB = FB;
+	}
+
+	public String getFB()
+	{
+		return FB;
+	}
 
 	public void setBDLJ(String bDLJ)
 	{
@@ -220,6 +231,7 @@ public class BHQ_ZSK implements Parcelable
 			p.setXGRXM(source.readString());
 			p.setXXZT(source.readString());
 			p.setBDLJ(source.readString());
+			p.setFB(source.readString());
 			return p;
 		}
 
@@ -248,6 +260,7 @@ public class BHQ_ZSK implements Parcelable
 		p.writeString(XGRXM);
 		p.writeString(XXZT);
 		p.writeString(BDLJ);
+		p.writeString(FB);
 	}
 
 	@Override

@@ -327,7 +327,7 @@ public class Offline_IServiceFragment extends Fragment
         list_BHQ_XHQK_GJ = SqliteDb.getNotUploadData(getActivity(), BHQ_XHQK_GJ.class);
         list_FJ_SCFJ = SqliteDb.getNotUploadData(getActivity(), FJ_SCFJ.class);
         list_RW_CYR = SqliteDb.getNotUploadData(getActivity(), RW_CYR.class);
-        int count = list_dt_manager_offline.size() + list_BHQ_XHQK_ZTCZ.size() + list_BHQ_XHSJCJ.size() + list_BHQ_XHSJ.size() + list_BHQ_XHQK_GJ.size() + list_BHQ_XHQK.size()+list_RW_CYR.size() + list_FJ_SCFJ.size() * 2;
+        int count = list_dt_manager_offline.size() + list_BHQ_XHQK_ZTCZ.size() + list_BHQ_XHSJCJ.size() + list_BHQ_XHSJ.size() + list_BHQ_XHQK_GJ.size() + list_BHQ_XHQK.size()+list_RW_CYR.size() + list_FJ_SCFJ.size() ;
         return count;
     }
 
@@ -342,7 +342,7 @@ public class Offline_IServiceFragment extends Fragment
         uploadGJ();
         uploadXHQK();
         uploadRW_CYR();
-        uploadMedia(list_FJ_SCFJ);
+//        uploadMedia(list_FJ_SCFJ);
     }
 
     private void uploadUser()
@@ -354,7 +354,7 @@ public class Offline_IServiceFragment extends Fragment
             hashMap.put("id", dt_manager_offline.getid());
             hashMap.put("password", dt_manager_offline.getpassword());
             hashMap.put("v_flag", "A");
-            String params = HttpUrlConnect.setParams("APP.updatepassword", "0", hashMap);
+            String params = HttpUrlConnect.setParams("APP.InsertOrUpdatedt_manager", "0", hashMap);
             new HttpUtils().send(HttpRequest.HttpMethod.POST, AppConfig.dataBaseUrl, ConnectionHelper.getParas(params), new RequestCallBack<String>()
             {
                 @Override
@@ -391,7 +391,7 @@ public class Offline_IServiceFragment extends Fragment
             hashMap.put("ZTSJD", bhq_XHQK_ZTCZ.getZTSJD());
             hashMap.put("SZCZ", bhq_XHQK_ZTCZ.getSZCZ());
             hashMap.put("v_flag", "A");
-            String params = HttpUrlConnect.setParams("APP.AddNewBHQ_XHQK_ZTCZ", "0", hashMap);
+            String params = HttpUrlConnect.setParams("APP.InsertOrUpdateBHQ_XHQK_ZTCZ", "0", hashMap);
             new HttpUtils().send(HttpRequest.HttpMethod.POST, AppConfig.dataBaseUrl, ConnectionHelper.getParas(params), new RequestCallBack<String>()
             {
                 @Override
@@ -447,7 +447,7 @@ public class Offline_IServiceFragment extends Fragment
             hashMap.put("Y", bhq_XHSJCJ.getY());
             hashMap.put("SFSC", bhq_XHSJCJ.getSFSC());
             hashMap.put("v_flag", "A");
-            String params = HttpUrlConnect.setParams("APP.AddCJXX", "0", hashMap);
+            String params = HttpUrlConnect.setParams("APP.InsertOrUpdateBHQ_XHSJCJ", "0", hashMap);
             new HttpUtils().send(HttpRequest.HttpMethod.POST, AppConfig.dataBaseUrl, ConnectionHelper.getParas(params), new RequestCallBack<String>()
             {
                 @Override
@@ -493,7 +493,7 @@ public class Offline_IServiceFragment extends Fragment
             hashMap.put("Y", bhq_XHSJ.getY());
             hashMap.put("XHID", bhq_XHSJ.getXHID());
             hashMap.put("v_flag", "A");
-            String params = HttpUrlConnect.setParams("APP.InsertBHQ_XHSJ", "0", hashMap);
+            String params = HttpUrlConnect.setParams("APP.InsertOrUpdateBHQ_XHSJ", "0", hashMap);
             new HttpUtils().send(HttpRequest.HttpMethod.POST, AppConfig.dataBaseUrl, ConnectionHelper.getParas(params), new RequestCallBack<String>()
             {
                 @Override
@@ -540,7 +540,7 @@ public class Offline_IServiceFragment extends Fragment
             hashMap.put("Change", fj_SCFJ.getChange());
             hashMap.put("FL", fj_SCFJ.getFL());
             hashMap.put("v_flag", "A");
-            String params = HttpUrlConnect.setParams("APP.InsertFJ_SCFJ", "0", hashMap);
+            String params = HttpUrlConnect.setParams("APP.InsertOrUpdateFJ_SCFJ", "0", hashMap);
             new HttpUtils().send(HttpRequest.HttpMethod.POST, AppConfig.dataBaseUrl, ConnectionHelper.getParas(params), new RequestCallBack<String>()
             {
                 @Override
@@ -574,8 +574,9 @@ public class Offline_IServiceFragment extends Fragment
             HashMap<String, String> hashMap = new HashMap<String, String>();
             hashMap.put("SFWC", rw_cyr.getSFWC());
             hashMap.put("RWCYID", rw_cyr.getRWCYID());
+            hashMap.put("WCSJ", rw_cyr.getWCSJ());
             hashMap.put("v_flag", "A");
-            String params = HttpUrlConnect.setParams("APP.UpdateRW_CYR", "0", hashMap);
+            String params = HttpUrlConnect.setParams("APP.InsertOrUpdateRW_CYR", "0", hashMap);
             new HttpUtils().send(HttpRequest.HttpMethod.POST, AppConfig.dataBaseUrl, ConnectionHelper.getParas(params), new RequestCallBack<String>()
             {
                 @Override
@@ -619,7 +620,7 @@ public class Offline_IServiceFragment extends Fragment
             hashMap.put("XHFZS", bhq_XHQK.getXHFZS());
             hashMap.put("XHZT", bhq_XHQK.getXHZT());
             hashMap.put("v_flag", "A");
-            String params = HttpUrlConnect.setParams("APP.InsertBHQ_XHQK", "0", hashMap);
+            String params = HttpUrlConnect.setParams("APP.InsertOrUpdateBHQ_XHQK", "0", hashMap);
             new HttpUtils().send(HttpRequest.HttpMethod.POST, AppConfig.dataBaseUrl, ConnectionHelper.getParas(params), new RequestCallBack<String>()
             {
                 @Override
@@ -658,7 +659,7 @@ public class Offline_IServiceFragment extends Fragment
             hashMap.put("Y", bhq_XHQK_GJ.getY());
             hashMap.put("JLSJ", bhq_XHQK_GJ.getJLSJ());
             hashMap.put("v_flag", "A");
-            String params = HttpUrlConnect.setParams("APP.AddNewBHQ_XHQK_GJ", "0", hashMap);
+            String params = HttpUrlConnect.setParams("APP.InsertOrUpdateBHQ_XHQK_GJ", "0", hashMap);
             new HttpUtils().send(HttpRequest.HttpMethod.POST, AppConfig.dataBaseUrl, ConnectionHelper.getParas(params), new RequestCallBack<String>()
             {
                 @Override

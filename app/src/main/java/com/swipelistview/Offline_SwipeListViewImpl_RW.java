@@ -173,10 +173,10 @@ public class Offline_SwipeListViewImpl_RW implements OnLayoutAnimatListener
 	{
 		int imgres;
 		String status = new String();
-		viewHolder.message_time.setText(utils.DateString2Day(list_RW_RW.get(position).getWRJZSJ()));
-		viewHolder.message_day.setText(utils.DateString2Day(list_RW_RW.get(position).getWRKSSJ()));
-		status = utils.getDayDifference(utils.getToday(), utils.DateString2Day(list_RW_RW.get(position).getWRJZSJ()));
-		status = utils.getDayDifference(utils.getToday(), utils.DateString2Day(list_RW_RW.get(position).getWRJZSJ()));
+		viewHolder.message_time.setText(list_RW_RW.get(position).getWRJZSJ());
+		viewHolder.message_day.setText(list_RW_RW.get(position).getWRKSSJ());
+		status = utils.getDayDifference(utils.getToday(), list_RW_RW.get(position).getWRJZSJ());
+		status = utils.getDayDifference(utils.getToday(), list_RW_RW.get(position).getWRJZSJ());
 		if (status.toString().equals("已到期"))
 		{
 			imgres = R.drawable.point_round;
@@ -188,7 +188,7 @@ public class Offline_SwipeListViewImpl_RW implements OnLayoutAnimatListener
 
 		viewHolder.mMessageIcon.setImageResource(imgres);
 		viewHolder.mMessageTitle.setId(position);
-		viewHolder.news_listitem_date.setText(utils.DateString2Day(list_RW_RW.get(position).getCJSJ()));
+		viewHolder.news_listitem_date.setText(list_RW_RW.get(position).getCJSJ());
 		viewHolder.mMessageTitle.setText(list_RW_RW.get(position).getRWMC());
 		viewHolder.news_listitem_author.setText(list_RW_RW.get(position).getCJRXM());
 		viewHolder.tv_status.setText(status);

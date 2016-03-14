@@ -9,7 +9,6 @@ import android.widget.TextView;
 
 import com.bhq.R;
 import com.bhq.bean.BHQ_ZSK;
-import com.bhq.common.utils;
 
 import java.util.HashMap;
 import java.util.List;
@@ -88,7 +87,7 @@ public class Offline_ListViewknowledgeAdapter extends BaseAdapter
 		// 设置文字和图片
 
 		listItemView.tv_title.setText(BHQ_ZSK.getZSBT());
-		listItemView.tv_time.setText("入库时间："+utils.DateString2Date(BHQ_ZSK.getCJSJ().toString()));
+		listItemView.tv_time.setText("入库时间："+BHQ_ZSK.getCJSJ().toString());
 		return convertView;
 	}
 

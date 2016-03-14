@@ -164,9 +164,9 @@ public class Offline_TaskContent extends Activity
 	private void showData(RW_RW rw_RW)
 	{
 		Dictionary dictionary= (Dictionary) SqliteDb.getZYDbyID(Offline_TaskContent.this, Dictionary.class, rw_RW.getZYD());
-		tv_WRTXSJ.setText(utils.DateString2Day(rw_RW.getWRTXSJ()));
-		tv_WRJZSJ.setText(utils.DateString2Day(rw_RW.getWRJZSJ()));
-		tv_WRKSSJ.setText(utils.DateString2Day(rw_RW.getWRKSSJ()));
+		tv_WRTXSJ.setText(rw_RW.getWRTXSJ());
+		tv_WRJZSJ.setText(rw_RW.getWRJZSJ());
+		tv_WRKSSJ.setText(rw_RW.getWRKSSJ());
 		tv_RWMC.setText(rw_RW.getRWMC());
 		tv_ZCRXM.setText(rw_RW.getZCRXM());
 		tv_ZYD.setText(dictionary.getNAME());
