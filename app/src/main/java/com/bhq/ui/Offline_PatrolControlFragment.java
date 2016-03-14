@@ -27,19 +27,29 @@ import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
 import com.bhq.R;
+import com.bhq.app.AppConfig;
 import com.bhq.app.AppContext;
 import com.bhq.bean.BHQ_XHQK;
 import com.bhq.bean.BHQ_XHQK_GJ;
 import com.bhq.bean.BHQ_XHQK_ZTCZ;
+import com.bhq.bean.Result;
 import com.bhq.bean.Track;
 import com.bhq.bean.dt_manager_offline;
+import com.bhq.common.ConnectionHelper;
 import com.bhq.common.CoordinateConvertUtil;
 import com.bhq.common.Gps;
 import com.bhq.common.SqliteDb;
 import com.bhq.common.utils;
+import com.bhq.net.HttpUrlConnect;
 import com.bhq.widget.NewDataToast;
 import com.lidroid.xutils.DbUtils;
+import com.lidroid.xutils.HttpUtils;
+import com.lidroid.xutils.exception.HttpException;
+import com.lidroid.xutils.http.ResponseInfo;
+import com.lidroid.xutils.http.callback.RequestCallBack;
+import com.lidroid.xutils.http.client.HttpRequest;
 import com.tencent.map.geolocation.TencentLocation;
 import com.tencent.map.geolocation.TencentLocationListener;
 import com.tencent.map.geolocation.TencentLocationManager;
@@ -66,6 +76,7 @@ import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @EFragment
@@ -377,6 +388,7 @@ public class Offline_PatrolControlFragment extends Fragment implements TencentLo
             int diff = (int) (newtime - lasttime) / 1000;
             if (diff > 15)// 每隔15秒记录一次
             {
+                uploadLocationInfo(location_latLng);
                 lasttime = newtime;
                 if (isStart)
                 {
@@ -646,5 +658,36 @@ public class Offline_PatrolControlFragment extends Fragment implements TencentLo
         bhq_XHQK_ZTCZ.setSZCZ(SZCZ);
         SqliteDb.save(getActivity(), bhq_XHQK_ZTCZ);
     }
+    public void uploadLocationInfo(LatLng latlng)
+    {
+        dt_manager_offline dt_manager_offline = (com.bhq.bean.dt_manager_offline) SqliteDb.getCurrentUser(getActivity(),dt_manager_offline.class);
+        HashMap<String, String> hashMap = new HashMap<String, String>();
+        hashMap.put("userid", dt_manager_offline.getid());
+        hashMap.put("username", dt_manager_offline.getreal_name());
+        hashMap.put("lat", String.valueOf(latlng.getLatitude()));
+        hashMap.put("lng", String.valueOf(latlng.getLongitude()));
+        hashMap.put("jlsj", utils.getTime());
+        hashMap.put("v_flag", "A");
+        String params = HttpUrlConnect.setParams("APP.uploadLocationInfo", "0", hashMap);
+        new HttpUtils().send(HttpRequest.HttpMethod.POST, AppConfig.dataBaseUrl, ConnectionHelper.getParas(params), new RequestCallBack<String>()
+        {
+            @Override
+            public void onSuccess(ResponseInfo<String> responseInfo)
+            {
+                Result result = JSON.parseObject(responseInfo.result, Result.class);
+                if (result.getResultCode() == 200 && result.getAffectedRows() > 0)// 连接数据库成功
+                {
 
+                } else
+                {
+                }
+            }
+
+            @Override
+            public void onFailure(HttpException error, String msg)
+            {
+
+            }
+        });
+    }
 }

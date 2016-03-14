@@ -327,7 +327,7 @@ public class Offline_IServiceFragment extends Fragment
         list_BHQ_XHQK_GJ = SqliteDb.getNotUploadData(getActivity(), BHQ_XHQK_GJ.class);
         list_FJ_SCFJ = SqliteDb.getNotUploadData(getActivity(), FJ_SCFJ.class);
         list_RW_CYR = SqliteDb.getNotUploadData(getActivity(), RW_CYR.class);
-        int count = list_dt_manager_offline.size() + list_BHQ_XHQK_ZTCZ.size() + list_BHQ_XHSJCJ.size() + list_BHQ_XHSJ.size() + list_BHQ_XHQK_GJ.size() + list_BHQ_XHQK.size()+list_RW_CYR.size() + list_FJ_SCFJ.size() ;
+        int count = list_dt_manager_offline.size() + list_BHQ_XHQK_ZTCZ.size() + list_BHQ_XHSJCJ.size() + list_BHQ_XHSJ.size() + list_BHQ_XHQK_GJ.size() + list_BHQ_XHQK.size()+list_RW_CYR.size() + list_FJ_SCFJ.size()*2 ;
         return count;
     }
 
@@ -342,7 +342,7 @@ public class Offline_IServiceFragment extends Fragment
         uploadGJ();
         uploadXHQK();
         uploadRW_CYR();
-//        uploadMedia(list_FJ_SCFJ);
+        uploadMedia(list_FJ_SCFJ);
     }
 
     private void uploadUser()
@@ -703,6 +703,7 @@ public class Offline_IServiceFragment extends Fragment
             http.configTimeout(60000);
             http.send(HttpRequest.HttpMethod.POST, AppConfig.uploadUrl, params, new RequestCallBack<String>()
             {
+
                 @Override
                 public void onSuccess(ResponseInfo<String> responseInfo)
                 {

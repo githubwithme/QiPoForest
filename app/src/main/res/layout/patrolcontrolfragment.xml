@@ -163,7 +163,7 @@
                 android:alpha="0.6"
                 android:background="@null"
                 android:gravity="center"
-                android:text="弱"
+                android:text=""
                 android:textColor="@color/red"
                 android:textSize="@dimen/btn_map_textsize" />
         </LinearLayout>

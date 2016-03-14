@@ -33,6 +33,7 @@ public class AppConfig
 	// public final static String url = "http://192.168.23.1:8078/";
 	/* 附件地址 */
 	public final static String uploadUrl = url + "HttpUploadHandler.ashx?";
+//	public final static String uploadUrltemp = url + "tools/upload_ajax.ashx";
 	public final static String dataBaseUrl = url + "mydataservice.ashx";
 	/* 服务器地址 */
 	// public static final String SERVER_URL = "192.168.31.163";
