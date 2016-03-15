@@ -30,6 +30,7 @@ import com.bhq.bean.BHQ_XHSJ;
 import com.bhq.bean.BHQ_XHSJCJ;
 import com.bhq.bean.FJ_SCFJ;
 import com.bhq.bean.RW_CYR;
+import com.bhq.bean.RW_RW;
 import com.bhq.bean.Result;
 import com.bhq.bean.ResultDeal;
 import com.bhq.bean.dt_manager_offline;
@@ -79,6 +80,7 @@ public class Offline_IServiceFragment extends Fragment
     List<BHQ_XHQK_GJ> list_BHQ_XHQK_GJ = new ArrayList<BHQ_XHQK_GJ>();
     List<FJ_SCFJ> list_FJ_SCFJ = new ArrayList<FJ_SCFJ>();
     List<RW_CYR> list_RW_CYR = new ArrayList<RW_CYR>();
+    List<RW_RW> list_RW_RW = new ArrayList<RW_RW>();
     TextView tv_tips;
     Button btn_syn;
     Button btn_sure;
@@ -327,7 +329,8 @@ public class Offline_IServiceFragment extends Fragment
         list_BHQ_XHQK_GJ = SqliteDb.getNotUploadData(getActivity(), BHQ_XHQK_GJ.class);
         list_FJ_SCFJ = SqliteDb.getNotUploadData(getActivity(), FJ_SCFJ.class);
         list_RW_CYR = SqliteDb.getNotUploadData(getActivity(), RW_CYR.class);
-        int count = list_dt_manager_offline.size() + list_BHQ_XHQK_ZTCZ.size() + list_BHQ_XHSJCJ.size() + list_BHQ_XHSJ.size() + list_BHQ_XHQK_GJ.size() + list_BHQ_XHQK.size()+list_RW_CYR.size() + list_FJ_SCFJ.size()*2 ;
+        list_RW_RW = SqliteDb.getNotUploadData(getActivity(), RW_RW.class);
+        int count = list_dt_manager_offline.size() + list_BHQ_XHQK_ZTCZ.size() + list_BHQ_XHSJCJ.size() + list_BHQ_XHSJ.size() + list_BHQ_XHQK_GJ.size() + list_BHQ_XHQK.size()+list_RW_CYR.size() +list_RW_RW.size()+ list_FJ_SCFJ.size()*2 ;
         return count;
     }
 
@@ -342,6 +345,7 @@ public class Offline_IServiceFragment extends Fragment
         uploadGJ();
         uploadXHQK();
         uploadRW_CYR();
+        uploadRW_RW();
         uploadMedia(list_FJ_SCFJ);
     }
 
@@ -551,6 +555,43 @@ public class Offline_IServiceFragment extends Fragment
                     {
                         fj_SCFJ.setISUPLOAD("1");
                         SqliteDb.save(getActivity(), fj_SCFJ);
+                        showProgress();
+                    } else
+                    {
+                        failupload();
+                    }
+                }
+
+                @Override
+                public void onFailure(HttpException error, String msg)
+                {
+                    failupload();
+                }
+            });
+        }
+    }
+    private void uploadRW_RW()
+    {
+        for (int i = 0; i < list_RW_RW.size(); i++)
+        {
+            final RW_RW rw_rw = list_RW_RW.get(i);
+            HashMap<String, String> hashMap = new HashMap<String, String>();
+            hashMap.put("RWID", rw_rw.getRWID());
+            hashMap.put("RWSFJS", rw_rw.getRWSFJS());
+            hashMap.put("RWJSSJ", rw_rw.getRWJSSJ());
+            hashMap.put("v_flag", "A");
+            String params = HttpUrlConnect.setParams("APP.InsertOrUpdateRW_RW", "0", hashMap);
+            new HttpUtils().send(HttpRequest.HttpMethod.POST, AppConfig.dataBaseUrl, ConnectionHelper.getParas(params), new RequestCallBack<String>()
+            {
+                @Override
+                public void onSuccess(ResponseInfo<String> responseInfo)
+                {
+                    String a = responseInfo.result;
+                    Result result = JSON.parseObject(responseInfo.result, Result.class);
+                    if (result.getResultCode() == 200 && result.getAffectedRows() > 0)// 连接数据库成功
+                    {
+//                        rw_cyr.setIsUpload("1");
+                        SqliteDb.updateRW_RW(getActivity(), rw_rw.getRWID());
                         showProgress();
                     } else
                     {

@@ -9,7 +9,10 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONException;
 import com.bhq.bean.BHQ_XHSJ;
 import com.bhq.bean.BHQ_XHSJCJ;
+import com.bhq.bean.BHQ_XHXL;
+import com.bhq.bean.BHQ_XHXL_GJ;
 import com.bhq.bean.BHQ_ZSK;
+import com.bhq.bean.BQH_XHRY;
 import com.bhq.bean.Dictionary;
 import com.bhq.bean.FJ_SCFJ;
 import com.bhq.bean.RW_CYR;
@@ -29,7 +32,8 @@ import java.util.List;
 
 public class SqliteDb
 {
-    static SQLiteDatabase sqLiteDatabase=null;
+    static SQLiteDatabase sqLiteDatabase = null;
+
     public static boolean save(Context context, Object obj)
     {
         DbUtils db = DbUtils.create(context);
@@ -303,7 +307,8 @@ public class SqliteDb
         }
         return obj;
     }
-    public static <T> Object getZYDbyID(Context context, Class<T> c,String did)
+
+    public static <T> Object getZYDbyID(Context context, Class<T> c, String did)
     {
         DbUtils db = DbUtils.create(context);
         Object obj = null;
@@ -316,6 +321,7 @@ public class SqliteDb
         }
         return obj;
     }
+
     public static <T> Object getZSNR(Context context, Class<T> c, String ZSID)
     {
         DbUtils db = DbUtils.create(context);
@@ -474,6 +480,7 @@ public class SqliteDb
         }
         return true;
     }
+
     public static boolean setRenWuComplete_ZRR(Context context, Object obj, String RWID, String RYID)// 这个方式可以
     {
         DbUtils db = DbUtils.create(context);
@@ -487,6 +494,7 @@ public class SqliteDb
         }
         return true;
     }
+
     public static boolean setRenWuComplete(Context context, Object obj, String RWID, String RYID)// 这个方式可以
     {
         DbUtils db = DbUtils.create(context);
@@ -517,6 +525,92 @@ public class SqliteDb
             list = new ArrayList<T>();
         }
         return list;
+    }
+
+    public static BHQ_XHXL getXHLX(Context context, String XLID)
+    {
+        DbUtils db = DbUtils.create(context);
+        BHQ_XHXL bhq_xhxl = null;
+        try
+        {
+            bhq_xhxl = db.findFirst(Selector.from(BHQ_XHXL.class).where("XLID", "=", XLID));
+        } catch (DbException e)
+        {
+            e.printStackTrace();
+        }
+
+        return bhq_xhxl;
+    }
+
+    public static List<BHQ_XHXL_GJ> getXHXL_GJ(Context context, String XLID)
+    {
+        DbUtils db = DbUtils.create(context);
+        List<BHQ_XHXL_GJ> list = null;
+        try
+        {
+            list = db.findAll(Selector.from(BHQ_XHXL_GJ.class).where("XLID", "=", XLID));
+            if (list == null)
+            {
+                list=new ArrayList<>();
+            }
+        } catch (DbException e)
+        {
+            e.printStackTrace();
+        }
+
+        return list;
+    }
+
+    public static List<String> getAllXHLXID(Context context, String userid)
+    {
+        DbUtils db = DbUtils.create(context);
+        List<String> list_xlid = new ArrayList<>();
+        try
+        {
+            BQH_XHRY bqh_xhry = db.findFirst(Selector.from(BQH_XHRY.class).where("XHRYID", "=", userid));
+            String[] rxl = new String[]{};
+            String[] zxl = new String[]{};
+            String[] yxl = new String[]{};
+            if (bqh_xhry != null)
+            {
+                String str_rxl = bqh_xhry.getXHRXL();
+                String str_zxl = bqh_xhry.getXHZXL();
+                String str_yxl = bqh_xhry.getXHYXL();
+
+                if (str_rxl == null)
+                {
+                    rxl = bqh_xhry.getXHRXL().split(",");
+                }
+                if (str_zxl == null)
+                {
+                    zxl = bqh_xhry.getXHZXL().split(",");
+                }
+                if (str_yxl == null)
+                {
+                    yxl = bqh_xhry.getXHYXL().split(",");
+                }
+
+                for (int i = 0; i < rxl.length; i++)
+                {
+                    list_xlid.add(rxl[i]);
+                }
+                for (int i = 0; i < zxl.length; i++)
+                {
+                    list_xlid.add(zxl[i]);
+                }
+                for (int i = 0; i < yxl.length; i++)
+                {
+                    list_xlid.add(yxl[i]);
+                }
+
+            }
+
+        } catch (DbException e)
+        {
+            e.printStackTrace();
+        }
+
+        return list_xlid;
     }
 
     public static <T> List<T> getBHQ_XHQKList(Context context, Class<T> c, String XHRY)
@@ -762,6 +856,7 @@ public class SqliteDb
         }
         return list;
     }
+
     public static List<RW_RW> getRenWuByRYID(Context context, String RYID)
     {
         DbUtils db = DbUtils.create(context);
@@ -890,34 +985,37 @@ public class SqliteDb
         }
         return list;
     }
-    public static void updatedt_manager_offline(Context context,String table,String id,String values)
+
+    public static void updatedt_manager_offline(Context context, String table, String id, String values)
     {
-        if ( sqLiteDatabase==null)
+        if (sqLiteDatabase == null)
         {
             DbUtils db = DbUtils.create(context);
-            sqLiteDatabase=db.getDatabase();
+            sqLiteDatabase = db.getDatabase();
         }
-        ContentValues cv=new ContentValues();
-        cv.put("BDLJ",values);
+        ContentValues cv = new ContentValues();
+        cv.put("BDLJ", values);
         sqLiteDatabase.update(table, cv, "BDLJ = ?", new String[]{id});
     }
-    public static void updateZSK(Context context,String table,String ZDID,String values)
+
+    public static void updateZSK(Context context, String table, String ZDID, String values)
     {
-        if ( sqLiteDatabase==null)
+        if (sqLiteDatabase == null)
         {
             DbUtils db = DbUtils.create(context);
-            sqLiteDatabase=db.getDatabase();
+            sqLiteDatabase = db.getDatabase();
         }
-        ContentValues cv=new ContentValues();
-        cv.put("ZSNR",values);
+        ContentValues cv = new ContentValues();
+        cv.put("ZSNR", values);
         sqLiteDatabase.update(table, cv, "ZSID = ?", new String[]{ZDID});
     }
-    public static void insertData(Context context,String classname,String[] columnnames,JSONArray jsonArray_Rows)
+
+    public static void insertData(Context context, String classname, String[] columnnames, JSONArray jsonArray_Rows)
     {
-        if ( sqLiteDatabase==null)
+        if (sqLiteDatabase == null)
         {
             DbUtils db = DbUtils.create(context);
-            sqLiteDatabase=db.getDatabase();
+            sqLiteDatabase = db.getDatabase();
         }
 //        StringBuffer buff = new StringBuffer();;
 //        for (int i = 0; i <columnnames.length; i++)
@@ -935,75 +1033,80 @@ public class SqliteDb
 //        sqLiteDatabase.execSQL(sql_createtable);
         if (jsonArray_Rows.size() != 0)
         {
-            StringBuffer columnn = new StringBuffer();;
-            for (int i = 0; i <columnnames.length; i++)
+            StringBuffer columnn = new StringBuffer();
+            ;
+            for (int i = 0; i < columnnames.length; i++)
             {
-                columnn.append(columnnames[i]+",");
+                columnn.append(columnnames[i] + ",");
             }
             columnn.replace(columnn.length() - 1, columnn.length(), "");
             for (int i = 0; i < jsonArray_Rows.size(); i++)
             {
-                StringBuffer values = new StringBuffer();;
-                for (int j = 0; j <columnnames.length; j++)
+                StringBuffer values = new StringBuffer();
+                ;
+                for (int j = 0; j < columnnames.length; j++)
                 {
-                    values.append( "\"" +jsonArray_Rows.getJSONArray(i).getString(j)+ "\"" +",");
+                    values.append("\"" + jsonArray_Rows.getJSONArray(i).getString(j) + "\"" + ",");
                 }
-                values.replace(values.length()-1,values.length(),"");
-                String sql="replace into "+ classname+"("+columnn+")values("+values+")";
+                values.replace(values.length() - 1, values.length(), "");
+                String sql = "replace into " + classname + "(" + columnn + ")values(" + values + ")";
                 try
                 {
                     sqLiteDatabase.execSQL(sql);
                 } catch (JSONException e)
                 {
-                    String a=e.getMessage();
+                    String a = e.getMessage();
                     e.printStackTrace();
                 }
             }
         }
     }
-    public static void insertRW_CYRData(Context context,String classname,String[] columnnames,JSONArray jsonArray_Rows)
+
+    public static void insertRW_CYRData(Context context, String classname, String[] columnnames, JSONArray jsonArray_Rows)
     {
-        if ( sqLiteDatabase==null)
+        if (sqLiteDatabase == null)
         {
             DbUtils db = DbUtils.create(context);
-            sqLiteDatabase=db.getDatabase();
+            sqLiteDatabase = db.getDatabase();
         }
         if (jsonArray_Rows.size() != 0)
         {
-            StringBuffer columnn = new StringBuffer();;
-            for (int i = 0; i <columnnames.length; i++)
+            StringBuffer columnn = new StringBuffer();
+            ;
+            for (int i = 0; i < columnnames.length; i++)
             {
-                    columnn.append(columnnames[i]+",");
+                columnn.append(columnnames[i] + ",");
             }
             columnn.replace(columnn.length() - 1, columnn.length(), "");
             for (int i = 0; i < jsonArray_Rows.size(); i++)
             {
-                StringBuffer values = new StringBuffer();;
+                StringBuffer values = new StringBuffer();
+                ;
 
 
-                String sql_count="select count(*) from "+classname+" where RWCYID =?";
-                String args=jsonArray_Rows.getJSONArray(i).getString(0);
+                String sql_count = "select count(*) from " + classname + " where RWCYID =?";
+                String args = jsonArray_Rows.getJSONArray(i).getString(0);
                 Cursor cursor = sqLiteDatabase.rawQuery("select count(*) from " + classname + " where RWCYID =?", new String[]{jsonArray_Rows.getJSONArray(i).getString(0)});
                 cursor.moveToFirst();
                 String c = cursor.getString(0);
-                int count=Integer.valueOf(c);
-                if (count >0)
+                int count = Integer.valueOf(c);
+                if (count > 0)
                 {
-                    for (int j = 0; j <columnnames.length; j++)
+                    for (int j = 0; j < columnnames.length; j++)
                     {
-                        values.append( columnnames[j]+"="+"\"" +jsonArray_Rows.getJSONArray(i).getString(j)+ "\"" +",");
+                        values.append(columnnames[j] + "=" + "\"" + jsonArray_Rows.getJSONArray(i).getString(j) + "\"" + ",");
                     }
-                    values.replace(values.length()-1,values.length(),"");
-                    String sql_update="update "+ classname+" set "+values+" where  RWCYID ="+"\""+jsonArray_Rows.getJSONArray(i).getString(0)+"\"";
+                    values.replace(values.length() - 1, values.length(), "");
+                    String sql_update = "update " + classname + " set " + values + " where  RWCYID =" + "\"" + jsonArray_Rows.getJSONArray(i).getString(0) + "\"";
                     sqLiteDatabase.execSQL(sql_update);
-                }else
+                } else
                 {
-                    for (int j = 0; j <columnnames.length; j++)
+                    for (int j = 0; j < columnnames.length; j++)
                     {
-                        values.append("\"" +jsonArray_Rows.getJSONArray(i).getString(j)+ "\"" +",");
+                        values.append("\"" + jsonArray_Rows.getJSONArray(i).getString(j) + "\"" + ",");
                     }
-                    values.replace(values.length()-1,values.length(),"");
-                    String sql_insert="insert into "+ classname+"("+columnn+")values("+values+")";
+                    values.replace(values.length() - 1, values.length(), "");
+                    String sql_insert = "insert into " + classname + "(" + columnn + ")values(" + values + ")";
                     sqLiteDatabase.execSQL(sql_insert);
                 }
 
@@ -1022,56 +1125,59 @@ public class SqliteDb
             }
         }
     }
-    public static void insertRW_RWData(Context context,String classname,String[] columnnames,JSONArray jsonArray_Rows)
+
+    public static void insertRW_RWData(Context context, String classname, String[] columnnames, JSONArray jsonArray_Rows)
     {
-        if ( sqLiteDatabase==null)
+        if (sqLiteDatabase == null)
         {
             DbUtils db = DbUtils.create(context);
-            sqLiteDatabase=db.getDatabase();
+            sqLiteDatabase = db.getDatabase();
         }
         if (jsonArray_Rows.size() != 0)
         {
-            StringBuffer columnn = new StringBuffer();;
-            for (int i = 0; i <columnnames.length; i++)
+            StringBuffer columnn = new StringBuffer();
+            ;
+            for (int i = 0; i < columnnames.length; i++)
             {
-                    columnn.append(columnnames[i]+",");
+                columnn.append(columnnames[i] + ",");
             }
             columnn.replace(columnn.length() - 1, columnn.length(), "");
             for (int i = 0; i < jsonArray_Rows.size(); i++)
             {
-                StringBuffer values = new StringBuffer();;
+                StringBuffer values = new StringBuffer();
+                ;
 
 
-                String sql_count="select count(*) from "+classname+" where RWID =?";
-                String args=jsonArray_Rows.getJSONArray(i).getString(0);
+                String sql_count = "select count(*) from " + classname + " where RWID =?";
+                String args = jsonArray_Rows.getJSONArray(i).getString(0);
                 Cursor cursor = sqLiteDatabase.rawQuery(sql_count, new String[]{args});
                 cursor.moveToFirst();
                 String c = cursor.getString(0);
-                int count=Integer.valueOf(c);
-                if (count >0)
+                int count = Integer.valueOf(c);
+                if (count > 0)
                 {
-                    for (int j = 0; j <columnnames.length; j++)
+                    for (int j = 0; j < columnnames.length; j++)
                     {
-                        values.append(columnnames[j]+"="+ "\"" +jsonArray_Rows.getJSONArray(i).getString(j)+ "\"" +",");
-                    }
-                    values.replace(values.length()-1,values.length(),"");
-                    String sql_update="update "+ classname+" set "+values+" where  RWID ="+"\""+jsonArray_Rows.getJSONArray(i).getString(0)+"\"";
-                    sqLiteDatabase.execSQL(sql_update);
-                }else
-                {
-                    for (int j = 0; j <columnnames.length; j++)
-                    {
-                        values.append("\"" +jsonArray_Rows.getJSONArray(i).getString(j)+ "\"" +",");
+                        values.append(columnnames[j] + "=" + "\"" + jsonArray_Rows.getJSONArray(i).getString(j) + "\"" + ",");
                     }
                     values.replace(values.length() - 1, values.length(), "");
-                    String sql_insert="insert into "+ classname+"("+columnn+")values("+values+")";
+                    String sql_update = "update " + classname + " set " + values + " where  RWID =" + "\"" + jsonArray_Rows.getJSONArray(i).getString(0) + "\"";
+                    sqLiteDatabase.execSQL(sql_update);
+                } else
+                {
+                    for (int j = 0; j < columnnames.length; j++)
+                    {
+                        values.append("\"" + jsonArray_Rows.getJSONArray(i).getString(j) + "\"" + ",");
+                    }
+                    values.replace(values.length() - 1, values.length(), "");
+                    String sql_insert = "insert into " + classname + "(" + columnn + ")values(" + values + ")";
 
                     try
                     {
                         sqLiteDatabase.execSQL(sql_insert);
                     } catch (JSONException e)
                     {
-                        String a=e.getMessage();
+                        String a = e.getMessage();
                         e.printStackTrace();
                     }
                 }
@@ -1088,6 +1194,7 @@ public class SqliteDb
             }
         }
     }
+
     public static void createTable(Context context)
     {
         DbUtils db = DbUtils.create(context);
@@ -1099,6 +1206,9 @@ public class SqliteDb
             db.createTableIfNotExist(RW_RW.class);
             db.createTableIfNotExist(RW_CYR.class);
             db.createTableIfNotExist(Dictionary.class);
+            db.createTableIfNotExist(BHQ_XHXL.class);
+            db.createTableIfNotExist(BHQ_XHXL_GJ.class);
+            db.createTableIfNotExist(BQH_XHRY.class);
         } catch (DbException e)
         {
             e.printStackTrace();
@@ -1120,7 +1230,13 @@ public class SqliteDb
     public static void updateRW_CYR(Context context, String RWCYID)// 这个方式可以
     {
         DbUtils db = DbUtils.create(context);
-        String sql_update="update RW_CYR  set IsUpload=1 where  RWCYID ="+"\""+RWCYID+"\"";
+        String sql_update = "update RW_CYR  set IsUpload=1 where  RWCYID =" + "\"" + RWCYID + "\"";
+        sqLiteDatabase.execSQL(sql_update);
+    }
+    public static void updateRW_RW(Context context, String RWID)// 这个方式可以
+    {
+        DbUtils db = DbUtils.create(context);
+        String sql_update = "update RW_RW  set IsUpload=1 where  RWID =" + "\"" + RWID + "\"";
         sqLiteDatabase.execSQL(sql_update);
     }
 }

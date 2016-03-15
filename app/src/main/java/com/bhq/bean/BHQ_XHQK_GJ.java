@@ -29,6 +29,17 @@ public class BHQ_XHQK_GJ implements Parcelable
 	public String JLSJ;
 
 	public String IsUpload;
+	public String intervaldistance;
+
+	public void setIntervaldistance(String intervaldistance)
+	{
+		this.intervaldistance = intervaldistance;
+	}
+
+	public String getIntervaldistance()
+	{
+		return intervaldistance;
+	}
 
 	public void setIsUpload(String isUpload)
 	{
@@ -113,6 +124,7 @@ public class BHQ_XHQK_GJ implements Parcelable
 			p.setY(source.readString());
 			p.setJLSJ(source.readString());
 			p.setIsUpload(source.readString());
+			p.setIntervaldistance(source.readString());
 			return p;
 		}
 
@@ -132,6 +144,7 @@ public class BHQ_XHQK_GJ implements Parcelable
 		p.writeString(Y);
 		p.writeString(JLSJ);
 		p.writeString(IsUpload);
+		p.writeString(intervaldistance);
 	}
 
 	@Override

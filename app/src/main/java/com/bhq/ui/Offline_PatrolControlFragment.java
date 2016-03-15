@@ -19,9 +19,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.animation.AnimationUtils;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TableLayout;
 import android.widget.TextView;
@@ -29,11 +31,13 @@ import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.bhq.R;
+import com.bhq.adapter.XHXL_Adapter;
 import com.bhq.app.AppConfig;
 import com.bhq.app.AppContext;
 import com.bhq.bean.BHQ_XHQK;
 import com.bhq.bean.BHQ_XHQK_GJ;
 import com.bhq.bean.BHQ_XHQK_ZTCZ;
+import com.bhq.bean.BHQ_XHXL_GJ;
 import com.bhq.bean.Result;
 import com.bhq.bean.Track;
 import com.bhq.bean.dt_manager_offline;
@@ -43,6 +47,7 @@ import com.bhq.common.Gps;
 import com.bhq.common.SqliteDb;
 import com.bhq.common.utils;
 import com.bhq.net.HttpUrlConnect;
+import com.bhq.widget.CustomDialog_xhxl;
 import com.bhq.widget.NewDataToast;
 import com.lidroid.xutils.DbUtils;
 import com.lidroid.xutils.HttpUtils;
@@ -56,6 +61,8 @@ import com.tencent.map.geolocation.TencentLocationManager;
 import com.tencent.map.geolocation.TencentLocationRequest;
 import com.tencent.mapsdk.raster.model.BitmapDescriptor;
 import com.tencent.mapsdk.raster.model.BitmapDescriptorFactory;
+import com.tencent.mapsdk.raster.model.Circle;
+import com.tencent.mapsdk.raster.model.CircleOptions;
 import com.tencent.mapsdk.raster.model.GroundOverlay;
 import com.tencent.mapsdk.raster.model.GroundOverlayOptions;
 import com.tencent.mapsdk.raster.model.LatLng;
@@ -82,12 +89,18 @@ import java.util.List;
 @EFragment
 public class Offline_PatrolControlFragment extends Fragment implements TencentLocationListener
 {
+    List<Circle> list_Circle = new ArrayList<>();
+    String XLID = "-1";
+    dt_manager_offline dt_manager_offline;
+    XHXL_Adapter xhxl_adapter;
+    CustomDialog_xhxl customDialog_xhxl;
     IntentFilter imageIntentFilter;
     private WindowManager mWindowManager;
     TimeThread timethread;
     // Polygon polygon;
     double max;
     double min;
+    List<String> list_xlid = new ArrayList<String>();
     List<Double> list_lat = new ArrayList<Double>();
     List<Double> list_lng = new ArrayList<Double>();
     List<LatLng> list_LatLng_Bounds = new ArrayList<LatLng>();
@@ -128,17 +141,22 @@ public class Offline_PatrolControlFragment extends Fragment implements TencentLo
     @ViewById
     RelativeLayout rl_mapmore;
     @ViewById
+    RelativeLayout rl_selectlx;
+    @ViewById
     LinearLayout ll_GPS;
     @ViewById
     LinearLayout ll_pb_gps;
     @ViewById
     Button btn_complete;
     @ViewById
+    Button btn_selectLX;
+    @ViewById
     Button btn_continue;
     private Projection mProjection;
 
     String starttime;
     Double XHLC = 0D;
+    Double lastXHLC = 0D;
     String XHXSS = "";
     String XHFZS = "";
 
@@ -168,6 +186,8 @@ public class Offline_PatrolControlFragment extends Fragment implements TencentLo
     void btn_complete()
     {
         // 初始化
+        rl_selectlx.setVisibility(View.VISIBLE);
+        btn_selectLX.setVisibility(View.VISIBLE);
         btn_runcontrol.setText("开始巡护");
         btn_complete.setVisibility(View.GONE);
         btn_continue.setVisibility(View.GONE);
@@ -183,6 +203,12 @@ public class Offline_PatrolControlFragment extends Fragment implements TencentLo
         tencentMap.clearAllOverlays();
         FinishBHQ_XHQK(XHID);
         AddNewBHQ_XHQK_ZTCZ(XHID, "3");// 设置结束状态
+    }
+
+    @Click
+    void btn_selectLX()
+    {
+        showdialog_xhxl();
     }
 
     @Click
@@ -208,6 +234,8 @@ public class Offline_PatrolControlFragment extends Fragment implements TencentLo
                 timethread.setSleep(false);
                 timethread.start();
                 XHID = java.util.UUID.randomUUID().toString();
+                AppContext appContext = (AppContext) getActivity().getApplication();
+                appContext.setXHID(XHID);
                 AddNewBHQ_XHQK(XHID);// 添加一条巡护
                 AddNewBHQ_XHQK_ZTCZ(XHID, "1");// 设置开始状态
             }
@@ -290,7 +318,7 @@ public class Offline_PatrolControlFragment extends Fragment implements TencentLo
         View rootView = inflater.inflate(R.layout.patrolcontrolfragment, container, false);
         getActivity().getActionBar().hide();
         appContext = (AppContext) getActivity().getApplication();
-
+        dt_manager_offline = (com.bhq.bean.dt_manager_offline) SqliteDb.getCurrentUser(getActivity(), dt_manager_offline.class);
         TencentLocationRequest request = TencentLocationRequest.create();
         TencentLocationManager locationManager = TencentLocationManager.getInstance(getActivity());
         locationManager.setCoordinateType(1);//设置坐标系为gcj02坐标，1为GCJ02，0为WGS84
@@ -360,7 +388,7 @@ public class Offline_PatrolControlFragment extends Fragment implements TencentLo
         {
             double lat = location.getLatitude();
             double lng = location.getLongitude();
-            latLongInfo = "Lat:" + lat + "\nLong:" + lng+"\nlat:"+location_latLng.getLatitude() + "\nLong:" +location_latLng.getLongitude();
+            latLongInfo = "Lat:" + lat + "\nLong:" + lng + "\nlat:" + location_latLng.getLatitude() + "\nLong:" + location_latLng.getLongitude();
             Toast.makeText(getActivity(), latLongInfo, Toast.LENGTH_LONG).show();
             //            lo.setText(latLongInfo);
         } else
@@ -388,12 +416,12 @@ public class Offline_PatrolControlFragment extends Fragment implements TencentLo
             int diff = (int) (newtime - lasttime) / 1000;
             if (diff > 15)// 每隔15秒记录一次
             {
-                uploadLocationInfo(location,location_latLng);
+                uploadLocationInfo(location, location_latLng);
                 lasttime = newtime;
                 if (isStart)
                 {
 
-                    AddNewBHQ_XHQK_GJ(XHID);// 添加开始点的轨迹
+//                    AddNewBHQ_XHQK_GJ(XHID);// 添加开始点的轨迹
                     // 画轨迹
                     PolylineOptions lineOpt = new PolylineOptions();
                     lineOpt.add(lastlatLng);
@@ -406,7 +434,9 @@ public class Offline_PatrolControlFragment extends Fragment implements TencentLo
                     if (lastlatLng != null)
                     {
                         XHLC = XHLC + mProjection.distanceBetween(lastlatLng, location_latLng);
-
+                        Double distance = XHLC - lastXHLC;
+                        lastXHLC = XHLC;
+                        AddNewBHQ_XHQK_GJ(XHID, String.valueOf(distance));// 添加开始点的轨迹
                         if (String.valueOf(XHLC).length() > 5)
                         {
                             tv_runlength.setText(String.valueOf(XHLC).substring(0, String.valueOf(XHLC).lastIndexOf(".") + 3) + "m");
@@ -580,6 +610,7 @@ public class Offline_PatrolControlFragment extends Fragment implements TencentLo
         dt_manager_offline dt_manager_offline = (dt_manager_offline) SqliteDb.getCurrentUser(appContext, dt_manager_offline.class);
         BHQ_XHQK bhq_XHQK = new BHQ_XHQK();
         bhq_XHQK.setXHID(XHID);
+        bhq_XHQK.setXLID(XLID);
         bhq_XHQK.setXHRY(dt_manager_offline.getid());
         bhq_XHQK.setXHRQ(utils.getTime());
         bhq_XHQK.setXHRYXM(dt_manager_offline.getreal_name());
@@ -633,9 +664,9 @@ public class Offline_PatrolControlFragment extends Fragment implements TencentLo
         SqliteDb.save(getActivity(), bhq_XHQK);
     }
 
-    private void AddNewBHQ_XHQK_GJ(String XHID)
+    private void AddNewBHQ_XHQK_GJ(String XHID, String distance)
     {
-        Gps gPS= CoordinateConvertUtil.gcj_To_Gps84(location_latLng.getLatitude(), location_latLng.getLongitude());
+        Gps gPS = CoordinateConvertUtil.gcj_To_Gps84(location_latLng.getLatitude(), location_latLng.getLongitude());
         String GJID = java.util.UUID.randomUUID().toString();
         BHQ_XHQK_GJ bhq_XHQK_GJ = new BHQ_XHQK_GJ();
         bhq_XHQK_GJ.setGJID(GJID);
@@ -644,6 +675,7 @@ public class Offline_PatrolControlFragment extends Fragment implements TencentLo
         bhq_XHQK_GJ.setX(String.valueOf(gPS.getWgLon()));
         bhq_XHQK_GJ.setY(String.valueOf(gPS.getWgLat()));
         bhq_XHQK_GJ.setJLSJ(utils.getTime());
+        bhq_XHQK_GJ.setIntervaldistance(distance);
         SqliteDb.save(getActivity(), bhq_XHQK_GJ);
     }
 
@@ -658,9 +690,10 @@ public class Offline_PatrolControlFragment extends Fragment implements TencentLo
         bhq_XHQK_ZTCZ.setSZCZ(SZCZ);
         SqliteDb.save(getActivity(), bhq_XHQK_ZTCZ);
     }
-    public void uploadLocationInfo(TencentLocation location,LatLng latlng)
+
+    public void uploadLocationInfo(TencentLocation location, LatLng latlng)
     {
-        dt_manager_offline dt_manager_offline = (com.bhq.bean.dt_manager_offline) SqliteDb.getCurrentUser(getActivity(),dt_manager_offline.class);
+        dt_manager_offline dt_manager_offline = (com.bhq.bean.dt_manager_offline) SqliteDb.getCurrentUser(getActivity(), dt_manager_offline.class);
         HashMap<String, String> hashMap = new HashMap<String, String>();
         hashMap.put("userid", dt_manager_offline.getid());
         hashMap.put("username", dt_manager_offline.getreal_name());
@@ -691,5 +724,59 @@ public class Offline_PatrolControlFragment extends Fragment implements TencentLo
 
             }
         });
+    }
+
+    private void showdialog_xhxl()
+    {
+        View dialog_layout = (LinearLayout) LayoutInflater.from(getActivity()).inflate(R.layout.customdialog_xhxl, null);
+        customDialog_xhxl = new CustomDialog_xhxl(getActivity(), R.style.MyDialog, dialog_layout);
+        ListView lv_department = (ListView) dialog_layout.findViewById(R.id.lv_department);
+        Button btn_cancle = (Button) dialog_layout.findViewById(R.id.btn_cancle);
+        list_xlid = SqliteDb.getAllXHLXID(getActivity(), dt_manager_offline.getid());
+        xhxl_adapter = new XHXL_Adapter(getActivity(), list_xlid);
+        lv_department.setAdapter(xhxl_adapter);
+        btn_cancle.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                customDialog_xhxl.dismiss();
+            }
+        });
+        lv_department.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+            {
+                rl_selectlx.setVisibility(View.GONE);
+                btn_selectLX.setVisibility(View.GONE);
+                customDialog_xhxl.dismiss();
+                XLID = list_xlid.get(position);
+                List<BHQ_XHXL_GJ> list = SqliteDb.getXHXL_GJ(getActivity(), XLID);
+                for (int i = 0; i < list.size(); i++)
+                {
+                    LatLng latlng = new LatLng(Double.valueOf(list.get(i).getX()), Double.valueOf(list.get(i).getY()));
+                    if (list.get(i).getQZD().equals("1"))
+                    {
+                        addMarker(latlng, R.drawable.location_start);
+                    } else if (list.get(i).getQZD().equals("2"))
+                    {
+                        addMarker(latlng, R.drawable.location_end);
+                    } else
+                    {
+                        addMarker(latlng, R.drawable.location);
+                    }
+                    addCircle(latlng);
+                }
+            }
+        });
+        customDialog_xhxl.setCanceledOnTouchOutside(false);
+        customDialog_xhxl.show();
+    }
+
+    protected void addCircle(LatLng latlng)
+    {
+        Circle circle = tencentMap.addCircle(new CircleOptions().center(latlng).radius(100d).fillColor(R.color.yellow).strokeColor(0xff000000).strokeWidth(5f));
+        list_Circle.add(circle);
     }
 }

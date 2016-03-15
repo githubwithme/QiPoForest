@@ -34,7 +34,18 @@ public class BHQ_XHQK implements Parcelable
 	public String XHZT = "1";
 	// 自定义
 	public String ZTCS;// 暂停次数
-	public String IsUpload;// 暂停次数
+	public String IsUpload;
+	public String XLID;
+
+	public void setXLID(String XLID)
+	{
+		this.XLID = XLID;
+	}
+
+	public String getXLID()
+	{
+		return XLID;
+	}
 
 	public void setIsUpload(String isUpload)
 	{
@@ -185,6 +196,7 @@ public class BHQ_XHQK implements Parcelable
 			p.setXHZT(source.readString());
 			p.setZTCS(source.readString());
 			p.setIsUpload(source.readString());
+			p.setXLID(source.readString());
 			return p;
 		}
 
@@ -210,6 +222,7 @@ public class BHQ_XHQK implements Parcelable
 		p.writeString(XHZT);
 		p.writeString(ZTCS);
 		p.writeString(IsUpload);
+		p.writeString(XLID);
 	}
 
 	@Override

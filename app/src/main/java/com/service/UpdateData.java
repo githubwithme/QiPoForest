@@ -8,7 +8,10 @@ import android.os.IBinder;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.bhq.app.AppConfig;
+import com.bhq.bean.BHQ_XHXL;
+import com.bhq.bean.BHQ_XHXL_GJ;
 import com.bhq.bean.BHQ_ZSK;
+import com.bhq.bean.BQH_XHRY;
 import com.bhq.bean.Dictionary;
 import com.bhq.bean.RW_CYR;
 import com.bhq.bean.RW_RW;
@@ -78,6 +81,9 @@ public class UpdateData extends Service
         InitTable("APP.InitRW_RWData",sysntime, RW_RW.class);
         InitTable("APP.InitRW_CYRData", sysntime, RW_CYR.class);
         InitTable("APP.InitRW_YQBData", sysntime, RW_YQB.class);
+        InitTable("APP.InitBHQ_XHXLData", sysntime, BHQ_XHXL.class);
+        InitTable("APP.InitBHQ_XHXL_GJData", sysntime, BHQ_XHXL_GJ.class);
+        InitTable("APP.InitBQH_XHRYData", sysntime, BQH_XHRY.class);
 //        InitTable("APP.InitUserTable", sysntime, dt_manager_offline.class);
 
         getServerSystemTime();
@@ -119,7 +125,17 @@ public class UpdateData extends Service
                             } else if (action.equals("APP.InitRW_CYRData"))
                             {
                                 SqliteDb.insertRW_CYRData(UpdateData.this, "RW_CYR", ColumnNames, jsonArray_Rows);
-                            } else if (action.equals(" APP.InitRW_YQBData"))
+                            } else if (action.equals(" APP.InitBHQ_XHXLData"))
+                            {
+                                SqliteDb.insertData(UpdateData.this, "BHQ_XHXL", ColumnNames, jsonArray_Rows);
+                            }else if (action.equals(" APP.InitBHQ_XHXL_GJData"))
+                            {
+                                SqliteDb.insertData(UpdateData.this, "BHQ_XHXL_GJ", ColumnNames, jsonArray_Rows);
+                            }else if (action.equals(" APP.InitBQH_XHRYData"))
+                            {
+                                SqliteDb.insertData(UpdateData.this, "BQH_XHRY", ColumnNames, jsonArray_Rows);
+                            }
+                            else if (action.equals(" APP.InitRW_YQBData"))
                             {
                                 SqliteDb.insertData(UpdateData.this, "RW_YQB", ColumnNames, jsonArray_Rows);
                             } else if (action.equals("APP.InitUserTable"))

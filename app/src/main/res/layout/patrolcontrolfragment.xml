@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical" >
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal" >
+        android:orientation="horizontal">
 
         <LinearLayout
             android:layout_width="0dip"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
             <TextView
                 android:layout_width="match_parent"
@@ -21,7 +21,7 @@
                 android:gravity="center"
                 android:text="行走路程"
                 android:textColor="@color/red"
-                android:textSize="16sp" />
+                android:textSize="16sp"/>
 
             <TextView
                 android:id="@+id/tv_runlength"
@@ -31,19 +31,19 @@
                 android:text="0m"
                 android:textColor="@color/black"
                 android:textSize="18sp"
-                android:visibility="gone" />
+                android:visibility="gone"/>
         </LinearLayout>
 
         <View
             android:layout_width="1px"
             android:layout_height="match_parent"
-            android:background="@color/line_color" />
+            android:background="@color/line_color"/>
 
         <LinearLayout
             android:layout_width="0dip"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
             <TextView
                 android:layout_width="match_parent"
@@ -51,7 +51,7 @@
                 android:gravity="center"
                 android:text="开始时间"
                 android:textColor="@color/red"
-                android:textSize="16sp" />
+                android:textSize="16sp"/>
 
             <TextView
                 android:id="@+id/tv_starttime"
@@ -61,19 +61,19 @@
                 android:text="00:00:00"
                 android:textColor="@color/black"
                 android:textSize="18sp"
-                android:visibility="gone" />
+                android:visibility="gone"/>
         </LinearLayout>
 
         <View
             android:layout_width="1px"
             android:layout_height="match_parent"
-            android:background="@color/line_color" />
+            android:background="@color/line_color"/>
 
         <LinearLayout
             android:layout_width="0dip"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
             <TextView
                 android:layout_width="match_parent"
@@ -81,7 +81,7 @@
                 android:gravity="center"
                 android:text="行走时间"
                 android:textColor="@color/red"
-                android:textSize="16sp" />
+                android:textSize="16sp"/>
 
             <TextView
                 android:id="@+id/tv_runtime"
@@ -91,28 +91,28 @@
                 android:text="00:00:00"
                 android:textColor="@color/black"
                 android:textSize="18sp"
-                android:visibility="gone" />
+                android:visibility="gone"/>
         </LinearLayout>
 
         <View
             android:layout_width="1px"
             android:layout_height="match_parent"
-            android:background="@color/line_color" />
+            android:background="@color/line_color"/>
     </LinearLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:background="@color/line_color" />
+        android:background="@color/line_color"/>
 
     <FrameLayout
         android:layout_width="fill_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent">
 
         <com.tencent.tencentmap.mapsdk.map.MapView
             android:id="@+id/mapview"
             android:layout_width="fill_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"/>
 
         <RelativeLayout
             android:id="@+id/rl_mapmore"
@@ -121,7 +121,7 @@
             android:layout_gravity="right|top"
             android:layout_marginRight="15dip"
             android:layout_marginTop="15dip"
-            android:visibility="gone" >
+            android:visibility="gone">
 
             <Button
                 android:id="@+id/btn_location"
@@ -131,7 +131,7 @@
                 android:background="@drawable/shape_round_border_red"
                 android:text="@string/location"
                 android:textColor="@color/black"
-                android:textSize="@dimen/btn_map_textsize" />
+                android:textSize="@dimen/btn_map_textsize"/>
         </RelativeLayout>
 
         <LinearLayout
@@ -142,7 +142,7 @@
             android:layout_marginLeft="10dip"
             android:layout_marginTop="10dip"
             android:background="@drawable/shape_round_border_black"
-            android:visibility="gone" >
+            android:visibility="gone">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -153,7 +153,7 @@
                 android:gravity="center"
                 android:text="GPS"
                 android:textColor="@color/red"
-                android:textSize="@dimen/btn_map_textsize" />
+                android:textSize="@dimen/btn_map_textsize"/>
 
             <TextView
                 android:id="@+id/tv_gps"
@@ -165,7 +165,7 @@
                 android:gravity="center"
                 android:text=""
                 android:textColor="@color/red"
-                android:textSize="@dimen/btn_map_textsize" />
+                android:textSize="@dimen/btn_map_textsize"/>
         </LinearLayout>
 
         <Button
@@ -177,7 +177,7 @@
             android:background="@drawable/shape_round_runcontrol"
             android:text="开始巡护"
             android:textColor="@color/white"
-            android:textSize="13sp" />
+            android:textSize="13sp"/>
 
         <LinearLayout
             android:id="@+id/ll_pb_gps"
@@ -185,12 +185,12 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:orientation="vertical"
-            android:visibility="gone" >
+            android:visibility="gone">
 
             <ProgressBar
                 android:layout_width="60dip"
                 android:layout_height="60dip"
-                android:background="@drawable/shape_progressbar" />
+                android:background="@drawable/shape_progressbar"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -201,13 +201,13 @@
                 android:gravity="center"
                 android:text="定位搜索中..."
                 android:textColor="@color/black"
-                android:textSize="15sp" />
+                android:textSize="15sp"/>
         </LinearLayout>
 
         <RelativeLayout
             android:layout_width="220dip"
             android:layout_height="60dip"
-            android:layout_gravity="center" >
+            android:layout_gravity="center">
 
             <Button
                 android:id="@+id/btn_complete"
@@ -219,7 +219,7 @@
                 android:text="完成"
                 android:textColor="@color/white"
                 android:textSize="13sp"
-                android:visibility="gone" />
+                android:visibility="gone"/>
 
             <Button
                 android:id="@+id/btn_continue"
@@ -231,7 +231,27 @@
                 android:text="继续"
                 android:textColor="@color/white"
                 android:textSize="13sp"
-                android:visibility="gone" />
+                android:visibility="gone"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_selectlx"
+            android:layout_width="220dip"
+            android:layout_height="60dip"
+            android:layout_gravity="center">
+
+            <Button
+                android:id="@+id/btn_selectLX"
+                android:layout_width="60dip"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+                android:alpha="0.7"
+                android:background="@drawable/shape_round_runcontrol"
+                android:text="选择路线"
+                android:textColor="@color/white"
+                android:textSize="13sp"/>
+
+
         </RelativeLayout>
     </FrameLayout>
 
