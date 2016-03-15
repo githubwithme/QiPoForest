@@ -700,6 +700,7 @@ public class Offline_IServiceFragment extends Fragment
             hashMap.put("X", bhq_XHQK_GJ.getX());
             hashMap.put("Y", bhq_XHQK_GJ.getY());
             hashMap.put("JLSJ", bhq_XHQK_GJ.getJLSJ());
+            hashMap.put("intervaldistance", bhq_XHQK_GJ.getIntervaldistance());
             hashMap.put("v_flag", "A");
             String params = HttpUrlConnect.setParams("APP.InsertOrUpdateBHQ_XHQK_GJ", "0", hashMap);
             new HttpUtils().send(HttpRequest.HttpMethod.POST, AppConfig.dataBaseUrl, ConnectionHelper.getParas(params), new RequestCallBack<String>()
