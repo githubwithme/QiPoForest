@@ -49,6 +49,9 @@
     <color name="yellow">#FFFF00</color>
     <color name="province_line_border">#C7C7C7</color>
     <color name="bg_yellow">#fed15c</color>
+    <color name="bg_middle">#5ff1d4</color>
+    <color name="bg_start">#fe1800</color>
+    <color name="bg_end">#00fe50</color>
     <color name="bg_selectitem">#FAFAFA</color>
     <color name="bg_text_small">#bdbdbd</color>
     <color name="bg_text">#333333</color>

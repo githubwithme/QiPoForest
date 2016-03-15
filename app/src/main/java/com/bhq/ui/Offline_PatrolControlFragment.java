@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationListener;
@@ -118,6 +119,7 @@ public class Offline_PatrolControlFragment extends Fragment implements TencentLo
     // LatLng latLng = null;
     LatLng location_latLng = new LatLng(24.430833, 113.298611);// 初始化定位
     LatLng lastlatLng;// 初始化定位
+    LatLng lastlatLng_xl;// 初始化定位
     String XHID;
     int error;
     @ViewById
@@ -271,7 +273,7 @@ public class Offline_PatrolControlFragment extends Fragment implements TencentLo
     {
         if (location_latLng != null)
         {
-            tencentMap.removeOverlay(marker);
+//            tencentMap.removeOverlay(marker);
             tencentMap.animateTo(location_latLng);
             addMarker(location_latLng, R.drawable.location1);
         }
@@ -437,6 +439,7 @@ public class Offline_PatrolControlFragment extends Fragment implements TencentLo
                         Double distance = XHLC - lastXHLC;
                         lastXHLC = XHLC;
                         AddNewBHQ_XHQK_GJ(XHID, String.valueOf(distance));// 添加开始点的轨迹
+                        tencentMap.animateTo(location_latLng);
                         if (String.valueOf(XHLC).length() > 5)
                         {
                             tv_runlength.setText(String.valueOf(XHLC).substring(0, String.valueOf(XHLC).lastIndexOf(".") + 3) + "m");
@@ -755,18 +758,41 @@ public class Offline_PatrolControlFragment extends Fragment implements TencentLo
                 List<BHQ_XHXL_GJ> list = SqliteDb.getXHXL_GJ(getActivity(), XLID);
                 for (int i = 0; i < list.size(); i++)
                 {
-                    LatLng latlng = new LatLng(Double.valueOf(list.get(i).getX()), Double.valueOf(list.get(i).getY()));
+                    LatLng latlng = new LatLng(Double.valueOf(list.get(i).getY()), Double.valueOf(list.get(i).getX()));
                     if (list.get(i).getQZD().equals("1"))
                     {
-                        addMarker(latlng, R.drawable.location_start);
+//                        addCircle(latlng,R.color.bg_start);
+                        Circle circle = tencentMap.addCircle(new CircleOptions().center(latlng).radius(150d).fillColor(Color.argb(100,177,15,0 )).strokeColor(getResources().getColor(R.color.bg_start)).strokeWidth(1f));
+                        Drawable drawable = getResources().getDrawable(R.drawable.qd);
+                        Bitmap bitmap = utils.drawable2Bitmap(drawable);
+                        tencentMap.addMarker(new MarkerOptions().position(latlng).title("").icon(new BitmapDescriptor(bitmap)));
+                        tencentMap.animateTo(latlng);
                     } else if (list.get(i).getQZD().equals("2"))
                     {
-                        addMarker(latlng, R.drawable.location_end);
+//                        addCircle(latlng,R.color.bg_end);
+//                        Circle circle = tencentMap.addCircle(new CircleOptions().center(latlng).radius(150d).fillColor(getResources().getColor(R.color.bg_end)).strokeColor(getResources().getColor(R.color.bg_end)).strokeWidth(1f));
+                        Circle circle = tencentMap.addCircle(new CircleOptions().center(latlng).radius(150d).fillColor(Color.argb(100,4,181,0)).strokeColor(getResources().getColor(R.color.bg_end)).strokeWidth(1f));
+                        Drawable drawable = getResources().getDrawable(R.drawable.zd);
+                        Bitmap bitmap = utils.drawable2Bitmap(drawable);
+                        tencentMap.addMarker(new MarkerOptions().position(latlng).title("").icon(new BitmapDescriptor(bitmap)));
                     } else
                     {
-                        addMarker(latlng, R.drawable.location);
+//                        addCircle(latlng,R.color.bg_middle);
+                        Circle circle = tencentMap.addCircle(new CircleOptions().center(latlng).radius(150d).fillColor(Color.argb(100,0,202,215)).strokeColor(getResources().getColor(R.color.bg_middle)).strokeWidth(1f));
+                        list_Circle.add(circle);
+                        Drawable drawable = getResources().getDrawable(R.drawable.zj);
+                        Bitmap bitmap = utils.drawable2Bitmap(drawable);
+                        tencentMap.addMarker(new MarkerOptions().position(latlng).title("").icon(new BitmapDescriptor(bitmap)));
                     }
-                    addCircle(latlng);
+
+//                    PolylineOptions lineOpt = new PolylineOptions();
+//                    lineOpt.add(lastlatLng_xl);
+//                    lineOpt.add(latlng);
+//                    lastlatLng_xl = latlng;
+//                    Polyline line = tencentMap.addPolyline(lineOpt);
+//                    line.setColor(getResources().getColor(R.color.black));
+//                    line.setWidth(10f);
+//                    Overlays.add(line);
                 }
             }
         });
@@ -774,9 +800,9 @@ public class Offline_PatrolControlFragment extends Fragment implements TencentLo
         customDialog_xhxl.show();
     }
 
-    protected void addCircle(LatLng latlng)
+    protected void addCircle(LatLng latlng,int color)
     {
-        Circle circle = tencentMap.addCircle(new CircleOptions().center(latlng).radius(100d).fillColor(R.color.yellow).strokeColor(0xff000000).strokeWidth(5f));
+        Circle circle = tencentMap.addCircle(new CircleOptions().center(latlng).radius(150d).fillColor(getResources().getColor(color)).strokeColor(0xff000000).strokeWidth(0f));
         list_Circle.add(circle);
     }
 }

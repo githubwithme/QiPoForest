@@ -577,15 +577,15 @@ public class SqliteDb
                 String str_zxl = bqh_xhry.getXHZXL();
                 String str_yxl = bqh_xhry.getXHYXL();
 
-                if (str_rxl == null)
+                if (!str_rxl.equals(""))
                 {
                     rxl = bqh_xhry.getXHRXL().split(",");
                 }
-                if (str_zxl == null)
+                if (!str_zxl.equals(""))
                 {
                     zxl = bqh_xhry.getXHZXL().split(",");
                 }
-                if (str_yxl == null)
+                if (!str_yxl.equals(""))
                 {
                     yxl = bqh_xhry.getXHYXL().split(",");
                 }

@@ -125,17 +125,17 @@ public class UpdateData extends Service
                             } else if (action.equals("APP.InitRW_CYRData"))
                             {
                                 SqliteDb.insertRW_CYRData(UpdateData.this, "RW_CYR", ColumnNames, jsonArray_Rows);
-                            } else if (action.equals(" APP.InitBHQ_XHXLData"))
+                            } else if (action.equals("APP.InitBHQ_XHXLData"))
                             {
                                 SqliteDb.insertData(UpdateData.this, "BHQ_XHXL", ColumnNames, jsonArray_Rows);
-                            }else if (action.equals(" APP.InitBHQ_XHXL_GJData"))
+                            }else if (action.equals("APP.InitBHQ_XHXL_GJData"))
                             {
                                 SqliteDb.insertData(UpdateData.this, "BHQ_XHXL_GJ", ColumnNames, jsonArray_Rows);
-                            }else if (action.equals(" APP.InitBQH_XHRYData"))
+                            }else if (action.equals("APP.InitBQH_XHRYData"))
                             {
                                 SqliteDb.insertData(UpdateData.this, "BQH_XHRY", ColumnNames, jsonArray_Rows);
                             }
-                            else if (action.equals(" APP.InitRW_YQBData"))
+                            else if (action.equals("APP.InitRW_YQBData"))
                             {
                                 SqliteDb.insertData(UpdateData.this, "RW_YQB", ColumnNames, jsonArray_Rows);
                             } else if (action.equals("APP.InitUserTable"))
