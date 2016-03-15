@@ -17,6 +17,8 @@ import org.androidannotations.annotations.ViewById;
 /**
  * @author :hc-sima
  * @version :1.0
+ * 1、每隔5秒同步上传一次任务，记录isupload状态
+ * 2、同步上传完成后进行同步下载，记录同步下载时间
  * @createTime：2015-8-19 下午2:34:29
  * @description :信息采集类
  */

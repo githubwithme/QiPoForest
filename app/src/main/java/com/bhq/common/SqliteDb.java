@@ -474,7 +474,19 @@ public class SqliteDb
         }
         return true;
     }
-
+    public static boolean setRenWuComplete_ZRR(Context context, Object obj, String RWID, String RYID)// 这个方式可以
+    {
+        DbUtils db = DbUtils.create(context);
+        try
+        {
+            db.update(obj, WhereBuilder.b("RWID", "=", RWID), "RWSFJS", "RWJSSJ", "XGSJ", "IsUpload");
+        } catch (DbException e)
+        {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
     public static boolean setRenWuComplete(Context context, Object obj, String RWID, String RYID)// 这个方式可以
     {
         DbUtils db = DbUtils.create(context);
