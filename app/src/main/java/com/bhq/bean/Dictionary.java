@@ -13,7 +13,18 @@ public class Dictionary
 	String SORT;
 	String LX;
 	String PID;
+	String XXZT;
 
+
+	public void setXXZT(String XXZT)
+	{
+		this.XXZT = XXZT;
+	}
+
+	public String getXXZT()
+	{
+		return XXZT;
+	}
 
 	public void setId(int id)
 	{

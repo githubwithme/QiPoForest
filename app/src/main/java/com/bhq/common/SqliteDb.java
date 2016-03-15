@@ -656,7 +656,7 @@ public class SqliteDb
         List<T> list = null;
         try
         {
-            list = db.findAll(Selector.from(c).where("ZSDL", "=", ZSDL).orderBy("CJSJ", true));
+            list = db.findAll(Selector.from(c).where("ZSDL", "=", ZSDL).and("XXZT","=","0").orderBy("CJSJ", true));
         } catch (DbException e)
         {
             e.printStackTrace();
