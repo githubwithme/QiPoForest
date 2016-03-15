@@ -137,6 +137,8 @@ public class Offline_PatrolControlFragment extends Fragment implements TencentLo
     @ViewById
     TextView tv_runlength;
     @ViewById
+    TextView tv_yx;
+    @ViewById
     TextView tv_starttime;
     @ViewById
     TextView tv_runtime;
@@ -161,6 +163,21 @@ public class Offline_PatrolControlFragment extends Fragment implements TencentLo
     Double lastXHLC = 0D;
     String XHXSS = "";
     String XHFZS = "";
+
+    @Click
+    void tv_yx()
+    {
+        if (tv_yx.getText().equals("影像"))
+        {
+            tv_yx.setText("2D");
+            tencentMap.setSatelliteEnabled(true);
+        } else
+        {
+            tv_yx.setText("影像");
+            tencentMap.setSatelliteEnabled(false);
+        }
+
+    }
 
     @Click
     void btn_location()
@@ -275,7 +292,7 @@ public class Offline_PatrolControlFragment extends Fragment implements TencentLo
         {
 //            tencentMap.removeOverlay(marker);
             tencentMap.animateTo(location_latLng);
-            addMarker(location_latLng, R.drawable.location1);
+//            addMarker(location_latLng, R.drawable.location1);
         }
     }
 

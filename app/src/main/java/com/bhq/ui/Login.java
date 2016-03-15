@@ -37,7 +37,10 @@ import com.alibaba.fastjson.JSONArray;
 import com.bhq.R;
 import com.bhq.app.AppConfig;
 import com.bhq.app.AppManager;
+import com.bhq.bean.BHQ_XHXL;
+import com.bhq.bean.BHQ_XHXL_GJ;
 import com.bhq.bean.BHQ_ZSK;
+import com.bhq.bean.BQH_XHRY;
 import com.bhq.bean.Dictionary;
 import com.bhq.bean.Result;
 import com.bhq.bean.ResultDeal;
@@ -129,7 +132,7 @@ public class Login extends Activity
     @Click
     void btn_again()
     {
-        isfail=false;
+        isfail = false;
         pb.setProgress(0);
         startInitData();
     }
@@ -252,8 +255,7 @@ public class Login extends Activity
     private void startInitData()
     {
         SqliteDb.createTable(Login.this);
-
-        ThreadNumber = 2;
+        ThreadNumber = 5;
         latch = new CountDownLatch(ThreadNumber);
 //        SqliteDb.dropTable(Login.this, dt_manager_offline.class);
 //        SqliteDb.dropTable(Login.this, Dictionary.class);
@@ -265,6 +267,9 @@ public class Login extends Activity
         rl_pb.setVisibility(View.VISIBLE);
         InitTable("APP.InitUserTable", dt_manager_offline.class);
         InitTable("APP.InitDictionaryTable", Dictionary.class);
+        InitTable("APP.InitBHQ_XHXLTable", BHQ_XHXL.class);
+        InitTable("APP.InitBHQ_XHXL_GJTable", BHQ_XHXL_GJ.class);
+        InitTable("APP.InitBQH_XHRYTable", BQH_XHRY.class);
 //		InitTable("APP.InitZSKTable", BHQ_ZSK.class);
 //		InitTable("APP.getRW_RW", RW_RW.class);
 //		InitTable("APP.getRW_CYR", RW_CYR.class);
@@ -541,14 +546,23 @@ public class Login extends Activity
                     {
                         JSONArray jsonArray_Rows = result.getRows();
                         String[] ColumnNames = result.getColumnNames();
-                        if (jsonArray_Rows.size()>0)
+                        if (jsonArray_Rows.size() > 0)
                         {
                             if (action.equals("APP.InitUserTable"))
                             {
                                 SqliteDb.insertData(Login.this, "dt_manager_offline", ColumnNames, jsonArray_Rows);
                             } else if (action.equals("APP.InitDictionaryTable"))
                             {
-                                SqliteDb.insertData(Login.this,  "Dictionary", ColumnNames, jsonArray_Rows);
+                                SqliteDb.insertData(Login.this, "Dictionary", ColumnNames, jsonArray_Rows);
+                            } else if (action.equals("APP.InitBHQ_XHXLTable"))
+                            {
+                                SqliteDb.insertData(Login.this, "BHQ_XHXL", ColumnNames, jsonArray_Rows);
+                            } else if (action.equals("APP.InitBHQ_XHXL_GJTable"))
+                            {
+                                SqliteDb.insertData(Login.this, "BHQ_XHXL_GJ", ColumnNames, jsonArray_Rows);
+                            } else if (action.equals("APP.InitBQH_XHRYTable"))
+                            {
+                                SqliteDb.insertData(Login.this, "BQH_XHRY", ColumnNames, jsonArray_Rows);
                             }
                             showProgress();
                             pb.setProgress(Integer.valueOf(utils.getRate(ThreadNumber - Integer.valueOf(String.valueOf(latch.getCount())), ThreadNumber)));
