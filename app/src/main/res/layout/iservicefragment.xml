@@ -11,6 +11,7 @@
         android:background="@color/white" >
 
         <TextView
+            android:id="@+id/tv_username"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/titlebar_height"
             android:layout_centerHorizontal="true"
@@ -66,6 +67,7 @@
                         android:layout_gravity="center_vertical"
                         android:gravity="center"
                         android:text="未知姓名"
+                        android:visibility="gone"
                         android:textColor="@color/white"
                         android:textSize="@dimen/size_12" />
 
@@ -76,6 +78,7 @@
                         android:layout_gravity="center_vertical"
                         android:layout_marginLeft="10dip"
                         android:gravity="center"
+                        android:visibility="gone"
                         android:text="未知联系方式"
                         android:textColor="@color/white"
                         android:textSize="@dimen/size_12" />

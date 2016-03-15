@@ -759,10 +759,12 @@ public class Offline_PatrolControlFragment extends Fragment implements TencentLo
                 for (int i = 0; i < list.size(); i++)
                 {
                     LatLng latlng = new LatLng(Double.valueOf(list.get(i).getY()), Double.valueOf(list.get(i).getX()));
+                    Gps gPS = CoordinateConvertUtil.gps84_To_Gcj02(latlng.getLatitude(), latlng.getLongitude());
+                    latlng = new LatLng(gPS.getWgLat(), gPS.getWgLon());
                     if (list.get(i).getQZD().equals("1"))
                     {
 //                        addCircle(latlng,R.color.bg_start);
-                        Circle circle = tencentMap.addCircle(new CircleOptions().center(latlng).radius(150d).fillColor(Color.argb(100,177,15,0 )).strokeColor(getResources().getColor(R.color.bg_start)).strokeWidth(1f));
+                        Circle circle = tencentMap.addCircle(new CircleOptions().center(latlng).radius(150d).fillColor(Color.argb(100, 177, 15, 0)).strokeColor(getResources().getColor(R.color.bg_start)).strokeWidth(1f));
                         Drawable drawable = getResources().getDrawable(R.drawable.qd);
                         Bitmap bitmap = utils.drawable2Bitmap(drawable);
                         tencentMap.addMarker(new MarkerOptions().position(latlng).title("").icon(new BitmapDescriptor(bitmap)));
@@ -771,14 +773,14 @@ public class Offline_PatrolControlFragment extends Fragment implements TencentLo
                     {
 //                        addCircle(latlng,R.color.bg_end);
 //                        Circle circle = tencentMap.addCircle(new CircleOptions().center(latlng).radius(150d).fillColor(getResources().getColor(R.color.bg_end)).strokeColor(getResources().getColor(R.color.bg_end)).strokeWidth(1f));
-                        Circle circle = tencentMap.addCircle(new CircleOptions().center(latlng).radius(150d).fillColor(Color.argb(100,4,181,0)).strokeColor(getResources().getColor(R.color.bg_end)).strokeWidth(1f));
+                        Circle circle = tencentMap.addCircle(new CircleOptions().center(latlng).radius(150d).fillColor(Color.argb(100, 4, 181, 0)).strokeColor(getResources().getColor(R.color.bg_end)).strokeWidth(1f));
                         Drawable drawable = getResources().getDrawable(R.drawable.zd);
                         Bitmap bitmap = utils.drawable2Bitmap(drawable);
                         tencentMap.addMarker(new MarkerOptions().position(latlng).title("").icon(new BitmapDescriptor(bitmap)));
                     } else
                     {
 //                        addCircle(latlng,R.color.bg_middle);
-                        Circle circle = tencentMap.addCircle(new CircleOptions().center(latlng).radius(150d).fillColor(Color.argb(100,0,202,215)).strokeColor(getResources().getColor(R.color.bg_middle)).strokeWidth(1f));
+                        Circle circle = tencentMap.addCircle(new CircleOptions().center(latlng).radius(150d).fillColor(Color.argb(100, 0, 202, 215)).strokeColor(getResources().getColor(R.color.bg_middle)).strokeWidth(1f));
                         list_Circle.add(circle);
                         Drawable drawable = getResources().getDrawable(R.drawable.zj);
                         Bitmap bitmap = utils.drawable2Bitmap(drawable);
@@ -800,7 +802,7 @@ public class Offline_PatrolControlFragment extends Fragment implements TencentLo
         customDialog_xhxl.show();
     }
 
-    protected void addCircle(LatLng latlng,int color)
+    protected void addCircle(LatLng latlng, int color)
     {
         Circle circle = tencentMap.addCircle(new CircleOptions().center(latlng).radius(150d).fillColor(getResources().getColor(color)).strokeColor(0xff000000).strokeWidth(0f));
         list_Circle.add(circle);
