@@ -127,6 +127,11 @@ public class Offline_TaskContent extends Activity
         if (rw_RW.getZRR().equals(dt_manager_offline.getid()))
         {
             isZRR = true;
+            if (rw_RW.getRWSFJS().equals("true"))
+            {
+                btn_wc.setText("已完成");
+                btn_wc.setClickable(false);
+            }
         }
         getRW_CYR();
         getYWCRWRY();
