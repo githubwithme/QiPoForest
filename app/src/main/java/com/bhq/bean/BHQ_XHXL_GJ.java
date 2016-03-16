@@ -29,9 +29,20 @@ public class BHQ_XHXL_GJ implements Parcelable
 	public String QZD;
 	public String CJSJ;
 	public String XGSJ;
-    
+	public String XXZT;
 
-	public String getID() 
+
+	public void setXXZT(String XXZT)
+	{
+		this.XXZT = XXZT;
+	}
+
+	public String getXXZT()
+	{
+		return XXZT;
+	}
+
+	public String getID()
     {
 		return ID;
 	}
@@ -136,7 +147,8 @@ public class BHQ_XHXL_GJ implements Parcelable
          p.setQZD(source.readString());
          p.setCJSJ(source.readString());
          p.setXGSJ(source.readString());
-         return p;  
+         p.setXXZT(source.readString());
+         return p;
       }  
 
       @Override  
@@ -157,6 +169,7 @@ public class BHQ_XHXL_GJ implements Parcelable
          p.writeString(QZD);
          p.writeString(CJSJ);
          p.writeString(XGSJ);
+         p.writeString(XXZT);
 	}
     @Override
 	public int describeContents()

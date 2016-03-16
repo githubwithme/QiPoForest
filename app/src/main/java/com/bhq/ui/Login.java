@@ -203,7 +203,7 @@ public class Login extends Activity
         AppManager.getAppManager().addActivity(this);
         sp = this.getSharedPreferences("MY_PRE", MODE_PRIVATE);
         model = sp.getString("model", "0");
-
+        SqliteDb.InitDbutils(Login.this);
     }
 
     private void initData()
@@ -268,7 +268,7 @@ public class Login extends Activity
         InitTable("APP.InitUserTable", dt_manager_offline.class);
         InitTable("APP.InitDictionaryTable", Dictionary.class);
         InitTable("APP.InitBHQ_XHXLTable", BHQ_XHXL.class);
-        InitTable("APP.InitBHQ_XHXL_GJTable", BHQ_XHXL_GJ.class);
+        InitTable("APP.InitBHQ_XHXL_GJInformation", BHQ_XHXL_GJ.class);
         InitTable("APP.InitBQH_XHRYTable", BQH_XHRY.class);
 //		InitTable("APP.InitZSKTable", BHQ_ZSK.class);
 //		InitTable("APP.getRW_RW", RW_RW.class);
@@ -557,7 +557,7 @@ public class Login extends Activity
                             } else if (action.equals("APP.InitBHQ_XHXLTable"))
                             {
                                 SqliteDb.insertData(Login.this, "BHQ_XHXL", ColumnNames, jsonArray_Rows);
-                            } else if (action.equals("APP.InitBHQ_XHXL_GJTable"))
+                            } else if (action.equals("APP.InitBHQ_XHXL_GJInformation"))
                             {
                                 SqliteDb.insertData(Login.this, "BHQ_XHXL_GJ", ColumnNames, jsonArray_Rows);
                             } else if (action.equals("APP.InitBQH_XHRYTable"))

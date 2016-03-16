@@ -82,7 +82,7 @@ public class UpdateData extends Service
         InitTable("APP.InitRW_CYRData", sysntime, RW_CYR.class);
         InitTable("APP.InitRW_YQBData", sysntime, RW_YQB.class);
         InitTable("APP.InitBHQ_XHXLData", sysntime, BHQ_XHXL.class);
-        InitTable("APP.InitBHQ_XHXL_GJData", sysntime, BHQ_XHXL_GJ.class);
+        InitTable("APP.InitBHQ_XHXL_GJInfo", sysntime, BHQ_XHXL_GJ.class);
         InitTable("APP.InitBQH_XHRYData", sysntime, BQH_XHRY.class);
 //        InitTable("APP.InitUserTable", sysntime, dt_manager_offline.class);
 
@@ -128,7 +128,7 @@ public class UpdateData extends Service
                             } else if (action.equals("APP.InitBHQ_XHXLData"))
                             {
                                 SqliteDb.insertData(UpdateData.this, "BHQ_XHXL", ColumnNames, jsonArray_Rows);
-                            }else if (action.equals("APP.InitBHQ_XHXL_GJData"))
+                            }else if (action.equals("APP.InitBHQ_XHXL_GJInfo"))
                             {
                                 SqliteDb.insertData(UpdateData.this, "BHQ_XHXL_GJ", ColumnNames, jsonArray_Rows);
                             }else if (action.equals("APP.InitBQH_XHRYData"))

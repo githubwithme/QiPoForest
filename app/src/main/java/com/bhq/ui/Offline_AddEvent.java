@@ -265,6 +265,7 @@ public class Offline_AddEvent extends Activity
 				FJ_SCFJ fj_SCFJ = new FJ_SCFJ();
 				String fjmc = FJBDLJ.substring(FJBDLJ.lastIndexOf("/") + 1, FJBDLJ.length());
 				String fjlj = "/upload/" + utils.getToday() + "/" + fjmc;
+				String LSTLJ = "/upload/" + utils.getToday() + "/" + "thumb_"+fjmc;
 				String FJID = java.util.UUID.randomUUID().toString();
 
 				fj_SCFJ.setFJID(FJID);
@@ -272,6 +273,7 @@ public class Offline_AddEvent extends Activity
 				fj_SCFJ.setGLBM("XHSJ");
 				fj_SCFJ.setFJMC(fjmc);
 				fj_SCFJ.setFJLJ(fjlj);
+				fj_SCFJ.setLSTLJ(LSTLJ);
 				fj_SCFJ.setSCR(dt_manager_offline.getid());
 				fj_SCFJ.setSCSJ(utils.getTime());
 				fj_SCFJ.setSCRXM(dt_manager_offline.getreal_name());

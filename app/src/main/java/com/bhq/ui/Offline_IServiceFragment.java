@@ -538,6 +538,7 @@ public class Offline_IServiceFragment extends Fragment
             hashMap.put("GLBM", fj_SCFJ.getGLBM());
             hashMap.put("FJMC", fj_SCFJ.getFJMC());
             hashMap.put("FJLJ", fj_SCFJ.getFJLJ());
+            hashMap.put("LSTLJ", fj_SCFJ.getLSTLJ());
             hashMap.put("SCR", fj_SCFJ.getSCR());
             hashMap.put("SCRXM", fj_SCFJ.getSCRXM());
             hashMap.put("FJLX", fj_SCFJ.getFJLX());
@@ -703,6 +704,10 @@ public class Offline_IServiceFragment extends Fragment
             hashMap.put("Y", bhq_XHQK_GJ.getY());
             hashMap.put("JLSJ", bhq_XHQK_GJ.getJLSJ());
             hashMap.put("intervaldistance", bhq_XHQK_GJ.getIntervaldistance());
+            hashMap.put("altitude", bhq_XHQK_GJ.getAltitude());
+            hashMap.put("accuracy", bhq_XHQK_GJ.getAccuracy());
+            hashMap.put("bearing", bhq_XHQK_GJ.getBearing());
+            hashMap.put("speed", bhq_XHQK_GJ.getSpeed());
             hashMap.put("v_flag", "A");
             String params = HttpUrlConnect.setParams("APP.InsertOrUpdateBHQ_XHQK_GJ", "0", hashMap);
             new HttpUtils().send(HttpRequest.HttpMethod.POST, AppConfig.dataBaseUrl, ConnectionHelper.getParas(params), new RequestCallBack<String>()

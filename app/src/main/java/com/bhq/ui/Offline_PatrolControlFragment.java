@@ -90,6 +90,8 @@ import java.util.List;
 @EFragment
 public class Offline_PatrolControlFragment extends Fragment implements TencentLocationListener
 {
+    String hb="";
+    String sd="";
     List<Circle> list_Circle = new ArrayList<>();
     String XLID = "-1";
     dt_manager_offline dt_manager_offline;
@@ -427,15 +429,16 @@ public class Offline_PatrolControlFragment extends Fragment implements TencentLo
 //            location_latLng = new LatLng(gPS.getWgLat(), gPS.getWgLon());
             // 用于定位
             location_latLng = new LatLng(location.getLatitude(), location.getLongitude());
+            Gps gPS_84 = CoordinateConvertUtil.gcj_To_Gps84(location_latLng.getLatitude(), location_latLng.getLongitude());
             AppContext appContext = (AppContext) getActivity().getApplication();
-            appContext.setLOCATION_X(String.valueOf(location_latLng.getLatitude()));
-            appContext.setLOCATION_Y(String.valueOf(location_latLng.getLongitude()));
+            appContext.setLOCATION_X(String.valueOf(gPS_84.getWgLat()));
+            appContext.setLOCATION_Y(String.valueOf(gPS_84.getWgLon()));
             // 每隔15秒记录轨迹
             newtime = System.currentTimeMillis();
             int diff = (int) (newtime - lasttime) / 1000;
             if (diff > 15)// 每隔15秒记录一次
             {
-                uploadLocationInfo(location, location_latLng);
+                uploadLocationInfo(location, gPS_84);
                 lasttime = newtime;
                 if (isStart)
                 {
@@ -455,7 +458,7 @@ public class Offline_PatrolControlFragment extends Fragment implements TencentLo
                         XHLC = XHLC + mProjection.distanceBetween(lastlatLng, location_latLng);
                         Double distance = XHLC - lastXHLC;
                         lastXHLC = XHLC;
-                        AddNewBHQ_XHQK_GJ(XHID, String.valueOf(distance));// 添加开始点的轨迹
+                        AddNewBHQ_XHQK_GJ(location,XHID, String.valueOf(distance));// 添加开始点的轨迹
                         tencentMap.animateTo(location_latLng);
                         if (String.valueOf(XHLC).length() > 5)
                         {
@@ -684,7 +687,7 @@ public class Offline_PatrolControlFragment extends Fragment implements TencentLo
         SqliteDb.save(getActivity(), bhq_XHQK);
     }
 
-    private void AddNewBHQ_XHQK_GJ(String XHID, String distance)
+    private void AddNewBHQ_XHQK_GJ(TencentLocation location,String XHID, String distance)
     {
         Gps gPS = CoordinateConvertUtil.gcj_To_Gps84(location_latLng.getLatitude(), location_latLng.getLongitude());
         String GJID = java.util.UUID.randomUUID().toString();
@@ -696,6 +699,10 @@ public class Offline_PatrolControlFragment extends Fragment implements TencentLo
         bhq_XHQK_GJ.setY(String.valueOf(gPS.getWgLat()));
         bhq_XHQK_GJ.setJLSJ(utils.getTime());
         bhq_XHQK_GJ.setIntervaldistance(distance);
+        bhq_XHQK_GJ.setSpeed(String.valueOf(location.getSpeed()));
+        bhq_XHQK_GJ.setBearing(String.valueOf(location.getBearing()));
+        bhq_XHQK_GJ.setAccuracy(String.valueOf(location.getAccuracy()));
+        bhq_XHQK_GJ.setAltitude(String.valueOf(location.getAltitude()));
         SqliteDb.save(getActivity(), bhq_XHQK_GJ);
     }
 
@@ -711,14 +718,14 @@ public class Offline_PatrolControlFragment extends Fragment implements TencentLo
         SqliteDb.save(getActivity(), bhq_XHQK_ZTCZ);
     }
 
-    public void uploadLocationInfo(TencentLocation location, LatLng latlng)
+    public void uploadLocationInfo(TencentLocation location,  Gps gPS_84)
     {
         dt_manager_offline dt_manager_offline = (com.bhq.bean.dt_manager_offline) SqliteDb.getCurrentUser(getActivity(), dt_manager_offline.class);
         HashMap<String, String> hashMap = new HashMap<String, String>();
         hashMap.put("userid", dt_manager_offline.getid());
         hashMap.put("username", dt_manager_offline.getreal_name());
-        hashMap.put("lat", String.valueOf(latlng.getLatitude()));
-        hashMap.put("lng", String.valueOf(latlng.getLongitude()));
+        hashMap.put("lat", String.valueOf(gPS_84.getWgLat()));
+        hashMap.put("lng", String.valueOf(gPS_84.getWgLon()));
         hashMap.put("altitude", String.valueOf(location.getAltitude()));
         hashMap.put("accuracy", String.valueOf(location.getAccuracy()));
         hashMap.put("jlsj", utils.getTime());

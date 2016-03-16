@@ -30,6 +30,54 @@ public class BHQ_XHQK_GJ implements Parcelable
 
 	public String IsUpload;
 	public String intervaldistance;
+	public String altitude;
+	public String accuracy;
+	public String bearing;
+	public String speed;
+
+	public void setSpeed(String speed)
+	{
+		this.speed = speed;
+	}
+
+	public String getSpeed()
+	{
+		return speed;
+	}
+
+
+
+
+	public void setBearing(String bearing)
+	{
+		this.bearing = bearing;
+	}
+
+	public String getBearing()
+	{
+		return bearing;
+	}
+
+	public void setAltitude(String altitude)
+	{
+		this.altitude = altitude;
+	}
+
+	public String getAltitude()
+	{
+		return altitude;
+	}
+
+	public void setAccuracy(String accuracy)
+	{
+		this.accuracy = accuracy;
+	}
+
+	public String getAccuracy()
+	{
+		return accuracy;
+	}
+
 
 	public void setIntervaldistance(String intervaldistance)
 	{
@@ -125,6 +173,11 @@ public class BHQ_XHQK_GJ implements Parcelable
 			p.setJLSJ(source.readString());
 			p.setIsUpload(source.readString());
 			p.setIntervaldistance(source.readString());
+
+			p.setAltitude(source.readString());
+			p.setAccuracy(source.readString());
+			p.setBearing(source.readString());
+			p.setSpeed(source.readString());
 			return p;
 		}
 
@@ -145,6 +198,12 @@ public class BHQ_XHQK_GJ implements Parcelable
 		p.writeString(JLSJ);
 		p.writeString(IsUpload);
 		p.writeString(intervaldistance);
+		p.writeString(altitude);
+		p.writeString(accuracy);
+		p.writeString(bearing);
+		p.writeString(speed);
+
+
 	}
 
 	@Override

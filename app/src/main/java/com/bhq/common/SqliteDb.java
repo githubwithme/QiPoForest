@@ -34,9 +34,53 @@ public class SqliteDb
 {
     static SQLiteDatabase sqLiteDatabase = null;
 
+
+    static DbUtils db = null;
+
+    public static void InitDbutils(Context context)
+    {
+        CustomDbUpgradeListener customDbUpgradeListener = new CustomDbUpgradeListener();
+        if (db == null)
+        {
+            db = DbUtils.create(context, "JHWG", 9, customDbUpgradeListener);
+            sqLiteDatabase = db.getDatabase();
+        }
+    }
+
+    /**
+     * 方法1：检查某表列是否存在
+     *
+     * @param db
+     * @param tableName  表名
+     * @param columnName 列名
+     * @return
+     */
+    public static boolean checkColumnExist1(SQLiteDatabase db, String tableName, String columnName)
+    {
+        boolean result = false;
+        Cursor cursor = null;
+        try
+        {
+            //查询一行
+            cursor = db.rawQuery("SELECT * FROM " + tableName + " LIMIT 0", null);
+            result = cursor != null && cursor.getColumnIndex(columnName) != -1;
+        } catch (Exception e)
+        {
+//            Log.e(TAG, "checkColumnExists1..." + e.getMessage());
+        } finally
+        {
+            if (null != cursor && !cursor.isClosed())
+            {
+                cursor.close();
+            }
+        }
+
+        return result;
+    }
+
     public static boolean save(Context context, Object obj)
     {
-        DbUtils db = DbUtils.create(context);
+        InitDbutils(context);
         try
         {
             db.replace(obj);
@@ -51,7 +95,7 @@ public class SqliteDb
 
     public static boolean saveUserInfo(Context context, Object obj)
     {
-        DbUtils db = DbUtils.create(context);
+        InitDbutils(context);
         try
         {
             db.update(obj, "salt", "telephone", "real_name", "user_name", "password", "UserType", "DepartId", "isPatrol", "SFSC");
@@ -66,7 +110,7 @@ public class SqliteDb
 
     public static <T> boolean deleteRecord(Context context, Class<T> c, String firsttype, String secondType, String thirdtype)
     {
-        DbUtils db = DbUtils.create(context);
+        InitDbutils(context);
         try
         {
             db.delete(c, WhereBuilder.b("firsttype", "=", firsttype).and("secondType", "=", secondType).and("thirdtype", "=", thirdtype));
@@ -81,7 +125,7 @@ public class SqliteDb
 
     public static <T> boolean deleteAllRecord(Context context, Class<T> c)
     {
-        DbUtils db = DbUtils.create(context);
+        InitDbutils(context);
         try
         {
             db.deleteAll(c);
@@ -97,7 +141,7 @@ public class SqliteDb
 
     public static <T> boolean dropTable(Context context, Class<T> c)
     {
-        DbUtils db = DbUtils.create(context);
+        InitDbutils(context);
         try
         {
             db.deleteAll(c);
@@ -112,7 +156,7 @@ public class SqliteDb
 
     public static <T> boolean dropDb(Context context)
     {
-        DbUtils db = DbUtils.create(context);
+        InitDbutils(context);
         try
         {
             db.dropDb();
@@ -127,7 +171,7 @@ public class SqliteDb
 
     public static <T> boolean saveAll(Context context, List<T> list)
     {
-        DbUtils db = DbUtils.create(context);
+        InitDbutils(context);
         db.configAllowTransaction(true);
         try
         {
@@ -149,7 +193,7 @@ public class SqliteDb
 
     public static <T> List<T> getSelectRecord(Context context, Class<T> c, String firsttype, String secondType)
     {
-        DbUtils db = DbUtils.create(context);
+        InitDbutils(context);
         List<T> list = null;
         try
         {
@@ -167,7 +211,7 @@ public class SqliteDb
 
     public static <T> List<T> getSelectRecordByFirstType(Context context, Class<T> c, String firsttype)
     {
-        DbUtils db = DbUtils.create(context);
+        InitDbutils(context);
         List<T> list = null;
         try
         {
@@ -185,7 +229,7 @@ public class SqliteDb
 
     public static <T> List<T> getSelectItem(Context context, Class<T> c, String firsttype, String secondType)
     {
-        DbUtils db = DbUtils.create(context);
+        InitDbutils(context);
         List<T> list = null;
         try
         {
@@ -203,7 +247,7 @@ public class SqliteDb
 
     public static <T> List<T> getSelectItemByFirstType(Context context, Class<T> c, String firsttype)
     {
-        DbUtils db = DbUtils.create(context);
+        InitDbutils(context);
         List<T> list = null;
         try
         {
@@ -221,7 +265,7 @@ public class SqliteDb
 
     public static <T> List<T> getUserList(Context context, Class<T> c)
     {
-        DbUtils db = DbUtils.create(context);
+        InitDbutils(context);
         List<T> list = null;
         try
         {
@@ -239,7 +283,7 @@ public class SqliteDb
 
     public static <T> Object getCurrentUser(Context context, Class<T> c)
     {
-        DbUtils db = DbUtils.create(context);
+        InitDbutils(context);
         Object obj = null;
         try
         {
@@ -253,7 +297,7 @@ public class SqliteDb
 
     public static <T> Object getSalt(Context context, Class<T> c, String user_name)
     {
-        DbUtils db = DbUtils.create(context);
+        InitDbutils(context);
         Object obj = null;
         try
         {
@@ -267,7 +311,7 @@ public class SqliteDb
 
     public static <T> Object getBHQ_XHQK(Context context, Class<T> c, String XHID)
     {
-        DbUtils db = DbUtils.create(context);
+        InitDbutils(context);
         Object obj = null;
         try
         {
@@ -281,7 +325,7 @@ public class SqliteDb
 
     public static <T> Object login(Context context, Class<T> c, String userName, String password)
     {
-        DbUtils db = DbUtils.create(context);
+        InitDbutils(context);
         Object obj = null;
         try
         {
@@ -296,7 +340,7 @@ public class SqliteDb
 
     public static <T> Object getAutoLoginUser(Context context, Class<T> c)
     {
-        DbUtils db = DbUtils.create(context);
+        InitDbutils(context);
         Object obj = null;
         try
         {
@@ -310,7 +354,7 @@ public class SqliteDb
 
     public static <T> Object getZYDbyID(Context context, Class<T> c, String did)
     {
-        DbUtils db = DbUtils.create(context);
+        InitDbutils(context);
         Object obj = null;
         try
         {
@@ -324,7 +368,7 @@ public class SqliteDb
 
     public static <T> Object getZSNR(Context context, Class<T> c, String ZSID)
     {
-        DbUtils db = DbUtils.create(context);
+        InitDbutils(context);
         Object obj = null;
         try
         {
@@ -339,7 +383,7 @@ public class SqliteDb
 
     public static void existSystem(Context context, dt_manager dt_manager)// 这个方式可以
     {
-        DbUtils db = DbUtils.create(context);
+        InitDbutils(context);
         try
         {
             db.update(dt_manager, "password");
@@ -351,7 +395,7 @@ public class SqliteDb
 
     public static void existSystemoffline(Context context, dt_manager_offline dt_manager_offline)// 这个方式可以
     {
-        DbUtils db = DbUtils.create(context);
+        InitDbutils(context);
         try
         {
             db.update(dt_manager_offline, "AutoLogin", "isLogin");
@@ -363,7 +407,7 @@ public class SqliteDb
 
     public static boolean updateZSNR(Context context, BHQ_ZSK bhq_ZSK)// 这个方式可以
     {
-        DbUtils db = DbUtils.create(context);
+        InitDbutils(context);
         try
         {
             db.update(bhq_ZSK, "ZSNR");
@@ -378,7 +422,7 @@ public class SqliteDb
 
     public static boolean deleteXXCJ(Context context, BHQ_XHSJCJ bhq_XHSJCJ)// 这个方式可以
     {
-        DbUtils db = DbUtils.create(context);
+        InitDbutils(context);
         try
         {
             db.update(bhq_XHSJCJ, "SFSC");
@@ -393,7 +437,7 @@ public class SqliteDb
 
     public static boolean deleteXHSJ(Context context, BHQ_XHSJ bhq_XHSJ)// 这个方式可以
     {
-        DbUtils db = DbUtils.create(context);
+        InitDbutils(context);
         try
         {
             db.update(bhq_XHSJ, "SFSC");
@@ -408,7 +452,7 @@ public class SqliteDb
 
     public static boolean deleteFJ(Context context, FJ_SCFJ fj_SCFJ)// 这个方式可以
     {
-        DbUtils db = DbUtils.create(context);
+        InitDbutils(context);
         try
         {
             db.update(fj_SCFJ, "SFSC");
@@ -423,7 +467,7 @@ public class SqliteDb
 
     public static boolean MarkHasUpload(Context context, Object obj)// 这个方式可以
     {
-        DbUtils db = DbUtils.create(context);
+        InitDbutils(context);
         try
         {
             db.update(obj, "IsUpload");
@@ -438,7 +482,7 @@ public class SqliteDb
 
     public static boolean deletePhotos(Context context, Object obj)// 这个方式可以
     {
-        DbUtils db = DbUtils.create(context);
+        InitDbutils(context);
         try
         {
             db.update(obj, "SFSC", "ISUPLOAD");
@@ -453,7 +497,7 @@ public class SqliteDb
 
     public static boolean changePassword(Context context, Object obj)// 这个方式可以
     {
-        DbUtils db = DbUtils.create(context);
+        InitDbutils(context);
         try
         {
             db.update(obj, "password", "IsUpload");
@@ -468,7 +512,7 @@ public class SqliteDb
 
     public static boolean deleteCJXX(Context context, Object obj)// 这个方式可以
     {
-        DbUtils db = DbUtils.create(context);
+        InitDbutils(context);
         try
         {
             db.update(obj, "SFSC", "ISUPLOAD");
@@ -483,7 +527,7 @@ public class SqliteDb
 
     public static boolean setRenWuComplete_ZRR(Context context, Object obj, String RWID, String RYID)// 这个方式可以
     {
-        DbUtils db = DbUtils.create(context);
+        InitDbutils(context);
         try
         {
             db.update(obj, WhereBuilder.b("RWID", "=", RWID), "RWSFJS", "RWJSSJ", "XGSJ", "IsUpload");
@@ -497,7 +541,7 @@ public class SqliteDb
 
     public static boolean setRenWuComplete(Context context, Object obj, String RWID, String RYID)// 这个方式可以
     {
-        DbUtils db = DbUtils.create(context);
+        InitDbutils(context);
         try
         {
             db.update(obj, WhereBuilder.b("RWID", "=", RWID).and("RYID", "=", RYID), "SFWC", "WCSJ", "XGSJ", "IsUpload");
@@ -511,7 +555,7 @@ public class SqliteDb
 
     public static <T> List<T> getNotUploadData(Context context, Class<T> c)
     {
-        DbUtils db = DbUtils.create(context);
+        InitDbutils(context);
         List<T> list = null;
         try
         {
@@ -529,11 +573,11 @@ public class SqliteDb
 
     public static BHQ_XHXL getXHLX(Context context, String XLID)
     {
-        DbUtils db = DbUtils.create(context);
+        InitDbutils(context);
         BHQ_XHXL bhq_xhxl = null;
         try
         {
-            bhq_xhxl = db.findFirst(Selector.from(BHQ_XHXL.class).where("XLID", "=", XLID));
+            bhq_xhxl = db.findFirst(Selector.from(BHQ_XHXL.class).where("XLID", "=", XLID).and("XXZT", "=", "0"));
         } catch (DbException e)
         {
             e.printStackTrace();
@@ -544,14 +588,14 @@ public class SqliteDb
 
     public static List<BHQ_XHXL_GJ> getXHXL_GJ(Context context, String XLID)
     {
-        DbUtils db = DbUtils.create(context);
+        InitDbutils(context);
         List<BHQ_XHXL_GJ> list = null;
         try
         {
-            list = db.findAll(Selector.from(BHQ_XHXL_GJ.class).where("XLID", "=", XLID));
+            list = db.findAll(Selector.from(BHQ_XHXL_GJ.class).where("XLID", "=", XLID).and("XXZT", "=", "0"));
             if (list == null)
             {
-                list=new ArrayList<>();
+                list = new ArrayList<>();
             }
         } catch (DbException e)
         {
@@ -563,7 +607,7 @@ public class SqliteDb
 
     public static List<String> getAllXHLXID(Context context, String userid)
     {
-        DbUtils db = DbUtils.create(context);
+        InitDbutils(context);
         List<String> list_xlid = new ArrayList<>();
         try
         {
@@ -615,7 +659,7 @@ public class SqliteDb
 
     public static <T> List<T> getBHQ_XHQKList(Context context, Class<T> c, String XHRY)
     {
-        DbUtils db = DbUtils.create(context);
+        InitDbutils(context);
         List<T> list = null;
         try
         {
@@ -634,7 +678,7 @@ public class SqliteDb
 
     public static <T> List<T> GetBHQ_XHQK_GJList(Context context, Class<T> c, String XHID)
     {
-        DbUtils db = DbUtils.create(context);
+        InitDbutils(context);
         List<T> list = null;
         try
         {
@@ -652,11 +696,11 @@ public class SqliteDb
 
     public static <T> List<T> getKnowledgeList(Context context, Class<T> c, String ZSDL)
     {
-        DbUtils db = DbUtils.create(context);
+        InitDbutils(context);
         List<T> list = null;
         try
         {
-            list = db.findAll(Selector.from(c).where("ZSDL", "=", ZSDL).and("XXZT","=","0").orderBy("CJSJ", true));
+            list = db.findAll(Selector.from(c).where("ZSDL", "=", ZSDL).and("XXZT", "=", "0").orderBy("CJSJ", true));
         } catch (DbException e)
         {
             e.printStackTrace();
@@ -670,7 +714,7 @@ public class SqliteDb
 
     public static <T> List<T> getCJXXList(Context context, Class<T> c, String CJR, String ZYDL)
     {
-        DbUtils db = DbUtils.create(context);
+        InitDbutils(context);
         List<T> list = null;
         try
         {
@@ -688,7 +732,7 @@ public class SqliteDb
 
     public static <T> List<T> getDics(Context context, Class<T> c)
     {
-        DbUtils db = DbUtils.create(context);
+        InitDbutils(context);
         List<T> list = null;
         try
         {
@@ -706,7 +750,7 @@ public class SqliteDb
 
     public static <T> List<T> getFJ_SCFJList(Context context, Class<T> c, String GLID, String FJLX)
     {
-        DbUtils db = DbUtils.create(context);
+        InitDbutils(context);
         List<T> list = null;
         try
         {
@@ -724,7 +768,7 @@ public class SqliteDb
 
     public static <T> List<T> getEventList(Context context, Class<T> c, String SBR)
     {
-        DbUtils db = DbUtils.create(context);
+        InitDbutils(context);
         List<T> list = null;
         try
         {
@@ -766,7 +810,7 @@ public class SqliteDb
     // }
     public static List<RW_RW> getCompleteRenWuByRYID(Context context, String RYID)
     {
-        DbUtils db = DbUtils.create(context);
+        InitDbutils(context);
         List<DbModel> dbModels = null;
         try
         {
@@ -859,7 +903,7 @@ public class SqliteDb
 
     public static List<RW_RW> getRenWuByRYID(Context context, String RYID)
     {
-        DbUtils db = DbUtils.create(context);
+        InitDbutils(context);
         List<DbModel> dbModels = null;
         try
         {
@@ -952,7 +996,7 @@ public class SqliteDb
 
     public static <T> List<T> getRW_CYRList(Context context, Class<T> c, String RWID)
     {
-        DbUtils db = DbUtils.create(context);
+        InitDbutils(context);
         List<T> list = null;
         try
         {
@@ -970,7 +1014,7 @@ public class SqliteDb
 
     public static <T> List<T> getYWCRWRY(Context context, Class<T> c, String RWID)
     {
-        DbUtils db = DbUtils.create(context);
+        InitDbutils(context);
         List<T> list = null;
         try
         {
@@ -988,11 +1032,7 @@ public class SqliteDb
 
     public static void updatedt_manager_offline(Context context, String table, String id, String values)
     {
-        if (sqLiteDatabase == null)
-        {
-            DbUtils db = DbUtils.create(context);
-            sqLiteDatabase = db.getDatabase();
-        }
+        InitDbutils(context);
         ContentValues cv = new ContentValues();
         cv.put("BDLJ", values);
         sqLiteDatabase.update(table, cv, "BDLJ = ?", new String[]{id});
@@ -1000,11 +1040,7 @@ public class SqliteDb
 
     public static void updateZSK(Context context, String table, String ZDID, String values)
     {
-        if (sqLiteDatabase == null)
-        {
-            DbUtils db = DbUtils.create(context);
-            sqLiteDatabase = db.getDatabase();
-        }
+        InitDbutils(context);
         ContentValues cv = new ContentValues();
         cv.put("ZSNR", values);
         sqLiteDatabase.update(table, cv, "ZSID = ?", new String[]{ZDID});
@@ -1012,11 +1048,7 @@ public class SqliteDb
 
     public static void insertData(Context context, String classname, String[] columnnames, JSONArray jsonArray_Rows)
     {
-        if (sqLiteDatabase == null)
-        {
-            DbUtils db = DbUtils.create(context);
-            sqLiteDatabase = db.getDatabase();
-        }
+        InitDbutils(context);
 //        StringBuffer buff = new StringBuffer();;
 //        for (int i = 0; i <columnnames.length; i++)
 //        {
@@ -1064,11 +1096,7 @@ public class SqliteDb
 
     public static void insertRW_CYRData(Context context, String classname, String[] columnnames, JSONArray jsonArray_Rows)
     {
-        if (sqLiteDatabase == null)
-        {
-            DbUtils db = DbUtils.create(context);
-            sqLiteDatabase = db.getDatabase();
-        }
+        InitDbutils(context);
         if (jsonArray_Rows.size() != 0)
         {
             StringBuffer columnn = new StringBuffer();
@@ -1128,11 +1156,7 @@ public class SqliteDb
 
     public static void insertRW_RWData(Context context, String classname, String[] columnnames, JSONArray jsonArray_Rows)
     {
-        if (sqLiteDatabase == null)
-        {
-            DbUtils db = DbUtils.create(context);
-            sqLiteDatabase = db.getDatabase();
-        }
+        InitDbutils(context);
         if (jsonArray_Rows.size() != 0)
         {
             StringBuffer columnn = new StringBuffer();
@@ -1197,7 +1221,7 @@ public class SqliteDb
 
     public static void createTable(Context context)
     {
-        DbUtils db = DbUtils.create(context);
+        InitDbutils(context);
         try
         {
             db.createTableIfNotExist(BHQ_ZSK.class);
@@ -1229,13 +1253,14 @@ public class SqliteDb
 
     public static void updateRW_CYR(Context context, String RWCYID)// 这个方式可以
     {
-        DbUtils db = DbUtils.create(context);
+        InitDbutils(context);
         String sql_update = "update RW_CYR  set IsUpload=1 where  RWCYID =" + "\"" + RWCYID + "\"";
         sqLiteDatabase.execSQL(sql_update);
     }
+
     public static void updateRW_RW(Context context, String RWID)// 这个方式可以
     {
-        DbUtils db = DbUtils.create(context);
+        InitDbutils(context);
         String sql_update = "update RW_RW  set IsUpload=1 where  RWID =" + "\"" + RWID + "\"";
         sqLiteDatabase.execSQL(sql_update);
     }
