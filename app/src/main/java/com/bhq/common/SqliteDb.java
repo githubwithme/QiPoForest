@@ -42,7 +42,7 @@ public class SqliteDb
         CustomDbUpgradeListener customDbUpgradeListener = new CustomDbUpgradeListener();
         if (db == null)
         {
-            db = DbUtils.create(context, "JHWG", 9, customDbUpgradeListener);
+            db = DbUtils.create(context, "JHWG", 10, customDbUpgradeListener);
             sqLiteDatabase = db.getDatabase();
         }
     }
