@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/white"
-    android:orientation="vertical">
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/white"
+              android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/titlebar_height"
-        android:background="@color/white" >
+        android:background="@color/white">
 
         <TextView
             android:id="@+id/tv_username"
@@ -18,39 +18,39 @@
             android:gravity="center"
             android:text="我"
             android:textColor="@color/bg_text"
-            android:textSize="@dimen/titlebar_textsize" />
+            android:textSize="@dimen/titlebar_textsize"/>
     </RelativeLayout>
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white"
-        android:orientation="vertical" >
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/white"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
             <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="180dip" >
+                android:layout_height="180dip">
 
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="180dip"
                     android:background="@drawable/bg_me"
-                    android:scaleType="fitXY" />
+                    android:scaleType="fitXY"/>
 
                 <ImageView
                     android:id="@+id/circle_img"
                     android:layout_width="80dip"
                     android:layout_height="80dip"
-                    android:scaleType="fitXY"
                     android:layout_gravity="bottom|center_horizontal"
                     android:layout_marginBottom="40dip"
-               />
+                    android:scaleType="fitXY"
+                    />
 
                 <LinearLayout
                     android:id="@+id/ll_edituser"
@@ -58,7 +58,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom|center_horizontal"
                     android:layout_marginBottom="10dip"
-                    android:orientation="horizontal" >
+                    android:orientation="horizontal">
 
                     <TextView
                         android:id="@+id/tv_name"
@@ -67,9 +67,9 @@
                         android:layout_gravity="center_vertical"
                         android:gravity="center"
                         android:text="未知姓名"
-                        android:visibility="gone"
                         android:textColor="@color/white"
-                        android:textSize="@dimen/size_12" />
+                        android:textSize="@dimen/size_12"
+                        android:visibility="gone"/>
 
                     <TextView
                         android:id="@+id/tv_phone"
@@ -78,17 +78,17 @@
                         android:layout_gravity="center_vertical"
                         android:layout_marginLeft="10dip"
                         android:gravity="center"
-                        android:visibility="gone"
                         android:text="未知联系方式"
                         android:textColor="@color/white"
-                        android:textSize="@dimen/size_12" />
+                        android:textSize="@dimen/size_12"
+                        android:visibility="gone"/>
                 </LinearLayout>
             </FrameLayout>
 
             <RelativeLayout
                 android:id="@+id/rl_tb"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/size_80" >
+                android:layout_height="@dimen/size_80">
 
                 <ImageView
                     android:id="@+id/iv_tb"
@@ -96,7 +96,7 @@
                     android:layout_height="@dimen/size_20"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="15dip"
-                    android:background="@drawable/quick_set_create_account" />
+                    android:background="@drawable/quick_set_create_account"/>
 
                 <ImageView
                     android:layout_width="12dip"
@@ -104,7 +104,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_margin="15dip"
-                    android:src="@drawable/ic_back_red" />
+                    android:src="@drawable/ic_back_red"/>
 
                 <TextView
                     android:id="@+id/tv_tb"
@@ -116,26 +116,26 @@
                     android:gravity="left|center_vertical"
                     android:text="同步"
                     android:textColor="@color/bg_text"
-                    android:textSize="@dimen/size_13" />
+                    android:textSize="@dimen/size_13"/>
             </RelativeLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.1px"
-                android:background="@color/line_color" />
+                android:background="@color/line_color"/>
 
             <RelativeLayout
-                android:id="@+id/rl_gy"
+                android:id="@+id/rl_delete"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/size_80" >
+                android:layout_height="@dimen/size_80">
 
                 <ImageView
-                    android:id="@+id/iv_gy"
+                    android:id="@+id/iv_delete"
                     android:layout_width="@dimen/size_20"
                     android:layout_height="@dimen/size_20"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="15dip"
-                    android:background="@drawable/quick_set_create_account" />
+                    android:background="@drawable/quick_set_create_account"/>
 
                 <ImageView
                     android:layout_width="12dip"
@@ -143,7 +143,46 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_margin="15dip"
-                    android:src="@drawable/ic_back_red" />
+                    android:src="@drawable/ic_back_red"/>
+
+                <TextView
+                    android:id="@+id/tv_delete"
+                    android:layout_width="@dimen/size_150"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginLeft="20dip"
+                    android:layout_toRightOf="@+id/iv_delete"
+                    android:gravity="left|center_vertical"
+                    android:text="删除已同步数据"
+                    android:textColor="@color/bg_text"
+                    android:textSize="@dimen/size_13"/>
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.1px"
+                android:background="@color/line_color"/>
+
+            <RelativeLayout
+                android:id="@+id/rl_gy"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/size_80">
+
+                <ImageView
+                    android:id="@+id/iv_gy"
+                    android:layout_width="@dimen/size_20"
+                    android:layout_height="@dimen/size_20"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="15dip"
+                    android:background="@drawable/quick_set_create_account"/>
+
+                <ImageView
+                    android:layout_width="12dip"
+                    android:layout_height="12dip"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_margin="15dip"
+                    android:src="@drawable/ic_back_red"/>
 
                 <TextView
                     android:id="@+id/tv_gy"
@@ -155,18 +194,18 @@
                     android:gravity="left|center_vertical"
                     android:text="关于"
                     android:textColor="@color/bg_text"
-                    android:textSize="@dimen/size_13" />
+                    android:textSize="@dimen/size_13"/>
             </RelativeLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.1px"
-                android:background="@color/line_color" />
+                android:background="@color/line_color"/>
 
             <RelativeLayout
                 android:id="@+id/rl_bz"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/size_80" >
+                android:layout_height="@dimen/size_80">
 
                 <ImageView
                     android:id="@+id/iv_bz"
@@ -174,7 +213,7 @@
                     android:layout_height="@dimen/size_20"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="15dip"
-                    android:background="@drawable/quick_set_create_agent" />
+                    android:background="@drawable/quick_set_create_agent"/>
 
                 <TextView
                     android:id="@+id/tv_bz"
@@ -185,7 +224,7 @@
                     android:gravity="left|center_vertical"
                     android:text="帮助"
                     android:textColor="@color/bg_text"
-                    android:textSize="@dimen/size_13" />
+                    android:textSize="@dimen/size_13"/>
 
                 <ImageView
                     android:layout_width="12dip"
@@ -193,19 +232,19 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_margin="15dip"
-                    android:src="@drawable/ic_back_red" />
+                    android:src="@drawable/ic_back_red"/>
             </RelativeLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.1px"
-                android:background="@color/line_color" />
+                android:background="@color/line_color"/>
 
             <RelativeLayout
                 android:id="@+id/rl_yj"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/size_80"
-                android:visibility="gone" >
+                android:visibility="gone">
 
                 <ImageView
                     android:id="@+id/iv_yj"
@@ -213,7 +252,7 @@
                     android:layout_height="@dimen/size_20"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="15dip"
-                    android:background="@drawable/quick_set_create_contact" />
+                    android:background="@drawable/quick_set_create_contact"/>
 
                 <TextView
                     android:id="@+id/tv_yj"
@@ -224,7 +263,7 @@
                     android:gravity="left|center_vertical"
                     android:text="意见反馈"
                     android:textColor="@color/bg_text"
-                    android:textSize="@dimen/size_13" />
+                    android:textSize="@dimen/size_13"/>
 
                 <ImageView
                     android:layout_width="12dip"
@@ -232,18 +271,18 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_margin="15dip"
-                    android:src="@drawable/ic_back_red" />
+                    android:src="@drawable/ic_back_red"/>
             </RelativeLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.1px"
-                android:background="@color/line_color" />
+                android:background="@color/line_color"/>
 
             <RelativeLayout
                 android:id="@+id/rl_changeppdw"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/size_80" >
+                android:layout_height="@dimen/size_80">
 
                 <ImageView
                     android:id="@+id/iv_changeppdw"
@@ -251,7 +290,7 @@
                     android:layout_height="@dimen/size_20"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="15dip"
-                    android:background="@drawable/quick_set_create_account" />
+                    android:background="@drawable/quick_set_create_account"/>
 
                 <ImageView
                     android:layout_width="12dip"
@@ -259,7 +298,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_margin="15dip"
-                    android:src="@drawable/ic_back_red" />
+                    android:src="@drawable/ic_back_red"/>
 
                 <TextView
                     android:id="@+id/tv_changeppdw"
@@ -271,25 +310,25 @@
                     android:gravity="left|center_vertical"
                     android:text="修改密码"
                     android:textColor="@color/bg_text"
-                    android:textSize="@dimen/size_13" />
+                    android:textSize="@dimen/size_13"/>
             </RelativeLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.1px"
-                android:background="@color/line_color" />
+                android:background="@color/line_color"/>
 
             <RelativeLayout
                 android:id="@+id/rl_gx"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/size_80" >
+                android:layout_height="@dimen/size_80">
 
                 <FrameLayout
                     android:id="@+id/fl_renewversion"
                     android:layout_width="@dimen/width_setting"
                     android:layout_height="@dimen/size_20"
                     android:layout_centerVertical="true"
-                    android:orientation="horizontal" >
+                    android:orientation="horizontal">
 
                     <ImageView
                         android:id="@+id/iv_renewversion"
@@ -297,7 +336,7 @@
                         android:layout_height="@dimen/size_20"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="15dip"
-                        android:background="@drawable/quick_set_create_schuel" />
+                        android:background="@drawable/quick_set_create_schuel"/>
                 </FrameLayout>
 
                 <TextView
@@ -309,7 +348,7 @@
                     android:gravity="left|center_vertical"
                     android:text="系统更新"
                     android:textColor="@color/bg_text"
-                    android:textSize="@dimen/size_13" />
+                    android:textSize="@dimen/size_13"/>
 
                 <FrameLayout
                     android:id="@+id/fl_new"
@@ -317,7 +356,7 @@
                     android:layout_height="15dip"
                     android:layout_centerVertical="true"
                     android:layout_toRightOf="@id/tv_renewversion"
-                    android:visibility="gone" >
+                    android:visibility="gone">
 
                     <TextView
                         android:id="@+id/tv_new"
@@ -328,7 +367,7 @@
                         android:gravity="center"
                         android:text="NEW"
                         android:textColor="@color/white"
-                        android:textSize="@dimen/size_10" />
+                        android:textSize="@dimen/size_10"/>
                 </FrameLayout>
 
                 <ProgressBar
@@ -337,7 +376,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="15dip"
                     android:layout_toRightOf="@id/fl_renewversion"
-                    android:visibility="gone" />
+                    android:visibility="gone"/>
 
                 <ImageView
                     android:layout_width="12dip"
@@ -345,18 +384,18 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_margin="15dip"
-                    android:src="@drawable/ic_back_red" />
+                    android:src="@drawable/ic_back_red"/>
             </RelativeLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.1px"
-                android:background="@color/line_color" />
+                android:background="@color/line_color"/>
 
             <RelativeLayout
                 android:id="@+id/rl_exist"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/size_80" >
+                android:layout_height="@dimen/size_80">
 
                 <ImageView
                     android:id="@+id/iv_exist"
@@ -364,7 +403,7 @@
                     android:layout_height="@dimen/size_20"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="15dip"
-                    android:background="@drawable/quick_set_create_account" />
+                    android:background="@drawable/quick_set_create_account"/>
 
                 <ImageView
                     android:layout_width="12dip"
@@ -372,7 +411,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_margin="15dip"
-                    android:src="@drawable/ic_back_red" />
+                    android:src="@drawable/ic_back_red"/>
 
                 <TextView
                     android:id="@+id/tv_exist"
@@ -384,7 +423,7 @@
                     android:gravity="left|center_vertical"
                     android:text="退出账号"
                     android:textColor="@color/bg_text"
-                    android:textSize="@dimen/size_13" />
+                    android:textSize="@dimen/size_13"/>
             </RelativeLayout>
         </LinearLayout>
     </ScrollView>

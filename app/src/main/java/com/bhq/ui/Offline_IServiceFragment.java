@@ -36,6 +36,7 @@ import com.bhq.bean.ResultDeal;
 import com.bhq.bean.dt_manager_offline;
 import com.bhq.common.BitmapHelper;
 import com.bhq.common.ConnectionHelper;
+import com.bhq.common.FileHelper;
 import com.bhq.common.SqliteDb;
 import com.bhq.common.utils;
 import com.bhq.net.HttpUrlConnect;
@@ -72,6 +73,7 @@ public class Offline_IServiceFragment extends Fragment
     boolean isfail = false;
     CountDownLatch latch;
     int ThreadCount = 0;
+    String allgj = "";
     List<dt_manager_offline> list_dt_manager_offline = new ArrayList<dt_manager_offline>();
     List<BHQ_XHQK_ZTCZ> list_BHQ_XHQK_ZTCZ = new ArrayList<BHQ_XHQK_ZTCZ>();
     List<BHQ_XHSJCJ> list_BHQ_XHSJCJ = new ArrayList<BHQ_XHSJCJ>();
@@ -85,6 +87,7 @@ public class Offline_IServiceFragment extends Fragment
     Button btn_syn;
     Button btn_sure;
     Button btn_cancle;
+    Button btn_delete;
     LinearLayout ll_syn;
     LinearLayout ll_sure;
     ProgressBar pb;
@@ -138,6 +141,12 @@ public class Offline_IServiceFragment extends Fragment
     void rl_tb()
     {
         showSynchronousDialog();
+    }
+
+    @Click
+    void rl_delete()
+    {
+        showDialog_deletedata();
     }
 
     @Click
@@ -321,6 +330,41 @@ public class Offline_IServiceFragment extends Fragment
         customDialog.show();
     }
 
+    private void showDialog_deletedata()
+    {
+        View dialog_layout = (LinearLayout) getActivity().getLayoutInflater().inflate(R.layout.deletedata_dialog, null);
+        tv_tips = (TextView) dialog_layout.findViewById(R.id.tv_tips);
+        btn_delete = (Button) dialog_layout.findViewById(R.id.btn_delete);
+        btn_cancle = (Button) dialog_layout.findViewById(R.id.btn_cancle);
+        ll_syn = (LinearLayout) dialog_layout.findViewById(R.id.ll_syn);
+        btn_delete.setOnClickListener(new OnClickListener()
+        {
+            @Override
+            public void onClick(View arg0)
+            {
+                customDialog.dismiss();
+                List<FJ_SCFJ> list = SqliteDb.getAllFJ_SCFJ_HaveUpload(getActivity());
+                for (int i = 0; i < list.size(); i++)
+                {
+                    File file = new File(list.get(i).getFJBDLJ());
+                    FileHelper.RecursionDeleteFile(file);
+                }
+                SqliteDb.deleteHaveUploadDAta(getActivity());
+
+            }
+        });
+        btn_cancle.setOnClickListener(new OnClickListener()
+        {
+            @Override
+            public void onClick(View arg0)
+            {
+                customDialog.dismiss();
+            }
+        });
+        customDialog = new CustomDialog(getActivity(), R.style.MyDialog, dialog_layout);
+        customDialog.show();
+    }
+
     private int getUploadCount()
     {
         list_dt_manager_offline = SqliteDb.getNotUploadData(getActivity(), dt_manager_offline.class);
@@ -332,7 +376,12 @@ public class Offline_IServiceFragment extends Fragment
         list_FJ_SCFJ = SqliteDb.getNotUploadData(getActivity(), FJ_SCFJ.class);
         list_RW_CYR = SqliteDb.getNotUploadData(getActivity(), RW_CYR.class);
         list_RW_RW = SqliteDb.getNotUploadData(getActivity(), RW_RW.class);
-        int count = list_dt_manager_offline.size() + list_BHQ_XHQK_ZTCZ.size() + list_BHQ_XHSJCJ.size() + list_BHQ_XHSJ.size() + list_BHQ_XHQK_GJ.size() + list_BHQ_XHQK.size()+list_RW_CYR.size() +list_RW_RW.size()+ list_FJ_SCFJ.size()*2 ;
+        int gj_count = 0;
+        if (list_BHQ_XHQK_GJ != null && list_BHQ_XHQK_GJ.size() > 0)
+        {
+            gj_count = 1;
+        }
+        int count = list_dt_manager_offline.size() + list_BHQ_XHQK_ZTCZ.size() + list_BHQ_XHSJCJ.size() + list_BHQ_XHSJ.size() + list_BHQ_XHQK.size() + list_RW_CYR.size() + list_RW_RW.size() + list_FJ_SCFJ.size() * 2 + gj_count;
         return count;
     }
 
@@ -344,7 +393,7 @@ public class Offline_IServiceFragment extends Fragment
         uploadXXCJ();
         uploadSJ();
         uploadFJ();
-        uploadGJ();
+        uploadAllGJ();
         uploadXHQK();
         uploadRW_CYR();
         uploadRW_RW();
@@ -422,6 +471,42 @@ public class Offline_IServiceFragment extends Fragment
                 }
             });
         }
+    }
+
+    private void getgj()
+    {
+        HashMap<String, String> hashMap = new HashMap<String, String>();
+        String params = HttpUrlConnect.setParams("APP.getgj", "0", hashMap);
+        new HttpUtils().send(HttpRequest.HttpMethod.POST, AppConfig.dataBaseUrl, ConnectionHelper.getParas(params), new RequestCallBack<String>()
+        {
+            @Override
+            public void onSuccess(ResponseInfo<String> responseInfo)
+            {
+                List<BHQ_XHQK> listData = null;
+                Result result = JSON.parseObject(responseInfo.result, Result.class);
+                if (result.getResultCode() == 200)// -1出错；0结果集数量为0；结果列表
+                {
+                    if (result.getAffectedRows() != 0)
+                    {
+                        listData = JSON.parseArray(ResultDeal.getAllRow(result), BHQ_XHQK.class);
+                        for (int i = 0; i < listData.size(); i++)
+                        {
+                            listData.get(i).setIsUpload("0");
+                            SqliteDb.save(getActivity(), listData.get(i));
+                        }
+                        String A = "";
+                    }
+                } else
+                {
+                }
+            }
+
+            @Override
+            public void onFailure(HttpException error, String msg)
+            {
+                failupload();
+            }
+        });
     }
 
     private void uploadXXCJ()
@@ -573,6 +658,7 @@ public class Offline_IServiceFragment extends Fragment
             });
         }
     }
+
     private void uploadRW_RW()
     {
         for (int i = 0; i < list_RW_RW.size(); i++)
@@ -610,6 +696,7 @@ public class Offline_IServiceFragment extends Fragment
             });
         }
     }
+
     private void uploadRW_CYR()
     {
         for (int i = 0; i < list_RW_CYR.size(); i++)
@@ -647,6 +734,7 @@ public class Offline_IServiceFragment extends Fragment
             });
         }
     }
+
     private void uploadXHQK()
     {
         for (int i = 0; i < list_BHQ_XHQK.size(); i++)
@@ -691,6 +779,40 @@ public class Offline_IServiceFragment extends Fragment
                 }
             });
         }
+    }
+
+    private void uploadAllGJ()
+    {
+        HashMap<String, String> hashMap = new HashMap<String, String>();
+        hashMap.put("data", JSON.toJSONString(list_BHQ_XHQK_GJ));
+        String params = HttpUrlConnect.setParams("APP.SaveGJ", "0", hashMap);
+        new HttpUtils().send(HttpRequest.HttpMethod.POST, AppConfig.dataBaseUrl, ConnectionHelper.getParas(params), new RequestCallBack<String>()
+        {
+            @Override
+            public void onSuccess(ResponseInfo<String> responseInfo)
+            {
+                String a = responseInfo.toString();
+                Result result = JSON.parseObject(responseInfo.result, Result.class);
+                if (result.getResultCode() == 200 && result.getAffectedRows() > 0)// 连接数据库成功
+                {
+                    for (int i = 0; i < list_BHQ_XHQK_GJ.size(); i++)
+                    {
+                        list_BHQ_XHQK_GJ.get(i).setIsUpload("1");
+                        SqliteDb.save(getActivity(), list_BHQ_XHQK_GJ.get(i));
+                    }
+                    showProgress();
+                } else
+                {
+                    failupload();
+                }
+            }
+
+            @Override
+            public void onFailure(HttpException error, String msg)
+            {
+                failupload();
+            }
+        });
     }
 
     private void uploadGJ()

@@ -7,6 +7,9 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONException;
+import com.bhq.bean.BHQ_XHQK;
+import com.bhq.bean.BHQ_XHQK_GJ;
+import com.bhq.bean.BHQ_XHQK_ZTCZ;
 import com.bhq.bean.BHQ_XHSJ;
 import com.bhq.bean.BHQ_XHSJCJ;
 import com.bhq.bean.BHQ_XHXL;
@@ -464,6 +467,26 @@ public class SqliteDb
         }
         return true;
     }
+    public static boolean deleteHaveUploadDAta(Context context)// 这个方式可以
+    {
+        InitDbutils(context);
+        try
+        {
+            db.delete(FJ_SCFJ.class, WhereBuilder.b("ISUPLOAD", "=", 1));
+            db.delete(BHQ_XHSJCJ.class, WhereBuilder.b("IsUpload", "=", 1));
+            db.delete(BHQ_XHSJ.class, WhereBuilder.b("IsUpload", "=", 1));
+            db.delete(BHQ_XHQK.class, WhereBuilder.b("IsUpload", "=", 1));
+            db.delete(BHQ_XHQK_GJ.class, WhereBuilder.b("IsUpload", "=", 1));
+            db.delete(BHQ_XHQK_ZTCZ.class, WhereBuilder.b("IsUpload", "=", 1));
+            db.delete(FJ_SCFJ.class, WhereBuilder.b("ISUPLOAD", "=", 1));
+        } catch (DbException e)
+        {
+            String aa = e.getMessage();
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
 
     public static boolean MarkHasUpload(Context context, Object obj)// 这个方式可以
     {
@@ -551,6 +574,46 @@ public class SqliteDb
             return false;
         }
         return true;
+    }
+
+    public static String getAllGJ()
+    {
+        StringBuilder builder = new StringBuilder();
+        String StrSql = "SELECT * FROM BHQ_XHQK_GJ where IsUpload = 0 ";
+        Cursor cc = null;
+        try
+        {
+            cc = db.execQuery(StrSql);
+        } catch (DbException e)
+        {
+            e.printStackTrace();
+        }
+        if (cc != null)//已存在
+        {
+            builder.append("[");
+            int count = cc.getCount();
+            for (int i = 0; i < count; i++)
+            {
+                builder.append("{");
+                cc.moveToPosition(i);
+                int ColumnCount = cc.getColumnCount();
+                for (int j = 0; j < ColumnCount; j++)
+                {
+                    String ColumnName = cc.getColumnName(j);
+                    String ColumnValue = cc.getString(j);
+                    builder.append("\"" + ColumnName + "\"" + ":" +"\""+ ColumnValue + "\""+",");
+                }
+                builder.replace(builder.length() - 1, builder.length() , "");
+                builder.append("},");
+            }
+            builder.replace(builder.length() - 1, builder.length() , "");
+            builder.append("]");
+        } else //不存在
+        {
+
+        }
+        db.close();
+        return builder.toString();
     }
 
     public static <T> List<T> getNotUploadData(Context context, Class<T> c)
@@ -765,7 +828,23 @@ public class SqliteDb
         }
         return list;
     }
-
+    public static <T> List<T> getAllFJ_SCFJ_HaveUpload(Context context)
+    {
+        InitDbutils(context);
+        List<T> list = null;
+        try
+        {
+            list = db.findAll(Selector.from(FJ_SCFJ.class).where("ISUPLOAD", "=", 1));
+        } catch (DbException e)
+        {
+            e.printStackTrace();
+        }
+        if (null == list || list.isEmpty())
+        {
+            list = new ArrayList<T>();
+        }
+        return list;
+    }
     public static <T> List<T> getEventList(Context context, Class<T> c, String SBR)
     {
         InitDbutils(context);
