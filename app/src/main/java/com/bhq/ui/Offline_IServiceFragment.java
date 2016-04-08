@@ -392,12 +392,16 @@ public class Offline_IServiceFragment extends Fragment
         uploadBHQ_XHQK_ZTCZ();
         uploadXXCJ();
         uploadSJ();
-        uploadFJ();
+//        uploadFJ();
         uploadAllGJ();
         uploadXHQK();
         uploadRW_CYR();
         uploadRW_RW();
-        uploadMedia(list_FJ_SCFJ);
+//        uploadMedia(list_FJ_SCFJ);
+        for (int i = 0; i < list_FJ_SCFJ.size(); i++)
+        {
+            uploadAllMedia(list_FJ_SCFJ.get(i));
+        }
     }
 
     private void uploadUser()
@@ -609,6 +613,50 @@ public class Offline_IServiceFragment extends Fragment
                 }
             });
         }
+    }
+
+    private void uploadAllFJ(final FJ_SCFJ fj_SCFJ)
+    {
+        HashMap<String, String> hashMap = new HashMap<String, String>();
+        hashMap.put("FJID", fj_SCFJ.getFJID());
+        hashMap.put("GLID", fj_SCFJ.getGLID());
+        hashMap.put("SCSJ", fj_SCFJ.getSCSJ());
+        hashMap.put("GLBM", fj_SCFJ.getGLBM());
+        hashMap.put("FJMC", fj_SCFJ.getFJMC());
+        hashMap.put("FJLJ", fj_SCFJ.getFJLJ());
+        hashMap.put("LSTLJ", fj_SCFJ.getLSTLJ());
+        hashMap.put("SCR", fj_SCFJ.getSCR());
+        hashMap.put("SCRXM", fj_SCFJ.getSCRXM());
+        hashMap.put("FJLX", fj_SCFJ.getFJLX());
+        hashMap.put("SFSC", fj_SCFJ.getSFSC());
+        hashMap.put("SCZT", fj_SCFJ.getSCZT());
+        hashMap.put("Change", fj_SCFJ.getChange());
+        hashMap.put("FL", fj_SCFJ.getFL());
+        hashMap.put("v_flag", "A");
+        String params = HttpUrlConnect.setParams("APP.InsertOrUpdateFJ_SCFJ", "0", hashMap);
+        new HttpUtils().send(HttpRequest.HttpMethod.POST, AppConfig.dataBaseUrl, ConnectionHelper.getParas(params), new RequestCallBack<String>()
+        {
+            @Override
+            public void onSuccess(ResponseInfo<String> responseInfo)
+            {
+                Result result = JSON.parseObject(responseInfo.result, Result.class);
+                if (result.getResultCode() == 200 && result.getAffectedRows() > 0)// 连接数据库成功
+                {
+                    fj_SCFJ.setISUPLOAD("1");
+                    SqliteDb.save(getActivity(), fj_SCFJ);
+                    showProgress();
+                } else
+                {
+                    failupload();
+                }
+            }
+
+            @Override
+            public void onFailure(HttpException error, String msg)
+            {
+                failupload();
+            }
+        });
     }
 
     private void uploadFJ()
@@ -903,6 +951,44 @@ public class Offline_IServiceFragment extends Fragment
                 }
             });
         }
+    }
+
+    private void uploadAllMedia(final FJ_SCFJ fj_scfj)
+    {
+        File file = new File(fj_scfj.getFJBDLJ());
+        RequestParams params = new RequestParams();
+        params.addQueryStringParameter("param", fj_scfj.getSCSJ());
+        params.addQueryStringParameter("first", "true");
+        params.addQueryStringParameter("last", "true");
+        params.addQueryStringParameter("offset", "0");
+        params.addQueryStringParameter("file", file.getName());
+        params.setBodyEntity(new FileUploadEntity(file, "text/html"));
+        HttpUtils http = new HttpUtils();
+        http.configTimeout(60000);
+        http.send(HttpRequest.HttpMethod.POST, AppConfig.uploadUrl, params, new RequestCallBack<String>()
+        {
+
+            @Override
+            public void onSuccess(ResponseInfo<String> responseInfo)
+            {
+                Result result = JSON.parseObject(responseInfo.result, Result.class);
+                if (result.getResultCode() == 200 && result.getAffectedRows() > 0)// 连接数据库成功
+                {
+                    showProgress();
+                    uploadAllFJ(fj_scfj);
+                } else
+                {
+                    failupload();
+                }
+            }
+
+            @Override
+            public void onFailure(HttpException error, String msg)
+            {
+                String aa = error.getMessage();
+                failupload();
+            }
+        });
     }
 
     private void showProgress()
