@@ -81,6 +81,7 @@ public class Offline_IServiceFragment extends Fragment
     List<BHQ_XHQK> list_BHQ_XHQK = new ArrayList<BHQ_XHQK>();
     List<BHQ_XHQK_GJ> list_BHQ_XHQK_GJ = new ArrayList<BHQ_XHQK_GJ>();
     List<FJ_SCFJ> list_FJ_SCFJ = new ArrayList<FJ_SCFJ>();
+    List<FJ_SCFJ> list_FJ_SCFJ_temp = new ArrayList<FJ_SCFJ>();
     List<RW_CYR> list_RW_CYR = new ArrayList<RW_CYR>();
     List<RW_RW> list_RW_RW = new ArrayList<RW_RW>();
     TextView tv_tips;
@@ -312,6 +313,8 @@ public class Offline_IServiceFragment extends Fragment
                         uploadData(ThreadCount);
                     } else
                     {
+//                        getgj();
+//                        getXHQK();
                         tv_tips.setText("无数据需要同步！");
                     }
                 }
@@ -347,7 +350,7 @@ public class Offline_IServiceFragment extends Fragment
                 for (int i = 0; i < list.size(); i++)
                 {
                     File file = new File(list.get(i).getFJBDLJ());
-                    FileHelper.RecursionDeleteFile(file);
+                    FileHelper.RecursionDeleteFile(getActivity(),file);
                 }
                 SqliteDb.deleteHaveUploadDAta(getActivity());
 
@@ -373,9 +376,22 @@ public class Offline_IServiceFragment extends Fragment
         list_BHQ_XHSJ = SqliteDb.getNotUploadData(getActivity(), BHQ_XHSJ.class);
         list_BHQ_XHQK = SqliteDb.getNotUploadData(getActivity(), BHQ_XHQK.class);
         list_BHQ_XHQK_GJ = SqliteDb.getNotUploadData(getActivity(), BHQ_XHQK_GJ.class);
-        list_FJ_SCFJ = SqliteDb.getNotUploadData(getActivity(), FJ_SCFJ.class);
+        list_FJ_SCFJ_temp = SqliteDb.getNotUploadData(getActivity(), FJ_SCFJ.class);
         list_RW_CYR = SqliteDb.getNotUploadData(getActivity(), RW_CYR.class);
         list_RW_RW = SqliteDb.getNotUploadData(getActivity(), RW_RW.class);
+        list_FJ_SCFJ=new ArrayList<>();
+        for (int i = 0; i < list_FJ_SCFJ_temp.size(); i++)
+        {
+            File file = new File(list_FJ_SCFJ_temp.get(i).getFJBDLJ());
+            if (!file.exists())//文件不存在，不需要上传
+            {
+                list_FJ_SCFJ_temp.get(i).setISUPLOAD("1");
+                SqliteDb.save(getActivity(), list_FJ_SCFJ_temp.get(i));
+            } else//文件需要上传
+            {
+                list_FJ_SCFJ.add(list_FJ_SCFJ_temp.get(i));
+            }
+        }
         int gj_count = 0;
         if (list_BHQ_XHQK_GJ != null && list_BHQ_XHQK_GJ.size() > 0)
         {
@@ -393,11 +409,14 @@ public class Offline_IServiceFragment extends Fragment
         uploadXXCJ();
         uploadSJ();
 //        uploadFJ();
-        uploadAllGJ();
         uploadXHQK();
         uploadRW_CYR();
         uploadRW_RW();
 //        uploadMedia(list_FJ_SCFJ);
+        if (list_BHQ_XHQK_GJ != null && list_BHQ_XHQK_GJ.size() > 0)
+        {
+            uploadAllGJ();
+        }
         for (int i = 0; i < list_FJ_SCFJ.size(); i++)
         {
             uploadAllMedia(list_FJ_SCFJ.get(i));
@@ -477,10 +496,10 @@ public class Offline_IServiceFragment extends Fragment
         }
     }
 
-    private void getgj()
+    private void getXHQK()
     {
         HashMap<String, String> hashMap = new HashMap<String, String>();
-        String params = HttpUrlConnect.setParams("APP.getgj", "0", hashMap);
+        String params = HttpUrlConnect.setParams("APP.getxhqk", "0", hashMap);
         new HttpUtils().send(HttpRequest.HttpMethod.POST, AppConfig.dataBaseUrl, ConnectionHelper.getParas(params), new RequestCallBack<String>()
         {
             @Override
@@ -493,6 +512,42 @@ public class Offline_IServiceFragment extends Fragment
                     if (result.getAffectedRows() != 0)
                     {
                         listData = JSON.parseArray(ResultDeal.getAllRow(result), BHQ_XHQK.class);
+                        for (int i = 0; i < listData.size(); i++)
+                        {
+                            listData.get(i).setIsUpload("0");
+                            SqliteDb.save(getActivity(), listData.get(i));
+                        }
+                        String A = "";
+                    }
+                } else
+                {
+                }
+            }
+
+            @Override
+            public void onFailure(HttpException error, String msg)
+            {
+                failupload();
+            }
+        });
+    }
+
+    private void getgj()
+    {
+        HashMap<String, String> hashMap = new HashMap<String, String>();
+        String params = HttpUrlConnect.setParams("APP.getgj", "0", hashMap);
+        new HttpUtils().send(HttpRequest.HttpMethod.POST, AppConfig.dataBaseUrl, ConnectionHelper.getParas(params), new RequestCallBack<String>()
+        {
+            @Override
+            public void onSuccess(ResponseInfo<String> responseInfo)
+            {
+                List<BHQ_XHQK_GJ> listData = null;
+                Result result = JSON.parseObject(responseInfo.result, Result.class);
+                if (result.getResultCode() == 200)// -1出错；0结果集数量为0；结果列表
+                {
+                    if (result.getAffectedRows() != 0)
+                    {
+                        listData = JSON.parseArray(ResultDeal.getAllRow(result), BHQ_XHQK_GJ.class);
                         for (int i = 0; i < listData.size(); i++)
                         {
                             listData.get(i).setIsUpload("0");
@@ -846,8 +901,8 @@ public class Offline_IServiceFragment extends Fragment
                     for (int i = 0; i < list_BHQ_XHQK_GJ.size(); i++)
                     {
                         list_BHQ_XHQK_GJ.get(i).setIsUpload("1");
-                        SqliteDb.save(getActivity(), list_BHQ_XHQK_GJ.get(i));
                     }
+                    SqliteDb.saveAll(getActivity(), list_BHQ_XHQK_GJ);
                     showProgress();
                 } else
                 {
@@ -967,25 +1022,18 @@ public class Offline_IServiceFragment extends Fragment
         http.configTimeout(60000);
         http.send(HttpRequest.HttpMethod.POST, AppConfig.uploadUrl, params, new RequestCallBack<String>()
         {
-
             @Override
             public void onSuccess(ResponseInfo<String> responseInfo)
             {
-                Result result = JSON.parseObject(responseInfo.result, Result.class);
-                if (result.getResultCode() == 200 && result.getAffectedRows() > 0)// 连接数据库成功
-                {
-                    showProgress();
-                    uploadAllFJ(fj_scfj);
-                } else
-                {
-                    failupload();
-                }
+                showProgress();
+                uploadAllFJ(fj_scfj);
             }
 
             @Override
             public void onFailure(HttpException error, String msg)
             {
                 String aa = error.getMessage();
+                int bb = error.getExceptionCode();
                 failupload();
             }
         });
