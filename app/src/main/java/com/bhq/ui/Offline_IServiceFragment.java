@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.bhq.R;
@@ -350,9 +351,16 @@ public class Offline_IServiceFragment extends Fragment
                 for (int i = 0; i < list.size(); i++)
                 {
                     File file = new File(list.get(i).getFJBDLJ());
-                    FileHelper.RecursionDeleteFile(getActivity(),file);
+                    FileHelper.RecursionDeleteFile(getActivity(), file);
                 }
-                SqliteDb.deleteHaveUploadDAta(getActivity());
+                boolean issuccess = SqliteDb.deleteHaveUploadDAta(getActivity());
+                if (issuccess)
+                {
+                    Toast.makeText(getActivity(), "删除成功！", Toast.LENGTH_SHORT).show();
+                } else
+                {
+                    Toast.makeText(getActivity(),"删除失败，请重试！",Toast.LENGTH_SHORT).show();
+                }
 
             }
         });
@@ -379,7 +387,7 @@ public class Offline_IServiceFragment extends Fragment
         list_FJ_SCFJ_temp = SqliteDb.getNotUploadData(getActivity(), FJ_SCFJ.class);
         list_RW_CYR = SqliteDb.getNotUploadData(getActivity(), RW_CYR.class);
         list_RW_RW = SqliteDb.getNotUploadData(getActivity(), RW_RW.class);
-        list_FJ_SCFJ=new ArrayList<>();
+        list_FJ_SCFJ = new ArrayList<>();
         for (int i = 0; i < list_FJ_SCFJ_temp.size(); i++)
         {
             File file = new File(list_FJ_SCFJ_temp.get(i).getFJBDLJ());
