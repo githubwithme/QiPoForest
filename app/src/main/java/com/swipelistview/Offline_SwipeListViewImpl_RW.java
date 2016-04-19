@@ -121,6 +121,7 @@ public class Offline_SwipeListViewImpl_RW implements OnLayoutAnimatListener
 		holder.message_day = (TextView) convertView.findViewById(R.id.message_day);
 		holder.news_listitem_date = (TextView) convertView.findViewById(R.id.news_listitem_date);
 		holder.btn_SFWC = (Button) convertView.findViewById(R.id.btn_SFWC);
+		holder.view_newmessage = (View) convertView.findViewById(R.id.view_newmessage);
 		holder.message_time = (TextView) convertView.findViewById(R.id.message_time);
 		holder.mRotateYView = (RotateYView) convertView.findViewById(R.id.rotate_y_view);
 		holder.mMessageTitle.setTag(position);
@@ -160,6 +161,7 @@ public class Offline_SwipeListViewImpl_RW implements OnLayoutAnimatListener
 		public LinearLayout message_contents;
 		public TextView mMessageTitle;
 		public TextView message_time;
+		public View view_newmessage;
 		public ImageView mMessageIcon;
 		public TextView message_day;
 		public TextView news_listitem_date;
@@ -173,10 +175,14 @@ public class Offline_SwipeListViewImpl_RW implements OnLayoutAnimatListener
 	{
 		int imgres;
 		String status = new String();
-		viewHolder.message_time.setText(list_RW_RW.get(position).getWRJZSJ());
-		viewHolder.message_day.setText(list_RW_RW.get(position).getWRKSSJ());
+		viewHolder.message_time.setText(list_RW_RW.get(position).getWRKSSJ());
+		viewHolder.message_day.setText(list_RW_RW.get(position).getWRJZSJ());
 		status = utils.getDayDifference(utils.getToday(), list_RW_RW.get(position).getWRJZSJ());
 		status = utils.getDayDifference(utils.getToday(), list_RW_RW.get(position).getWRJZSJ());
+		if (list_RW_RW.get(position).getIsRead()!=null && list_RW_RW.get(position).getIsRead().equals("1") )
+		{
+			viewHolder.view_newmessage.setVisibility(View.GONE);
+		}
 		if (status.toString().equals("已到期"))
 		{
 			imgres = R.drawable.point_round;

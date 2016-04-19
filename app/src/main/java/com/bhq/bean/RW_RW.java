@@ -46,6 +46,18 @@ public class RW_RW implements Parcelable
 	public String SFSC;
 	public String Change;
 	public String IsUpload;
+	public String IsRead="0";
+
+
+	public void setIsRead(String isRead)
+	{
+		IsRead = isRead;
+	}
+
+	public String getIsRead()
+	{
+		return IsRead;
+	}
 
 	public void setIsUpload(String isUpload)
 	{
@@ -328,6 +340,7 @@ public class RW_RW implements Parcelable
 			p.setSFSC(source.readString());
 			p.setChange(source.readString());
 			p.setIsUpload(source.readString());
+			p.setIsRead(source.readString());
 			return p;
 		}
 
@@ -365,6 +378,7 @@ public class RW_RW implements Parcelable
 		p.writeString(SFSC);
 		p.writeString(Change);
 		p.writeString(IsUpload);
+		p.writeString(IsRead);
 	}
 
 	@Override

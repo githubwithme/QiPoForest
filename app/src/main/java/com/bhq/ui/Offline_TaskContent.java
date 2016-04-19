@@ -123,6 +123,8 @@ public class Offline_TaskContent extends Activity
     @AfterViews
     void afterOncreate()
     {
+        rw_RW.setIsRead("1");
+        boolean issuccess=SqliteDb.updateIsRead(Offline_TaskContent.this,rw_RW);
         RWID = String.valueOf(rw_RW.getRWID());
         if (rw_RW.getZRR().equals(dt_manager_offline.getid()))
         {

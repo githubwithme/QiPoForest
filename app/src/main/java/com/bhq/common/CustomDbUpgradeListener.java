@@ -15,10 +15,16 @@ public class CustomDbUpgradeListener implements  DbUtils.DbUpgradeListener
     {
 
         SQLiteDatabase sqLiteDatabase= dbUtils.getDatabase();
-        boolean isexist=SqliteDb.checkColumnExist1(sqLiteDatabase,"BHQ_XHXL_GJ","XXZT");
+        boolean isexist=SqliteDb.checkColumnExist1(sqLiteDatabase, "BHQ_XHXL_GJ", "XXZT");
+        boolean isexist_IsRead=SqliteDb.checkColumnExist1(sqLiteDatabase,"RW_RW","IsRead");
         if (!isexist)
         {
             String sql_updateBHQ_XHXL_GJ = "alter table  BHQ_XHXL_GJ  add column XXZT NVARCHAR(10)";
+            sqLiteDatabase.execSQL(sql_updateBHQ_XHXL_GJ);
+        }
+        if (!isexist_IsRead)
+        {
+            String sql_updateBHQ_XHXL_GJ = "alter table  RW_RW  add column IsRead NVARCHAR(10)";
             sqLiteDatabase.execSQL(sql_updateBHQ_XHXL_GJ);
         }
 //        boolean isexist_altitude=SqliteDb.checkColumnExist1(sqLiteDatabase,"BHQ_XHQK_GJ","altitude");

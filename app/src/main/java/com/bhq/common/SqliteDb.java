@@ -110,6 +110,19 @@ public class SqliteDb
         }
         return true;
     }
+    public static boolean updateIsRead(Context context, Object obj)
+    {
+        InitDbutils(context);
+        try
+        {
+            db.update(obj, "IsRead");
+        } catch (DbException e)
+        {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
 
     public static <T> boolean deleteRecord(Context context, Class<T> c, String firsttype, String secondType, String thirdtype)
     {
@@ -1025,6 +1038,7 @@ public class SqliteDb
             rw_RW.setZCRXM(dbModels.get(i).getString("ZCRXM"));
             rw_RW.setZRR(dbModels.get(i).getString("ZRR"));
             rw_RW.setZYD(dbModels.get(i).getString("ZYD"));
+            rw_RW.setIsRead(dbModels.get(i).getString("IsRead"));
             list.add(rw_RW);
         }
 
@@ -1068,6 +1082,7 @@ public class SqliteDb
             rw_RW.setZCRXM(dbModels.get(i).getString("ZCRXM"));
             rw_RW.setZRR(dbModels.get(i).getString("ZRR"));
             rw_RW.setZYD(dbModels.get(i).getString("ZYD"));
+            rw_RW.setIsRead(dbModels.get(i).getString("IsRead"));
             list.add(rw_RW);
         }
         return list;
