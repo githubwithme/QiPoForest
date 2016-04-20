@@ -2,7 +2,10 @@ package com.bhq.common;
 
 import android.database.sqlite.SQLiteDatabase;
 
+import com.bhq.bean.BHQ_XHXL_GJ;
+import com.bhq.bean.RW_RW;
 import com.lidroid.xutils.DbUtils;
+import com.lidroid.xutils.exception.DbException;
 
 /**
  * Created by ${hmj} on 2016/3/16.
@@ -15,18 +18,35 @@ public class CustomDbUpgradeListener implements  DbUtils.DbUpgradeListener
     {
 
         SQLiteDatabase sqLiteDatabase= dbUtils.getDatabase();
-        boolean isexist=SqliteDb.checkColumnExist1(sqLiteDatabase, "BHQ_XHXL_GJ", "XXZT");
-        boolean isexist_IsRead=SqliteDb.checkColumnExist1(sqLiteDatabase,"RW_RW","IsRead");
-        if (!isexist)
+        try
         {
-            String sql_updateBHQ_XHXL_GJ = "alter table  BHQ_XHXL_GJ  add column XXZT NVARCHAR(10)";
-            sqLiteDatabase.execSQL(sql_updateBHQ_XHXL_GJ);
-        }
-        if (!isexist_IsRead)
+            boolean isexist_bhq_xhxl_gj=dbUtils.tableIsExist(BHQ_XHXL_GJ.class);//BHQ_XHXL_GJ表
+            if (isexist_bhq_xhxl_gj)
+            {
+                boolean isexist=SqliteDb.checkColumnExist1(sqLiteDatabase, "BHQ_XHXL_GJ", "XXZT");
+                if (!isexist)
+                {
+                    String sql = "alter table  BHQ_XHXL_GJ  add column XXZT NVARCHAR(10)";
+                    sqLiteDatabase.execSQL(sql);
+                }
+            }
+            boolean isexist_RW_RW=dbUtils.tableIsExist(RW_RW.class);//RW_RW表
+            if (isexist_RW_RW)
+            {
+                boolean isexist_IsRead=SqliteDb.checkColumnExist1(sqLiteDatabase,"RW_RW","IsRead");
+                if (!isexist_IsRead)
+                {
+                    String sql= "alter table  RW_RW  add column IsRead NVARCHAR(10)";
+                    sqLiteDatabase.execSQL(sql);
+                }
+            }
+        } catch (DbException e)
         {
-            String sql_updateBHQ_XHXL_GJ = "alter table  RW_RW  add column IsRead NVARCHAR(10)";
-            sqLiteDatabase.execSQL(sql_updateBHQ_XHXL_GJ);
+            e.printStackTrace();
+            return;
         }
+
+
 //        boolean isexist_altitude=SqliteDb.checkColumnExist1(sqLiteDatabase,"BHQ_XHQK_GJ","altitude");
 //        boolean isexist_accuracy=SqliteDb.checkColumnExist1(sqLiteDatabase,"BHQ_XHQK_GJ","accuracy");
 //        boolean isexist_bearing=SqliteDb.checkColumnExist1(sqLiteDatabase,"BHQ_XHQK_GJ","bearing");

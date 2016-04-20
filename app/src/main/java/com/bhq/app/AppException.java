@@ -10,6 +10,11 @@ import android.os.Build;
 import android.util.Log;
 
 import com.bhq.R;
+import com.bhq.bean.ExceptionInfo;
+import com.bhq.bean.dt_manager_offline;
+import com.bhq.common.GetMobilePhoneInfo;
+import com.bhq.common.SqliteDb;
+import com.bhq.common.utils;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -33,41 +38,58 @@ import java.util.TreeSet;
  */
 public class AppException implements UncaughtExceptionHandler
 {
-	/** Debug Log Tag */
+	/**
+	 * Debug Log Tag
+	 */
 	public static final String TAG = "CrashHandler";
-	/** 是否开启日志输出, 在Debug状态下开启, 在Release状态下关闭以提升程序性能 */
+	/**
+	 * 是否开启日志输出, 在Debug状态下开启, 在Release状态下关闭以提升程序性能
+	 */
 	public static final boolean DEBUG = true;
-	/** CrashHandler实例 */
+	/**
+	 * CrashHandler实例
+	 */
 	private static AppException INSTANCE;
-	/** 程序的Context对象 */
+	/**
+	 * 程序的Context对象
+	 */
 	private Context mContext;
-	/** 系统默认的UncaughtException处理类 */
+	/**
+	 * 系统默认的UncaughtException处理类
+	 */
 	private Thread.UncaughtExceptionHandler mDefaultHandler;
 
-	/** 使用Properties来保存设备的信息和错误堆栈信息 */
+	/**
+	 * 使用Properties来保存设备的信息和错误堆栈信息
+	 */
 	private Properties mDeviceCrashInfo = new Properties();
 	private static final String VERSION_NAME = "versionName";
 	private static final String VERSION_CODE = "versionCode";
 	private static final String STACK_TRACE = "STACK_TRACE";
-	/** 错误报告文件的扩展名 */
-	private static final String CRASH_REPORTER_EXTENSION = ".cr";
+	/**
+	 * 错误报告文件的扩展名
+	 */
+	private static final String CRASH_REPORTER_EXTENSION = ".txt";
 
-	/** 保证只有一个CrashHandler实例 */
+	/**
+	 * 保证只有一个CrashHandler实例
+	 */
 	private AppException()
 	{
 	}
 
-	/** 获取CrashHandler实例 ,单例模式 */
+	/**
+	 * 获取CrashHandler实例 ,单例模式
+	 */
 	public static AppException getInstance()
 	{
-		if (INSTANCE == null)
-			INSTANCE = new AppException();
+		if (INSTANCE == null) INSTANCE = new AppException();
 		return INSTANCE;
 	}
 
 	/**
 	 * 初始化,注册Context对象, 获取系统默认的UncaughtException处理器, 设置该CrashHandler为程序的默认处理器
-	 * 
+	 *
 	 * @param ctx
 	 */
 	public void init(Context ctx)
@@ -107,9 +129,36 @@ public class AppException implements UncaughtExceptionHandler
 
 	}
 
+	// 三个参数
+	// 第一个是文件名字
+	// 第二个是文件存放的目录
+	// 第三个是文件内容
+	public static void writeToApplicationFile(String file, File destDir, String szOutText)
+	{
+		File myFile = null;
+		try
+		{
+			myFile = new File(destDir + File.separator + file); // 打开文件
+
+			if (myFile.exists()) // 判断文件是否存在,存在则删除
+			{
+				myFile.delete();
+			}
+			myFile.createNewFile();// 创建文件
+			FileOutputStream outputStream = new FileOutputStream(myFile, true); // 写数据
+			// 注意这里，两个参数，第一个是写入的文件，第二个是指是覆盖还是追加，
+			// //默认是覆盖的，就是不写第二个参数，这里设置为true就是说不覆盖，是在后面追加。
+			outputStream.write(szOutText.getBytes());// 写入内容
+			outputStream.close();// 关闭流
+		} catch (Exception e)
+		{
+			e.getStackTrace();
+		}
+	}
+
 	/**
 	 * 自定义错误处理,收集错误信息 发送错误报告等操作均在此完成. 开发者可以根据自己的情况来自定义异常处理逻辑
-	 * 
+	 *
 	 * @param ex
 	 * @return true:如果处理了该异常信息;否则返回false
 	 */
@@ -125,13 +174,14 @@ public class AppException implements UncaughtExceptionHandler
 		// 保存错误报告文件
 		String crashFileName = saveCrashInfoToFile(ex);
 		// 发送错误报告到服务器
-		sendCrashReportsToServer(mContext);
+//        sendCrashReportsToServer(mContext);
+
 		return true;
 	}
 
 	/**
 	 * 收集程序崩溃的设备信息
-	 * 
+	 *
 	 * @param ctx
 	 */
 	public void collectCrashDeviceInfo(Context ctx)
@@ -188,7 +238,7 @@ public class AppException implements UncaughtExceptionHandler
 
 	/**
 	 * 保存错误信息到文件中
-	 * 
+	 *
 	 * @param ex
 	 * @return
 	 */
@@ -209,30 +259,52 @@ public class AppException implements UncaughtExceptionHandler
 		}
 
 		// toString() 以字符串的形式返回该缓冲区的当前值。
-		String result = info.toString();
-		printWriter.close();
-		mDeviceCrashInfo.put(STACK_TRACE, result);
+		PackageInfo packageInfo = null;
+		try
+		{
+			packageInfo = mContext.getApplicationContext().getPackageManager().getPackageInfo(mContext.getPackageName(), 0);
+		} catch (NameNotFoundException e)
+		{
+			e.printStackTrace();
+		}
 
+//        StringBuilder result=new StringBuilder();
+//        result.append("##应用程序发生错误##"+ utils.getTime()+"***\n"+"网络状态:"+GetMobilePhoneInfo.getCurrentNetType(mContext)+"***\n"+"手机型号:"+GetMobilePhoneInfo.getModel()+"***\n"+"手机系统版本:"+GetMobilePhoneInfo.getAndroidVersion()+"***\n"+"SDK版本:"+GetMobilePhoneInfo.getAndroidSDKVersion()+"***\n"+"CPU信息:"+GetMobilePhoneInfo.getCpuInfo()[0]+"***\n"+"总内存:"+GetMobilePhoneInfo.getMemory(mContext)[0]+"可用内存:"+GetMobilePhoneInfo.getMemory(mContext)[1]+"***\n");
+//        resul//t.append(String.valueOf(info));
+		String result = "######应用程序发生错误:" + utils.getTime() + "***\n" + "网络状态:" + GetMobilePhoneInfo.getCurrentNetType(mContext) + "***\n" + "手机型号:" + GetMobilePhoneInfo.getModel() + "***\n" + "手机系统版本:" + GetMobilePhoneInfo.getAndroidVersion() + "***\n" + "SDK版本:" + GetMobilePhoneInfo.getAndroidSDKVersion() + "***\n" + "CPU信息:" + GetMobilePhoneInfo.getCpuInfo()[0] + "***\n" + "总内存:" + GetMobilePhoneInfo.getMemory(mContext)[0] + "可用内存:" + GetMobilePhoneInfo.getMemory(mContext)[1] + "***\n" + String.valueOf(info);
+		printWriter.close();
+		mDeviceCrashInfo.put(STACK_TRACE, result.toString());
 		try
 		{
 			long timestamp = System.currentTimeMillis();
 			String fileName = "crash-" + timestamp + CRASH_REPORTER_EXTENSION;
 			// 保存文件
-			FileOutputStream trace = mContext.openFileOutput(fileName, Context.MODE_PRIVATE);
-			mDeviceCrashInfo.store(trace, "");
-			trace.flush();
-			trace.close();
+			File destDirStr = mContext.getFilesDir();
+			writeToApplicationFile(fileName, destDirStr, result.toString());//保存手机本地
+			saveExceptionInfoInSqlite(mContext, result);
+//            sendExceptionInfoToServer(mContext, result.toString());//保存远程数据库
+//            Intent intent_log = new Intent(mContext, SendExceptionInfoToSerer.class);
+//            intent_log.putExtra("info", result);
+//            intent_log.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//            mContext.startService(intent_log);
+//            Log.e(TAG, "应用程序发生错误:" + result.toString(), ex);//记录日志
+//			FileOutputStream trace = mContext.openFileOutput(fileName, Context.MODE_PRIVATE);
+//			mDeviceCrashInfo.store(trace, "");
+//			trace.flush();
+//			trace.close();
 			return fileName;
 		} catch (Exception e)
 		{
 			Log.e(TAG, "an error occured while writing report file...", e);
+			saveExceptionInfoInSqlite(mContext, result);
+//            sendExceptionInfoToServer(mContext, e.getMessage());//保存远程数据库
 		}
 		return null;
 	}
 
 	/**
 	 * 把错误报告发送给服务器,包含新产生的和以前没发送的.
-	 * 
+	 *
 	 * @param ctx
 	 */
 	private void sendCrashReportsToServer(Context ctx)
@@ -251,6 +323,73 @@ public class AppException implements UncaughtExceptionHandler
 			}
 		}
 	}
+
+	private void saveExceptionInfoInSqlite(Context ctx, String info)
+	{
+		dt_manager_offline dt_manager_offline = (com.bhq.bean.dt_manager_offline) SqliteDb.getCurrentUser(ctx, dt_manager_offline.class);
+		String userid="10000";
+		String username="未知姓名";
+		String exceptionid=java.util.UUID.randomUUID().toString();
+		if (dt_manager_offline != null)
+		{
+			userid=dt_manager_offline.getid();
+			username=dt_manager_offline.getreal_name();
+		}
+		ExceptionInfo exceptionInfo = new ExceptionInfo();
+		exceptionInfo.setId("");
+		exceptionInfo.setUuid(GetMobilePhoneInfo.getDeviceUuid(ctx).toString());
+		exceptionInfo.setExceptionid(exceptionid);
+		exceptionInfo.setExceptionInfo(info);
+		exceptionInfo.setUserid(userid);
+		exceptionInfo.setUsername(username);
+		exceptionInfo.setRegtime(utils.getTime());
+		exceptionInfo.setIsSolve("0");
+		SqliteDb.save(ctx, exceptionInfo);
+	}
+
+	/**
+	 * 把错误报告发送给服务器,包含新产生的和以前没发送的.
+	 *
+	 * @param ctx
+	 */
+//	private void sendExceptionInfoToServer(final Context ctx, String info)
+//	{
+//		dt_manager_offline dt_manager_offline = (com.bhq.bean.dt_manager_offline) SqliteDb.getCurrentUser(ctx, dt_manager_offline.class);
+//		RequestParams params = new RequestParams();
+//		params.addQueryStringParameter("UUID", GetMobilePhoneInfo.getDeviceUuid(ctx).toString());
+//		params.addQueryStringParameter("exceptionInfo", info);
+//		params.addQueryStringParameter("userid", dt_manager_offline.getid());
+//		params.addQueryStringParameter("username", dt_manager_offline.getreal_name());
+//		params.addQueryStringParameter("action", "saveAppException");
+//		HttpUtils http = new HttpUtils();
+//		http.send(HttpRequest.HttpMethod.POST, AppConfig.dataBaseUrl, params, new RequestCallBack<String>()
+//		{
+//			@Override
+//			public void onSuccess(ResponseInfo<String> responseInfo)
+//			{
+//				String a = responseInfo.result;
+//				List<?> listData = null;
+//				Result result = JSON.parseObject(responseInfo.result, Result.class);
+//				if (result.getResultCode() == 200)
+//				{
+//
+//					if (result.getAffectedRows() != 0)
+//					{
+//						SqliteDb.deleteExceptionInfo(ctx, exception.getExceptionid());
+//					}
+//
+//				}
+//
+//			}
+//
+//			@Override
+//			public void onFailure(HttpException arg0, String arg1)
+//			{
+//				AppContext.makeToast(mContext, "error_connectServer");
+//				AppContext.makeToast(mContext, "error_connectServer");
+//			}
+//		});
+//	}
 
 	/**
 	 * @description:提示发送错误报告
@@ -297,7 +436,7 @@ public class AppException implements UncaughtExceptionHandler
 
 	/**
 	 * 获取错误报告文件名
-	 * 
+	 *
 	 * @param ctx
 	 * @return
 	 */

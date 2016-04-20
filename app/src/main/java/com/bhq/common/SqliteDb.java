@@ -17,6 +17,7 @@ import com.bhq.bean.BHQ_XHXL_GJ;
 import com.bhq.bean.BHQ_ZSK;
 import com.bhq.bean.BQH_XHRY;
 import com.bhq.bean.Dictionary;
+import com.bhq.bean.ExceptionInfo;
 import com.bhq.bean.FJ_SCFJ;
 import com.bhq.bean.RW_CYR;
 import com.bhq.bean.RW_RW;
@@ -1131,7 +1132,32 @@ public class SqliteDb
         cv.put("BDLJ", values);
         sqLiteDatabase.update(table, cv, "BDLJ = ?", new String[]{id});
     }
-
+    public static boolean deleteExceptionInfo(Context context, String exceptionid)
+    {
+        DbUtils db = DbUtils.create(context);
+        try
+        {
+            db.delete(ExceptionInfo.class, WhereBuilder.b("exceptionid", "=", exceptionid));
+        } catch (DbException e)
+        {
+            return false;
+        }
+        return true;
+    }
+    public static <T> List<T> getExceptionInfo(Context context)
+    {
+//        DbUtils db = DbUtils.create(context);
+        InitDbutils(context);
+        List<T> list = null;
+        try
+        {
+            list = db.findAll(Selector.from(ExceptionInfo.class));
+        } catch (DbException e)
+        {
+            e.printStackTrace();
+        }
+        return list;
+    }
     public static void updateZSK(Context context, String table, String ZDID, String values)
     {
         InitDbutils(context);
@@ -1187,6 +1213,48 @@ public class SqliteDb
             }
         }
     }
+    public static void insertUserData(Context context, String classname, String[] columnnames, JSONArray jsonArray_Rows)
+    {
+        InitDbutils(context);
+        if (jsonArray_Rows.size() != 0)
+        {
+            StringBuffer columnn = new StringBuffer();
+            for (int i = 0; i < columnnames.length; i++)
+            {
+                columnn.append(columnnames[i] + ",");
+            }
+            columnn.replace(columnn.length() - 1, columnn.length(), "");
+            for (int i = 0; i < jsonArray_Rows.size(); i++)
+            {
+                StringBuffer values = new StringBuffer();
+                String sql_count = "select count(*) from " + classname + " where id =?";
+                String args = jsonArray_Rows.getJSONArray(i).getString(0);
+                Cursor cursor = sqLiteDatabase.rawQuery("select count(*) from " + classname + " where id =?", new String[]{jsonArray_Rows.getJSONArray(i).getString(0)});
+                cursor.moveToFirst();
+                String c = cursor.getString(0);
+                int count = Integer.valueOf(c);
+                if (count > 0)//已经存在就暂不处理
+                {
+//                    for (int j = 0; j < columnnames.length; j++)
+//                    {
+//                        values.append(columnnames[j] + "=" + "\"" + jsonArray_Rows.getJSONArray(i).getString(j) + "\"" + ",");
+//                    }
+//                    values.replace(values.length() - 1, values.length(), "");
+//                    String sql_update = "update " + classname + " set " + values + " where  RWCYID =" + "\"" + jsonArray_Rows.getJSONArray(i).getString(0) + "\"";
+//                    sqLiteDatabase.execSQL(sql_update);
+                } else
+                {
+                    for (int j = 0; j < columnnames.length; j++)
+                    {
+                        values.append("\"" + jsonArray_Rows.getJSONArray(i).getString(j) + "\"" + ",");
+                    }
+                    values.replace(values.length() - 1, values.length(), "");
+                    String sql_insert = "insert into " + classname + "(" + columnn + ")values(" + values + ")";
+                    sqLiteDatabase.execSQL(sql_insert);
+                }
+            }
+        }
+    }
 
     public static void insertRW_CYRData(Context context, String classname, String[] columnnames, JSONArray jsonArray_Rows)
     {
@@ -1203,9 +1271,6 @@ public class SqliteDb
             for (int i = 0; i < jsonArray_Rows.size(); i++)
             {
                 StringBuffer values = new StringBuffer();
-                ;
-
-
                 String sql_count = "select count(*) from " + classname + " where RWCYID =?";
                 String args = jsonArray_Rows.getJSONArray(i).getString(0);
                 Cursor cursor = sqLiteDatabase.rawQuery("select count(*) from " + classname + " where RWCYID =?", new String[]{jsonArray_Rows.getJSONArray(i).getString(0)});
@@ -1231,19 +1296,6 @@ public class SqliteDb
                     String sql_insert = "insert into " + classname + "(" + columnn + ")values(" + values + ")";
                     sqLiteDatabase.execSQL(sql_insert);
                 }
-
-//                if (sql == null)
-//                {
-//
-//                }
-//                try
-//                {
-//                    sqLiteDatabase.execSQL(sql);
-//                } catch (JSONException e)
-//                {
-//                    String a=e.getMessage();
-//                    e.printStackTrace();
-//                }
             }
         }
     }

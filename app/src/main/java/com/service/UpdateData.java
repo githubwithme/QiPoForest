@@ -17,6 +17,7 @@ import com.bhq.bean.RW_CYR;
 import com.bhq.bean.RW_RW;
 import com.bhq.bean.RW_YQB;
 import com.bhq.bean.Result;
+import com.bhq.bean.dt_manager_offline;
 import com.bhq.common.ConnectionHelper;
 import com.bhq.common.SqliteDb;
 import com.lidroid.xutils.HttpUtils;
@@ -84,7 +85,7 @@ public class UpdateData extends Service
         InitTable("APP.InitBHQ_XHXLData", sysntime, BHQ_XHXL.class);
         InitTable("APP.InitBHQ_XHXL_GJInfo", sysntime, BHQ_XHXL_GJ.class);
         InitTable("APP.InitBQH_XHRYData", sysntime, BQH_XHRY.class);
-//        InitTable("APP.InitUserTable", sysntime, dt_manager_offline.class);
+        InitTable("APP.InitUserData", sysntime, dt_manager_offline.class);
 
         getServerSystemTime();
     }
@@ -138,9 +139,9 @@ public class UpdateData extends Service
                             else if (action.equals("APP.InitRW_YQBData"))
                             {
                                 SqliteDb.insertData(UpdateData.this, "RW_YQB", ColumnNames, jsonArray_Rows);
-                            } else if (action.equals("APP.InitUserTable"))
+                            } else if (action.equals("APP.InitUserData"))
                             {
-                                SqliteDb.insertData(UpdateData.this, "dt_manager_offline", ColumnNames, jsonArray_Rows);
+                                SqliteDb.insertUserData(UpdateData.this, "dt_manager_offline", ColumnNames, jsonArray_Rows);
 //                                for (int i = 0; i < jsonArray_Rows.size(); i++)
 //                                {
 //                                            String id=jsonArray_Rows.getJSONArray(i).getString(0);
@@ -275,48 +276,48 @@ public class UpdateData extends Service
         }
     }
 
-    public void saveSingleData(Object obj, String action)
-    {
-        if (obj == null)
-        {
-        } else
-        {
-            if (action.equals("APP.InitZSKTable"))
-            {
-                BHQ_ZSK bhq_ZSK = (BHQ_ZSK) obj;
-                if (bhq_ZSK.getimgurl() != null & !bhq_ZSK.getimgurl().equals(""))
-                {
-                    String bdlj = AppConfig.MEDIA_PATH + bhq_ZSK.getimgurl().subSequence(bhq_ZSK.getimgurl().lastIndexOf("/") + 1, bhq_ZSK.getimgurl().length());
-                    bhq_ZSK.setBDLJ(bdlj);
-                    getPhotos(AppConfig.url + bhq_ZSK.getimgurl(), bdlj);
-                }
-            }
-            if (action.equals("APP.InitUserTable"))
-            {
-//                dt_manager_offline dt_manager_offline = (dt_manager_offline) obj;
-//                if (dt_manager_offline.getUserPhoto() != null && !dt_manager_offline.getUserPhoto().equals(""))
+//    public void saveSingleData(Object obj, String action)
+//    {
+//        if (obj == null)
+//        {
+//        } else
+//        {
+//            if (action.equals("APP.InitZSKTable"))
+//            {
+//                BHQ_ZSK bhq_ZSK = (BHQ_ZSK) obj;
+//                if (bhq_ZSK.getimgurl() != null & !bhq_ZSK.getimgurl().equals(""))
 //                {
-//                    String BDLJ = AppConfig.MEDIA_PATH + dt_manager_offline.getUserPhoto().subSequence(dt_manager_offline.getUserPhoto().lastIndexOf("/") + 1, dt_manager_offline.getUserPhoto().length());
-//                    dt_manager_offline.setBDLJ(BDLJ);
-//                    getPhotos(AppConfig.url + dt_manager_offline.getUserPhoto(), BDLJ);
+//                    String bdlj = AppConfig.MEDIA_PATH + bhq_ZSK.getimgurl().subSequence(bhq_ZSK.getimgurl().lastIndexOf("/") + 1, bhq_ZSK.getimgurl().length());
+//                    bhq_ZSK.setBDLJ(bdlj);
+//                    getPhotos(AppConfig.url + bhq_ZSK.getimgurl(), bdlj);
 //                }
-                boolean issuccess = SqliteDb.saveUserInfo(UpdateData.this, obj);
-                return;
-            }
-            boolean issuccess = SqliteDb.save(UpdateData.this, obj);
-            if (issuccess)
-            {
-                if (action.equals("APP.InitZSKTable"))
-                {
-                    BHQ_ZSK bhq_ZSK = (BHQ_ZSK) obj;
-                    getZSNR(bhq_ZSK.getZSID());
-                }
-
-            } else
-            {
-            }
-        }
-    }
+//            }
+//            if (action.equals("APP.InitUserData"))
+//            {
+////                dt_manager_offline dt_manager_offline = (dt_manager_offline) obj;
+////                if (dt_manager_offline.getUserPhoto() != null && !dt_manager_offline.getUserPhoto().equals(""))
+////                {
+////                    String BDLJ = AppConfig.MEDIA_PATH + dt_manager_offline.getUserPhoto().subSequence(dt_manager_offline.getUserPhoto().lastIndexOf("/") + 1, dt_manager_offline.getUserPhoto().length());
+////                    dt_manager_offline.setBDLJ(BDLJ);
+////                    getPhotos(AppConfig.url + dt_manager_offline.getUserPhoto(), BDLJ);
+////                }
+//                boolean issuccess = SqliteDb.saveUserInfo(UpdateData.this, obj);
+//                return;
+//            }
+//            boolean issuccess = SqliteDb.save(UpdateData.this, obj);
+//            if (issuccess)
+//            {
+//                if (action.equals("APP.InitZSKTable"))
+//                {
+//                    BHQ_ZSK bhq_ZSK = (BHQ_ZSK) obj;
+//                    getZSNR(bhq_ZSK.getZSID());
+//                }
+//
+//            } else
+//            {
+//            }
+//        }
+//    }
     private <T> void getServerSystemTime()
     {
         HashMap<String, String> hashMap = new HashMap<String, String>();

@@ -689,6 +689,10 @@ public class Offline_PatrolControlFragment extends Fragment implements TencentLo
 
     private void AddNewBHQ_XHQK_GJ(TencentLocation location,String XHID, String distance)
     {
+        if (Double.valueOf(distance)<0)
+        {
+            distance="0";
+        }
         Gps gPS = CoordinateConvertUtil.gcj_To_Gps84(location_latLng.getLatitude(), location_latLng.getLongitude());
         String GJID = java.util.UUID.randomUUID().toString();
         BHQ_XHQK_GJ bhq_XHQK_GJ = new BHQ_XHQK_GJ();

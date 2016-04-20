@@ -23,11 +23,22 @@ import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
 import com.bhq.R;
+import com.bhq.app.AppConfig;
 import com.bhq.app.AppManager;
+import com.bhq.bean.ExceptionInfo;
+import com.bhq.bean.Result;
+import com.bhq.common.ConnectionHelper;
+import com.bhq.common.SqliteDb;
 import com.bhq.service.MarkLocationService;
 import com.bhq.widget.MyDialog;
 import com.bhq.widget.MyDialog.CustomDialogListener;
+import com.lidroid.xutils.HttpUtils;
+import com.lidroid.xutils.exception.HttpException;
+import com.lidroid.xutils.http.ResponseInfo;
+import com.lidroid.xutils.http.callback.RequestCallBack;
+import com.lidroid.xutils.http.client.HttpRequest;
 import com.service.DownloadData;
 import com.service.UpdateData;
 
@@ -35,6 +46,9 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
+
+import java.util.HashMap;
+import java.util.List;
 
 @SuppressLint("NewApi")
 @EActivity(R.layout.offline_activity_main)
@@ -136,7 +150,15 @@ public class Offline_MainActivity extends Activity
 	@AfterViews
 	void afterOncreate()
 	{
-
+		//将错误信息提交
+		List<ExceptionInfo> list_exception = SqliteDb.getExceptionInfo(Offline_MainActivity.this);
+		if (list_exception != null)
+		{
+			for (int i = 0; i < list_exception.size(); i++)
+			{
+				sendExceptionInfoToServer(list_exception.get(i));
+			}
+		}
 
 		tv_home.setTextColor(getResources().getColor(R.color.red));
 		tv_knowledge.setTextColor(getResources().getColor(R.color.black));
@@ -304,5 +326,44 @@ public class Offline_MainActivity extends Activity
 			}
 		});
 		myDialog.show();
+	}
+	private void sendExceptionInfoToServer(final ExceptionInfo exception)
+	{
+		HashMap<String, String> hashMap = new HashMap<String, String>();
+		hashMap.put("exceptionid", exception.getExceptionid());
+		hashMap.put("uuid", exception.getUuid());
+		hashMap.put("exceptionInfo", exception.getExceptionInfo());
+		hashMap.put("regtime", exception.getRegtime());
+		hashMap.put("userid", exception.getUserid());
+		hashMap.put("username", exception.getUsername());
+		hashMap.put("isSolve", exception.getIsSolve());
+		String params = ConnectionHelper.setParams("APP.saveAppException", "0", hashMap);
+		new HttpUtils().send(HttpRequest.HttpMethod.POST, AppConfig.dataBaseUrl, ConnectionHelper.getParas(params), new RequestCallBack<String>()
+		{
+			@Override
+			public void onSuccess(ResponseInfo<String> responseInfo)
+			{
+				String a = responseInfo.result;
+				List<?> listData = null;
+				Result result = JSON.parseObject(responseInfo.result, Result.class);
+				if (result.getResultCode() == 200)
+				{
+
+					if (result.getAffectedRows() != 0)
+					{
+						SqliteDb.deleteExceptionInfo(Offline_MainActivity.this, exception.getExceptionid());
+					}
+
+				}
+
+			}
+
+			@Override
+			public void onFailure(HttpException error, String msg)
+			{
+				String a = error.getMessage();
+			}
+		});
+
 	}
 }
