@@ -42,6 +42,9 @@ import com.bhq.bean.BHQ_XHXL_GJ;
 import com.bhq.bean.BHQ_ZSK;
 import com.bhq.bean.BQH_XHRY;
 import com.bhq.bean.Dictionary;
+import com.bhq.bean.RW_CYR;
+import com.bhq.bean.RW_RW;
+import com.bhq.bean.RW_YQB;
 import com.bhq.bean.Result;
 import com.bhq.bean.ResultDeal;
 import com.bhq.bean.dt_manager;
@@ -56,6 +59,8 @@ import com.lidroid.xutils.exception.HttpException;
 import com.lidroid.xutils.http.ResponseInfo;
 import com.lidroid.xutils.http.callback.RequestCallBack;
 import com.lidroid.xutils.http.client.HttpRequest;
+import com.service.DownloadData;
+import com.service.UpdateData;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.CheckedChange;
@@ -211,6 +216,9 @@ public class Login extends Activity
         hasInit = sp.getString("hasInit", "");
         if (hasInit.equals("true"))
         {
+            Intent intenttemp = new Intent(Login.this, UpdateData.class);
+            intenttemp.setAction(DownloadData.ACTION_DOWNLOADDATA);
+            Login.this.startService(intenttemp);
             if (model.equals("0"))
             {
                 dt_manager_offline dt_manager_offline = (dt_manager_offline) SqliteDb.getAutoLoginUser(Login.this, dt_manager_offline.class);
@@ -255,25 +263,19 @@ public class Login extends Activity
     private void startInitData()
     {
         SqliteDb.createTable(Login.this);
-        ThreadNumber = 5;
+        ThreadNumber = 9;
         latch = new CountDownLatch(ThreadNumber);
-//        SqliteDb.dropTable(Login.this, dt_manager_offline.class);
-//        SqliteDb.dropTable(Login.this, Dictionary.class);
-//        SqliteDb.dropTable(Login.this, BHQ_ZSK.class);
-//        SqliteDb.dropTable(Login.this, RW_RW.class);
-//        SqliteDb.dropTable(Login.this, RW_CYR.class);
-//        SqliteDb.dropTable(Login.this, RW_YQB.class);
         rl_inittip.setVisibility(View.GONE);
         rl_pb.setVisibility(View.VISIBLE);
-        InitTable("APP.InitUserTable", dt_manager_offline.class);
+        InitTable("APP.InitUserData", dt_manager_offline.class);
         InitTable("APP.InitDictionaryTable", Dictionary.class);
-        InitTable("APP.InitBHQ_XHXLTable", BHQ_XHXL.class);
-        InitTable("APP.InitBHQ_XHXL_GJInformation", BHQ_XHXL_GJ.class);
-        InitTable("APP.InitBQH_XHRYTable", BQH_XHRY.class);
-//		InitTable("APP.InitZSKTable", BHQ_ZSK.class);
-//		InitTable("APP.getRW_RW", RW_RW.class);
-//		InitTable("APP.getRW_CYR", RW_CYR.class);
-//		InitTable("APP.getRW_YQB", RW_YQB.class);
+        InitTable("APP.InitBHQ_XHXLData", BHQ_XHXL.class);
+        InitTable("APP.InitBHQ_XHXL_GJInfo", BHQ_XHXL_GJ.class);
+        InitTable("APP.InitBQH_XHRYData", BQH_XHRY.class);
+		InitTable("APP.InitBHQ_ZSKData", BHQ_ZSK.class);
+		InitTable("APP.InitRW_RWData", RW_RW.class);
+		InitTable("APP.InitRW_CYRData", RW_CYR.class);
+		InitTable("APP.InitRW_YQBData", RW_YQB.class);
     }
 
     private void startLogin(final String username, final String psw)
@@ -531,6 +533,7 @@ public class Login extends Activity
     private <T> void InitTable(final String action, final Class<T> className)
     {
         HashMap<String, String> hashMap = new HashMap<String, String>();
+        hashMap.put("sysntime", "1900-01-01");
         String params = ConnectionHelper.setParams(action, "0", hashMap);
         new HttpUtils().send(HttpRequest.HttpMethod.POST, AppConfig.dataBaseUrl, ConnectionHelper.getParas(params), new RequestCallBack<String>()
         {
@@ -548,26 +551,39 @@ public class Login extends Activity
                         String[] ColumnNames = result.getColumnNames();
                         if (jsonArray_Rows.size() > 0)
                         {
-                            if (action.equals("APP.InitUserTable"))
+                            if (action.equals("APP.InitUserData"))
                             {
                                 SqliteDb.insertData(Login.this, "dt_manager_offline", ColumnNames, jsonArray_Rows);
                             } else if (action.equals("APP.InitDictionaryTable"))
                             {
                                 SqliteDb.insertData(Login.this, "Dictionary", ColumnNames, jsonArray_Rows);
-                            } else if (action.equals("APP.InitBHQ_XHXLTable"))
+                            } else if (action.equals("APP.InitBHQ_XHXLData"))
                             {
                                 SqliteDb.insertData(Login.this, "BHQ_XHXL", ColumnNames, jsonArray_Rows);
-                            } else if (action.equals("APP.InitBHQ_XHXL_GJInformation"))
+                            } else if (action.equals("APP.InitBHQ_XHXL_GJInfo"))
                             {
                                 SqliteDb.insertData(Login.this, "BHQ_XHXL_GJ", ColumnNames, jsonArray_Rows);
-                            } else if (action.equals("APP.InitBQH_XHRYTable"))
+                            } else if (action.equals("APP.InitBQH_XHRYData"))
                             {
                                 SqliteDb.insertData(Login.this, "BQH_XHRY", ColumnNames, jsonArray_Rows);
+                            }else if (action.equals("APP.InitRW_RWData"))
+                            {
+                                SqliteDb.insertData(Login.this, "RW_RW", ColumnNames, jsonArray_Rows);
+                            }else if (action.equals("APP.InitRW_CYRData"))
+                            {
+                                SqliteDb.insertData(Login.this, "RW_CYR", ColumnNames, jsonArray_Rows);
+                            }else if (action.equals("APP.InitRW_YQBData"))
+                            {
+                                SqliteDb.insertData(Login.this, "RW_YQB", ColumnNames, jsonArray_Rows);
+                            }else if (action.equals("APP.InitBHQ_ZSKData"))
+                            {
+                                SqliteDb.insertData(Login.this, "BHQ_ZSK", ColumnNames, jsonArray_Rows);
+                                initZSNR("1900-01-01");
                             }
-                            showProgress();
-                            pb.setProgress(Integer.valueOf(utils.getRate(ThreadNumber - Integer.valueOf(String.valueOf(latch.getCount())), ThreadNumber)));
                         }
                     }
+                    showProgress();
+                    pb.setProgress(Integer.valueOf(utils.getRate(ThreadNumber - Integer.valueOf(String.valueOf(latch.getCount())), ThreadNumber)));
 //                    if (result.getAffectedRows() != 0)
 //                    {
 //                        listData = JSON.parseArray(ResultDeal.getAllRow(result), className);
@@ -640,7 +656,45 @@ public class Login extends Activity
         });
 
     }
+    private <T> void initZSNR(String sysntime)
+    {
+        HashMap<String, String> hashMap = new HashMap<String, String>();
+        hashMap.put("sysntime", sysntime);
+        String params = ConnectionHelper.setParams("APP.InitZSNR", "0", hashMap);
+        new HttpUtils().send(HttpRequest.HttpMethod.POST, AppConfig.dataBaseUrl, ConnectionHelper.getParas(params), new RequestCallBack<String>()
+        {
+            @Override
+            public void onSuccess(ResponseInfo<String> responseInfo)
+            {
+                String a = responseInfo.result;
+                List<?> listData = null;
+                Result result = JSON.parseObject(responseInfo.result, Result.class);
+                if (result.getResultCode() == 200)
+                {
 
+                    if (result.getAffectedRows() != 0)
+                    {
+                        JSONArray jsonArray_Rows = result.getRows();
+                        String[] ColumnNames = result.getColumnNames();
+                        for (int i = 0; i < jsonArray_Rows.size(); i++)
+                        {
+                            String zsid = result.getRows().getJSONArray(i).get(0).toString();
+                            String zsnr = result.getRows().getJSONArray(i).get(1).toString();
+                            SqliteDb.updateZSK(Login.this,"BHQ_ZSK",zsid,zsnr);
+                        }
+                    }
+                } else
+                {
+                }
+            }
+
+            @Override
+            public void onFailure(HttpException error, String msg)
+            {
+            }
+        });
+
+    }
     private void getZSNR(final String zsid)
     {
         HashMap<String, String> hashMap = new HashMap<String, String>();
