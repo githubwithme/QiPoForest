@@ -59,8 +59,6 @@ import com.lidroid.xutils.exception.HttpException;
 import com.lidroid.xutils.http.ResponseInfo;
 import com.lidroid.xutils.http.callback.RequestCallBack;
 import com.lidroid.xutils.http.client.HttpRequest;
-import com.service.DownloadData;
-import com.service.UpdateData;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.CheckedChange;
@@ -216,9 +214,9 @@ public class Login extends Activity
         hasInit = sp.getString("hasInit", "");
         if (hasInit.equals("true"))
         {
-            Intent intenttemp = new Intent(Login.this, UpdateData.class);
-            intenttemp.setAction(DownloadData.ACTION_DOWNLOADDATA);
-            Login.this.startService(intenttemp);
+//            Intent intenttemp = new Intent(Login.this, UpdateData.class);
+//            intenttemp.setAction(DownloadData.ACTION_DOWNLOADDATA);
+//            Login.this.startService(intenttemp);
             if (model.equals("0"))
             {
                 dt_manager_offline dt_manager_offline = (dt_manager_offline) SqliteDb.getAutoLoginUser(Login.this, dt_manager_offline.class);

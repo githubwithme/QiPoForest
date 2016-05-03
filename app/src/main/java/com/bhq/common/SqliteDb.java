@@ -581,7 +581,10 @@ public class SqliteDb
         InitDbutils(context);
         try
         {
+            RW_RW RW_RW= db.findFirst(Selector.from(RW_RW.class).where("RWID", "=", RWID));
             db.update(obj, WhereBuilder.b("RWID", "=", RWID).and("RYID", "=", RYID), "SFWC", "WCSJ", "XGSJ", "IsUpload");
+            RW_RW RW_RW1= db.findFirst(Selector.from(RW_RW.class).where("RWID", "=", RWID));
+            RW_RW RW_RW2= db.findFirst(Selector.from(RW_RW.class).where("RWID", "=", RWID));
         } catch (DbException e)
         {
             e.printStackTrace();
@@ -946,6 +949,7 @@ public class SqliteDb
             rw_RW.setZCRXM(dbModels.get(i).getString("ZCRXM"));
             rw_RW.setZRR(dbModels.get(i).getString("ZRR"));
             rw_RW.setZYD(dbModels.get(i).getString("ZYD"));
+            rw_RW.setIsRead(dbModels.get(i).getString("IsRead"));
             list.add(rw_RW);
         }
 
@@ -989,6 +993,7 @@ public class SqliteDb
             rw_RW.setZCRXM(dbModels.get(i).getString("ZCRXM"));
             rw_RW.setZRR(dbModels.get(i).getString("ZRR"));
             rw_RW.setZYD(dbModels.get(i).getString("ZYD"));
+            rw_RW.setIsRead(dbModels.get(i).getString("IsRead"));
             list.add(rw_RW);
         }
         return list;

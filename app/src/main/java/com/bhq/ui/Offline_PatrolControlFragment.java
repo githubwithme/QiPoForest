@@ -90,8 +90,8 @@ import java.util.List;
 @EFragment
 public class Offline_PatrolControlFragment extends Fragment implements TencentLocationListener
 {
-    String hb="";
-    String sd="";
+    String hb = "";
+    String sd = "";
     List<Circle> list_Circle = new ArrayList<>();
     String XLID = "-1";
     dt_manager_offline dt_manager_offline;
@@ -221,6 +221,7 @@ public class Offline_PatrolControlFragment extends Fragment implements TencentLo
         tv_starttime.setVisibility(View.GONE);
         rl_mapmore.setVisibility(View.GONE);
         isStart = false;
+        lastlatLng=null;
         tencentMap.clearAllOverlays();
         FinishBHQ_XHQK(XHID);
         AddNewBHQ_XHQK_ZTCZ(XHID, "3");// 设置结束状态
@@ -425,9 +426,6 @@ public class Offline_PatrolControlFragment extends Fragment implements TencentLo
     {
         if (TencentLocation.ERROR_OK == error) // 定位成功
         {
-//            Gps gPS= CoordinateConvertUtil.gps84_To_Gcj02(location.getLatitude(), location.getLongitude());
-//            location_latLng = new LatLng(gPS.getWgLat(), gPS.getWgLon());
-            // 用于定位
             location_latLng = new LatLng(location.getLatitude(), location.getLongitude());
             Gps gPS_84 = CoordinateConvertUtil.gcj_To_Gps84(location_latLng.getLatitude(), location_latLng.getLongitude());
             AppContext appContext = (AppContext) getActivity().getApplication();
@@ -436,14 +434,16 @@ public class Offline_PatrolControlFragment extends Fragment implements TencentLo
             // 每隔15秒记录轨迹
             newtime = System.currentTimeMillis();
             int diff = (int) (newtime - lasttime) / 1000;
-            if (diff > 15)// 每隔15秒记录一次
+            if (diff > 15)
             {
-                uploadLocationInfo(location, gPS_84);
-                lasttime = newtime;
+//                if (utils.isCurrentTimeBetWeen())//判断当前时间是否在指定时间段内
+//                {
+//                    uploadLocationInfo(location, gPS_84);// 每隔15秒上次一次最新位置
+//                }
+                uploadLocationInfo(location, gPS_84);// 每隔15秒上次一次最新位置
+                //每隔15秒更新ui轨迹
                 if (isStart)
                 {
-
-//                    AddNewBHQ_XHQK_GJ(XHID);// 添加开始点的轨迹
                     // 画轨迹
                     PolylineOptions lineOpt = new PolylineOptions();
                     lineOpt.add(lastlatLng);
@@ -452,31 +452,37 @@ public class Offline_PatrolControlFragment extends Fragment implements TencentLo
                     line.setColor(getResources().getColor(R.color.black));
                     line.setWidth(10f);
                     Overlays.add(line);
-                    // 计算距离
-                    if (lastlatLng != null)
-                    {
-                        XHLC = XHLC + mProjection.distanceBetween(lastlatLng, location_latLng);
-                        Double distance = XHLC - lastXHLC;
-                        lastXHLC = XHLC;
-                        AddNewBHQ_XHQK_GJ(location,XHID, String.valueOf(distance));// 添加开始点的轨迹
-                        tencentMap.animateTo(location_latLng);
-                        if (String.valueOf(XHLC).length() > 5)
-                        {
-                            tv_runlength.setText(String.valueOf(XHLC).substring(0, String.valueOf(XHLC).lastIndexOf(".") + 3) + "m");
-                        } else
-                        {
-                            tv_runlength.setText(XHLC + "m");
-                        }
-
-                    }
-                    // 传递值放在最后
-                    lastlatLng = location_latLng;
-                    // if (!polygon.contains(location_latLng))
-                    // {
-                    // NewDataToast.makeText(getActivity(), "你已经走出巡护范围",
-                    // appContext.isAppSound(), R.raw.outofbounds).show();
-                    // }
                 }
+
+                lasttime = newtime;//传递值
+            }
+            //1记录轨迹点2更新UI信息
+            if (isStart)
+            {
+                tencentMap.animateTo(location_latLng);
+                if (lastlatLng != null)
+                {
+                    XHLC = XHLC + mProjection.distanceBetween(lastlatLng, location_latLng); // 计算总里程
+                    //实时更新ui中的里程信息
+                    if (String.valueOf(XHLC).length() > 5)
+                    {
+                        tv_runlength.setText(String.valueOf(XHLC).substring(0, String.valueOf(XHLC).lastIndexOf(".") + 3) + "m");
+                    } else
+                    {
+                        tv_runlength.setText(XHLC + "m");
+                    }
+                    // 添加轨迹
+                    Double distance = XHLC - lastXHLC;
+                    if (distance >= 3f)
+                    {
+                        AddNewBHQ_XHQK_GJ(location, XHID, String.valueOf(distance));//添加满足条件的轨迹点
+                        lastXHLC = XHLC;//上一段里程（以最后一次保存轨迹点为终点）
+                    }
+                } else
+                {
+                    AddNewBHQ_XHQK_GJ(location, XHID, "0");// 添加开始点的轨迹
+                }
+                lastlatLng = location_latLng;     // 传递值放在最后
             }
         }
 
@@ -687,12 +693,12 @@ public class Offline_PatrolControlFragment extends Fragment implements TencentLo
         SqliteDb.save(getActivity(), bhq_XHQK);
     }
 
-    private void AddNewBHQ_XHQK_GJ(TencentLocation location,String XHID, String distance)
+    private void AddNewBHQ_XHQK_GJ(TencentLocation location, String XHID, String distance)
     {
-        if (Double.valueOf(distance)<0)
-        {
-            distance="0";
-        }
+//        if (Double.valueOf(distance)<0f)
+//        {
+//            distance="0";
+//        }
         Gps gPS = CoordinateConvertUtil.gcj_To_Gps84(location_latLng.getLatitude(), location_latLng.getLongitude());
         String GJID = java.util.UUID.randomUUID().toString();
         BHQ_XHQK_GJ bhq_XHQK_GJ = new BHQ_XHQK_GJ();
@@ -722,7 +728,7 @@ public class Offline_PatrolControlFragment extends Fragment implements TencentLo
         SqliteDb.save(getActivity(), bhq_XHQK_ZTCZ);
     }
 
-    public void uploadLocationInfo(TencentLocation location,  Gps gPS_84)
+    public void uploadLocationInfo(TencentLocation location, Gps gPS_84)
     {
         dt_manager_offline dt_manager_offline = (com.bhq.bean.dt_manager_offline) SqliteDb.getCurrentUser(getActivity(), dt_manager_offline.class);
         HashMap<String, String> hashMap = new HashMap<String, String>();

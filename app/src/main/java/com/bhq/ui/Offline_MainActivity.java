@@ -39,6 +39,8 @@ import com.lidroid.xutils.exception.HttpException;
 import com.lidroid.xutils.http.ResponseInfo;
 import com.lidroid.xutils.http.callback.RequestCallBack;
 import com.lidroid.xutils.http.client.HttpRequest;
+import com.service.DownloadData;
+import com.service.UpdateData;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -186,9 +188,9 @@ public class Offline_MainActivity extends Activity
 		iServiceFragment_ = new Offline_IServiceFragment_();
 		this.savedInstanceState = savedInstanceState;
 
-//        Intent intenttemp = new Intent(Offline_MainActivity.this, UpdateData.class);
-//        intenttemp.setAction(DownloadData.ACTION_DOWNLOADDATA);
-//        Offline_MainActivity.this.startService(intenttemp);
+        Intent intenttemp = new Intent(Offline_MainActivity.this, UpdateData.class);
+        intenttemp.setAction(DownloadData.ACTION_DOWNLOADDATA);
+        Offline_MainActivity.this.startService(intenttemp);
 
 //        Intent intent = new Intent(this, UpdateApk.class);
 //        intent.setAction(UpdateApk.ACTION_NOTIFICATION_CONTROL);
