@@ -47,30 +47,30 @@ public class CustomDbUpgradeListener implements  DbUtils.DbUpgradeListener
         }
 
 
-//        boolean isexist_altitude=SqliteDb.checkColumnExist1(sqLiteDatabase,"BHQ_XHQK_GJ","altitude");
-//        boolean isexist_accuracy=SqliteDb.checkColumnExist1(sqLiteDatabase,"BHQ_XHQK_GJ","accuracy");
-//        boolean isexist_bearing=SqliteDb.checkColumnExist1(sqLiteDatabase,"BHQ_XHQK_GJ","bearing");
-//        boolean isexist_speed=SqliteDb.checkColumnExist1(sqLiteDatabase,"BHQ_XHQK_GJ","speed");
-//        if (!isexist_altitude)
-//        {
-//            String sql = "alter table  BHQ_XHQK_GJ  add column altitude NVARCHAR(10)";
-//            sqLiteDatabase.execSQL(sql);
-//        }
-//        if (!isexist_accuracy)
-//        {
-//            String sql = "alter table  BHQ_XHQK_GJ  add column accuracy NVARCHAR(10)";
-//            sqLiteDatabase.execSQL(sql);
-//        }
-//        if (!isexist_bearing)
-//        {
-//            String sql = "alter table  BHQ_XHQK_GJ  add column bearing NVARCHAR(10)";
-//            sqLiteDatabase.execSQL(sql);
-//        }
-//        if (!isexist_speed)
-//        {
-//            String sql = "alter table  BHQ_XHQK_GJ  add column speed NVARCHAR(10)";
-//            sqLiteDatabase.execSQL(sql);
-//        }
+        boolean isexist_altitude=SqliteDb.checkColumnExist1(sqLiteDatabase,"BHQ_XHQK_GJ","altitude");
+        boolean isexist_accuracy=SqliteDb.checkColumnExist1(sqLiteDatabase,"BHQ_XHQK_GJ","accuracy");
+        boolean isexist_bearing=SqliteDb.checkColumnExist1(sqLiteDatabase,"BHQ_XHQK_GJ","bearing");
+        boolean isexist_speed=SqliteDb.checkColumnExist1(sqLiteDatabase,"BHQ_XHQK_GJ","speed");
+        if (!isexist_altitude)
+        {
+            String sql = "alter table  BHQ_XHQK_GJ  add column altitude NVARCHAR(10)";
+            sqLiteDatabase.execSQL(sql);
+        }
+        if (!isexist_accuracy)
+        {
+            String sql = "alter table  BHQ_XHQK_GJ  add column accuracy NVARCHAR(10)";
+            sqLiteDatabase.execSQL(sql);
+        }
+        if (!isexist_bearing)
+        {
+            String sql = "alter table  BHQ_XHQK_GJ  add column bearing NVARCHAR(10)";
+            sqLiteDatabase.execSQL(sql);
+        }
+        if (!isexist_speed)
+        {
+            String sql = "alter table  BHQ_XHQK_GJ  add column speed NVARCHAR(10)";
+            sqLiteDatabase.execSQL(sql);
+        }
 //        String sql_updateBHQ_XHQK_GJ = "alter table  BHQ_XHQK_GJ  add column altitude NVARCHAR(10),accuracy NVARCHAR(10),bearing NVARCHAR(10),speed NVARCHAR(10)";
 //        sqLiteDatabase.execSQL(sql_updateBHQ_XHQK_GJ);
     }

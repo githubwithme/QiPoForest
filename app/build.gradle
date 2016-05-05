@@ -32,7 +32,7 @@ dependencies {
 apt {
     arguments {
         androidManifestFile variant.outputs[0].processResources.manifestFile
-}
+    }
 }
 android {
     compileSdkVersion 22
@@ -43,17 +43,35 @@ android {
         minSdkVersion 15
         targetSdkVersion 22
         versionCode 1
-        versionName "3.1"
+        versionName "3.2"
+    }
+
+//    buildTypes {
+//        release {
+//
+//            minifyEnabled false
+//            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+//        }
+//    }
+    lintOptions {
+        abortOnError false
+    }
+    //配置keystore签名
+    signingConfigs {
+        release {
+            storeFile file("F:\\git\\work\\smtbhq\\keystore_smtbhq.jks")
+            storePassword "123456abc"
+            keyAlias "smtbhq"
+            keyPassword "123456abc"
+        }
     }
 
     buildTypes {
+        debug {
+            signingConfig signingConfigs.release
+        }
         release {
-
-          minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-     }
-    }
-    lintOptions {
-        abortOnError false
+            signingConfig signingConfigs.release
+        }
     }
 }

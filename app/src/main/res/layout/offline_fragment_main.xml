@@ -1,46 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/white"
-    android:orientation="vertical" >
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/white"
+              android:orientation="vertical">
 
     <include
         android:id="@+id/titlebar_home"
+        layout="@layout/titlebar_home"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/titlebar_height"
-        layout="@layout/titlebar_home" />
+        android:layout_height="@dimen/titlebar_height"/>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:background="@color/gray" />
+        android:background="@color/gray"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white"
-        android:orientation="vertical" >
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dip"
             android:layout_weight="1"
-            android:orientation="horizontal" >
+            android:orientation="horizontal">
 
             <LinearLayout
                 android:id="@+id/ll_find"
                 android:layout_width="0dip"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:orientation="vertical" >
+                android:orientation="vertical">
 
                 <ImageView
                     android:layout_width="45dip"
                     android:layout_height="45dip"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="15dip"
-                    android:background="@drawable/xhfx" />
+                    android:background="@drawable/xhfx"/>
 
                 <TextView
                     android:layout_width="match_parent"
@@ -48,7 +48,7 @@
                     android:gravity="center"
                     android:text="巡护发现"
                     android:textColor="@color/bg_text"
-                    android:textSize="@dimen/size_14" />
+                    android:textSize="@dimen/size_14"/>
             </LinearLayout>
 
             <LinearLayout
@@ -56,14 +56,14 @@
                 android:layout_width="0dip"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:orientation="vertical" >
+                android:orientation="vertical">
 
                 <ImageView
                     android:layout_width="45dip"
                     android:layout_height="45dip"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="15dip"
-                    android:background="@drawable/sjsb" />
+                    android:background="@drawable/sjsb"/>
 
                 <TextView
                     android:layout_width="match_parent"
@@ -71,44 +71,61 @@
                     android:gravity="center"
                     android:text="事件上报"
                     android:textColor="@color/bg_text"
-                    android:textSize="@dimen/size_14" />
+                    android:textSize="@dimen/size_14"/>
             </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/ll_task"
+            <RelativeLayout
                 android:layout_width="0dip"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:orientation="vertical" >
+                android:layout_weight="1">
 
-                <ImageView
-                    android:layout_width="45dip"
-                    android:layout_height="45dip"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="15dip"
-                    android:background="@drawable/xhrw" />
-
-                <TextView
+                <LinearLayout
+                    android:id="@+id/ll_task"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:text="巡护任务"
-                    android:textColor="@color/bg_text"
-                    android:textSize="@dimen/size_14" />
-            </LinearLayout>
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="45dip"
+                        android:layout_height="45dip"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="15dip"
+                        android:background="@drawable/xhrw"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="巡护任务"
+                        android:textColor="@color/bg_text"
+                        android:textSize="@dimen/size_14"/>
+                </LinearLayout>
+
+                <View
+                    android:id="@+id/view_newmessage"
+                    android:layout_width="40dip"
+                    android:layout_height="15dip"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_margin="10dip"
+                    android:background="@drawable/new_icon"
+                    android:visibility="gone"/>
+            </RelativeLayout>
+
+
         </LinearLayout>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1px"
-            android:background="@color/line_color" />
+            android:background="@color/line_color"/>
 
         <FrameLayout
             android:id="@+id/container_map"
             android:layout_width="match_parent"
             android:layout_height="0dip"
             android:layout_weight="4"
-            android:orientation="vertical" />
+            android:orientation="vertical"/>
     </LinearLayout>
 
 </LinearLayout>

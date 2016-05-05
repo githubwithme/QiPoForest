@@ -207,6 +207,14 @@ public class BHQ_XHQK_GJ implements Parcelable
 	}
 
 	@Override
+	public String toString()
+	{
+		StringBuilder builder=new StringBuilder();
+		builder.append("{"+"\""+"GJID"+"\""+":"+GJID+","+"\""+"XHID"+"\""+":"+XHID+","+"\""+"X"+"\""+":"+X+","+"\""+"Y"+"\""+":"+Y+","+"\""+"JLSJ"+"\""+":"+JLSJ+","+"\""+"IsUpload"+"\""+":"+IsUpload+","+"\""+"intervaldistance"+"\""+":"+intervaldistance+","+"\""+"altitude"+"\""+":"+altitude+","+"accuracy"+"\""+":"+accuracy+","+"bearing"+"\""+":"+bearing+","+"speed"+"\""+":"+speed+"}");
+		return builder.toString();
+	}
+
+	@Override
 	public int describeContents()
 	{
 		return 0;

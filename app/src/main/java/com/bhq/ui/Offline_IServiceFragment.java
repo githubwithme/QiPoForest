@@ -81,6 +81,7 @@ public class Offline_IServiceFragment extends Fragment
     List<BHQ_XHSJ> list_BHQ_XHSJ = new ArrayList<BHQ_XHSJ>();
     List<BHQ_XHQK> list_BHQ_XHQK = new ArrayList<BHQ_XHQK>();
     List<BHQ_XHQK_GJ> list_BHQ_XHQK_GJ = new ArrayList<BHQ_XHQK_GJ>();
+    List<List<BHQ_XHQK_GJ>> list_BHQ_XHQK_GJ_ALL = new ArrayList<List<BHQ_XHQK_GJ>>();
     List<FJ_SCFJ> list_FJ_SCFJ = new ArrayList<FJ_SCFJ>();
     List<FJ_SCFJ> list_FJ_SCFJ_temp = new ArrayList<FJ_SCFJ>();
     List<RW_CYR> list_RW_CYR = new ArrayList<RW_CYR>();
@@ -359,7 +360,7 @@ public class Offline_IServiceFragment extends Fragment
                     Toast.makeText(getActivity(), "删除成功！", Toast.LENGTH_SHORT).show();
                 } else
                 {
-                    Toast.makeText(getActivity(),"删除失败，请重试！",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "删除失败，请重试！", Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -378,12 +379,27 @@ public class Offline_IServiceFragment extends Fragment
 
     private int getUploadCount()
     {
+        int gj_count = 0;
+        int size = SqliteDb.getNotUploadData_Size_GJ(getActivity());
+        if (size > 0)
+        {
+            int a = size / 500;
+            int b = size % 500;
+            if (b > 0)
+            {
+                gj_count = a + 1;
+            } else
+            {
+                gj_count = a;
+            }
+        }
+
         list_dt_manager_offline = SqliteDb.getNotUploadData(getActivity(), dt_manager_offline.class);
         list_BHQ_XHQK_ZTCZ = SqliteDb.getNotUploadData(getActivity(), BHQ_XHQK_ZTCZ.class);
         list_BHQ_XHSJCJ = SqliteDb.getNotUploadData(getActivity(), BHQ_XHSJCJ.class);
         list_BHQ_XHSJ = SqliteDb.getNotUploadData(getActivity(), BHQ_XHSJ.class);
         list_BHQ_XHQK = SqliteDb.getNotUploadData(getActivity(), BHQ_XHQK.class);
-        list_BHQ_XHQK_GJ = SqliteDb.getNotUploadData(getActivity(), BHQ_XHQK_GJ.class);
+        list_BHQ_XHQK_GJ = SqliteDb.getNotUploadData_GJ_Limit(getActivity(), BHQ_XHQK_GJ.class);
         list_FJ_SCFJ_temp = SqliteDb.getNotUploadData(getActivity(), FJ_SCFJ.class);
         list_RW_CYR = SqliteDb.getNotUploadData(getActivity(), RW_CYR.class);
         list_RW_RW = SqliteDb.getNotUploadData(getActivity(), RW_RW.class);
@@ -400,11 +416,39 @@ public class Offline_IServiceFragment extends Fragment
                 list_FJ_SCFJ.add(list_FJ_SCFJ_temp.get(i));
             }
         }
-        int gj_count = 0;
-        if (list_BHQ_XHQK_GJ != null && list_BHQ_XHQK_GJ.size() > 0)
-        {
-            gj_count = 1;
-        }
+//一次性上传
+//        if (list_BHQ_XHQK_GJ != null && list_BHQ_XHQK_GJ.size() > 0)
+//        {
+//            gj_count = 1;
+//        }
+//分隔上传
+//        if (list_BHQ_XHQK_GJ.size() > 0)
+//        {
+//            if (list_BHQ_XHQK_GJ.size() > 500)
+//            {
+//                for (int i = 0; i < list_BHQ_XHQK_GJ.size(); i = i + 500)
+//                {
+//                    if (i + 500 >= list_BHQ_XHQK_GJ.size())
+//                    {
+//                        List<BHQ_XHQK_GJ> list = new ArrayList<>();
+//                        list = list_BHQ_XHQK_GJ.subList(i, list_BHQ_XHQK_GJ.size());
+//                        list_BHQ_XHQK_GJ_ALL.add(list);
+//                    } else
+//                    {
+//                        List<BHQ_XHQK_GJ> list = new ArrayList<>();
+//                        list = list_BHQ_XHQK_GJ.subList(i, i + 500);
+//                        list_BHQ_XHQK_GJ_ALL.add(list);
+//                    }
+//
+//                }
+//                gj_count = list_BHQ_XHQK_GJ_ALL.size();
+//            } else
+//            {
+//                list_BHQ_XHQK_GJ_ALL.add(list_BHQ_XHQK_GJ);
+//                gj_count = 1;
+//            }
+//        }
+
         int count = list_dt_manager_offline.size() + list_BHQ_XHQK_ZTCZ.size() + list_BHQ_XHSJCJ.size() + list_BHQ_XHSJ.size() + list_BHQ_XHQK.size() + list_RW_CYR.size() + list_RW_RW.size() + list_FJ_SCFJ.size() * 2 + gj_count;
         return count;
     }
@@ -425,6 +469,11 @@ public class Offline_IServiceFragment extends Fragment
         {
             uploadAllGJ();
         }
+        //分隔上传
+//        for (int i = 0; i < list_BHQ_XHQK_GJ_ALL.size(); i++)
+//        {
+//            uploadAllGJ_New(list_BHQ_XHQK_GJ_ALL.get(i));
+//        }
         for (int i = 0; i < list_FJ_SCFJ.size(); i++)
         {
             uploadAllMedia(list_FJ_SCFJ.get(i));
@@ -450,8 +499,14 @@ public class Offline_IServiceFragment extends Fragment
                     if (result.getResultCode() == 200 && result.getAffectedRows() > 0)// 连接数据库成功
                     {
                         dt_manager_offline.setIsUpload("1");
-                        SqliteDb.save(getActivity(), dt_manager_offline);
-                        showProgress();
+                        boolean issuccess = SqliteDb.save(getActivity(), dt_manager_offline);
+                        if (issuccess)
+                        {
+                            showProgress();
+                        } else
+                        {
+                            failupload();
+                        }
                     } else
                     {
                         isfail = true;
@@ -487,8 +542,14 @@ public class Offline_IServiceFragment extends Fragment
                     if (result.getResultCode() == 200 && result.getAffectedRows() > 0)// 连接数据库成功
                     {
                         bhq_XHQK_ZTCZ.setIsUpload("1");
-                        SqliteDb.save(getActivity(), bhq_XHQK_ZTCZ);
-                        showProgress();
+                        boolean issuccess = SqliteDb.save(getActivity(), bhq_XHQK_ZTCZ);
+                        if (issuccess)
+                        {
+                            showProgress();
+                        } else
+                        {
+                            failupload();
+                        }
                     } else
                     {
                         failupload();
@@ -615,8 +676,15 @@ public class Offline_IServiceFragment extends Fragment
                     if (result.getResultCode() == 200 && result.getAffectedRows() > 0)// 连接数据库成功
                     {
                         bhq_XHSJCJ.setIsUpload("1");
-                        SqliteDb.save(getActivity(), bhq_XHSJCJ);
-                        showProgress();
+                        boolean issuccess = SqliteDb.save(getActivity(), bhq_XHSJCJ);
+                        if (issuccess)
+                        {
+                            showProgress();
+                        } else
+                        {
+                            failupload();
+                        }
+
                     } else
                     {
                         failupload();
@@ -661,8 +729,14 @@ public class Offline_IServiceFragment extends Fragment
                     if (result.getResultCode() == 200 && result.getAffectedRows() > 0)// 连接数据库成功
                     {
                         bhq_XHSJ.setIsUpload("1");
-                        SqliteDb.save(getActivity(), bhq_XHSJ);
-                        showProgress();
+                        boolean issuccess = SqliteDb.save(getActivity(), bhq_XHSJ);
+                        if (issuccess)
+                        {
+                            showProgress();
+                        } else
+                        {
+                            failupload();
+                        }
                     } else
                     {
                         failupload();
@@ -706,8 +780,14 @@ public class Offline_IServiceFragment extends Fragment
                 if (result.getResultCode() == 200 && result.getAffectedRows() > 0)// 连接数据库成功
                 {
                     fj_SCFJ.setISUPLOAD("1");
-                    SqliteDb.save(getActivity(), fj_SCFJ);
-                    showProgress();
+                    boolean issuccess = SqliteDb.save(getActivity(), fj_SCFJ);
+                    if (issuccess)
+                    {
+                        showProgress();
+                    } else
+                    {
+                        failupload();
+                    }
                 } else
                 {
                     failupload();
@@ -831,6 +911,8 @@ public class Offline_IServiceFragment extends Fragment
 //                        rw_cyr.setIsUpload("1");
                         SqliteDb.updateRW_CYR(getActivity(), rw_cyr.getRWCYID());
                         showProgress();
+
+
                     } else
                     {
                         failupload();
@@ -875,8 +957,15 @@ public class Offline_IServiceFragment extends Fragment
                     if (result.getResultCode() == 200 && result.getAffectedRows() > 0)// 连接数据库成功
                     {
                         bhq_XHQK.setIsUpload("1");
-                        SqliteDb.save(getActivity(), bhq_XHQK);
-                        showProgress();
+                        boolean issuccess = SqliteDb.save(getActivity(), bhq_XHQK);
+                        if (issuccess)
+                        {
+                            showProgress();
+                        } else
+                        {
+                            failupload();
+                        }
+
                     } else
                     {
                         failupload();
@@ -910,7 +999,53 @@ public class Offline_IServiceFragment extends Fragment
                     {
                         list_BHQ_XHQK_GJ.get(i).setIsUpload("1");
                     }
-                    SqliteDb.saveAll(getActivity(), list_BHQ_XHQK_GJ);
+                    boolean issuccess = SqliteDb.saveAll(getActivity(), list_BHQ_XHQK_GJ);
+                    if (issuccess)
+                    {
+                        showProgress();
+                        list_BHQ_XHQK_GJ = SqliteDb.getNotUploadData_GJ_Limit(getActivity(), BHQ_XHQK_GJ.class);
+                        if (list_BHQ_XHQK_GJ != null && list_BHQ_XHQK_GJ.size() > 0)
+                        {
+                            uploadAllGJ();
+                        }
+                    } else
+                    {
+                        failupload();
+                    }
+
+                } else
+                {
+                    failupload();
+                }
+            }
+
+            @Override
+            public void onFailure(HttpException error, String msg)
+            {
+                failupload();
+            }
+        });
+    }
+
+    private void uploadAllGJ_New(final List<BHQ_XHQK_GJ> list)
+    {
+        HashMap<String, String> hashMap = new HashMap<String, String>();
+        hashMap.put("data", JSON.toJSONString(list));
+        String params = HttpUrlConnect.setParams("APP.SaveGJ", "0", hashMap);
+        new HttpUtils().send(HttpRequest.HttpMethod.POST, AppConfig.dataBaseUrl, ConnectionHelper.getParas(params), new RequestCallBack<String>()
+        {
+            @Override
+            public void onSuccess(ResponseInfo<String> responseInfo)
+            {
+                String a = responseInfo.toString();
+                Result result = JSON.parseObject(responseInfo.result, Result.class);
+                if (result.getResultCode() == 200 && result.getAffectedRows() > 0)// 连接数据库成功
+                {
+                    for (int i = 0; i < list.size(); i++)
+                    {
+                        list.get(i).setIsUpload("1");
+                    }
+                    SqliteDb.saveAll(getActivity(), list);
                     showProgress();
                 } else
                 {

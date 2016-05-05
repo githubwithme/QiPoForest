@@ -46,7 +46,7 @@ public class SqliteDb
         CustomDbUpgradeListener customDbUpgradeListener = new CustomDbUpgradeListener();
         if (db == null)
         {
-            db = DbUtils.create(context, "JHWG", 10, customDbUpgradeListener);
+            db = DbUtils.create(context, "JHWG", 11, customDbUpgradeListener);
             sqLiteDatabase = db.getDatabase();
         }
     }
@@ -111,6 +111,7 @@ public class SqliteDb
         }
         return true;
     }
+
     public static boolean updateIsRead(Context context, Object obj)
     {
         InitDbutils(context);
@@ -481,6 +482,7 @@ public class SqliteDb
         }
         return true;
     }
+
     public static boolean deleteHaveUploadDAta(Context context)// 这个方式可以
     {
         InitDbutils(context);
@@ -581,10 +583,10 @@ public class SqliteDb
         InitDbutils(context);
         try
         {
-            RW_RW RW_RW= db.findFirst(Selector.from(RW_RW.class).where("RWID", "=", RWID));
+            RW_RW RW_RW = db.findFirst(Selector.from(RW_RW.class).where("RWID", "=", RWID));
             db.update(obj, WhereBuilder.b("RWID", "=", RWID).and("RYID", "=", RYID), "SFWC", "WCSJ", "XGSJ", "IsUpload");
-            RW_RW RW_RW1= db.findFirst(Selector.from(RW_RW.class).where("RWID", "=", RWID));
-            RW_RW RW_RW2= db.findFirst(Selector.from(RW_RW.class).where("RWID", "=", RWID));
+            RW_RW RW_RW1 = db.findFirst(Selector.from(RW_RW.class).where("RWID", "=", RWID));
+            RW_RW RW_RW2 = db.findFirst(Selector.from(RW_RW.class).where("RWID", "=", RWID));
         } catch (DbException e)
         {
             e.printStackTrace();
@@ -618,12 +620,12 @@ public class SqliteDb
                 {
                     String ColumnName = cc.getColumnName(j);
                     String ColumnValue = cc.getString(j);
-                    builder.append("\"" + ColumnName + "\"" + ":" +"\""+ ColumnValue + "\""+",");
+                    builder.append("\"" + ColumnName + "\"" + ":" + "\"" + ColumnValue + "\"" + ",");
                 }
-                builder.replace(builder.length() - 1, builder.length() , "");
+                builder.replace(builder.length() - 1, builder.length(), "");
                 builder.append("},");
             }
-            builder.replace(builder.length() - 1, builder.length() , "");
+            builder.replace(builder.length() - 1, builder.length(), "");
             builder.append("]");
         } else //不存在
         {
@@ -649,6 +651,233 @@ public class SqliteDb
             list = new ArrayList<T>();
         }
         return list;
+    }
+
+    public static <T> List<T> getNotUploadData_GJ_Limit(Context context, Class<T> c)
+    {
+        InitDbutils(context);
+        List<T> list = null;
+        try
+        {
+            list = db.findAll(Selector.from(c).where("IsUpload", "=", "0").limit(500));
+        } catch (DbException e)
+        {
+            e.printStackTrace();
+        }
+        if (null == list || list.isEmpty())
+        {
+            list = new ArrayList<T>();
+        }
+        return list;
+    }
+
+    public static int getNotUploadData_Size_GJ(Context context)
+    {
+        InitDbutils(context);
+        StringBuffer builder = new StringBuffer();
+        try
+        {
+            String sql = "SELECT  COUNT(*) AS COUNT FROM BHQ_XHQK_GJ  WHERE IsUpload = ?";
+            String args = "0";
+            Cursor mCursor = sqLiteDatabase.rawQuery(sql, new String[]{args});
+            if (mCursor != null)
+            {
+                mCursor.moveToFirst();
+                int size = mCursor.getInt(mCursor.getColumnIndex("COUNT"));
+                return size;
+            } else
+            {
+                return 0;
+            }
+        } catch (JSONException e)
+        {
+            String a = e.getMessage();
+            e.printStackTrace();
+        }
+
+        return 0;
+    }
+
+    public static int getNotUploadData_Size(Context context)
+    {
+        InitDbutils(context);
+        boolean isexist=false;
+        String sql = "";
+        Cursor mCursor = null;
+        int allsize = 0;
+        InitDbutils(context);
+        StringBuffer builder = new StringBuffer();
+        try
+        {
+            //用户表未同步数据
+            isexist=db.tableIsExist(dt_manager_offline.class);
+            if (isexist)
+            {
+                sql = "SELECT  COUNT(*) AS COUNT FROM dt_manager_offline  WHERE IsUpload = ?";
+                mCursor = sqLiteDatabase.rawQuery(sql, new String[]{"0"});
+                if (mCursor != null)
+                {
+                    mCursor.moveToFirst();
+                    int size = mCursor.getInt(mCursor.getColumnIndex("COUNT"));
+                    allsize = allsize + size;
+                }
+            }
+
+            //状态表未同步数据
+            isexist=db.tableIsExist(BHQ_XHQK_ZTCZ.class);
+            if (isexist)
+            {
+                sql = "SELECT  COUNT(*) AS COUNT FROM BHQ_XHQK_ZTCZ  WHERE IsUpload = ?";
+                mCursor = sqLiteDatabase.rawQuery(sql, new String[]{"0"});
+                if (mCursor != null)
+                {
+                    mCursor.moveToFirst();
+                    int size = mCursor.getInt(mCursor.getColumnIndex("COUNT"));
+                    allsize = allsize + size;
+                }
+            }
+
+            //信息采集表未同步数据
+            isexist=db.tableIsExist(BHQ_XHSJCJ.class);
+            if (isexist)
+            {
+                sql = "SELECT  COUNT(*) AS COUNT FROM BHQ_XHSJCJ  WHERE IsUpload = ?";
+                mCursor = sqLiteDatabase.rawQuery(sql, new String[]{"0"});
+                if (mCursor != null)
+                {
+                    mCursor.moveToFirst();
+                    int size = mCursor.getInt(mCursor.getColumnIndex("COUNT"));
+                    allsize = allsize + size;
+                }
+            }
+
+            //事件表未同步数据
+            isexist=db.tableIsExist(BHQ_XHSJ.class);
+            if (isexist)
+            {
+                sql = "SELECT  COUNT(*) AS COUNT FROM BHQ_XHSJ  WHERE IsUpload = ?";
+                mCursor = sqLiteDatabase.rawQuery(sql, new String[]{"0"});
+                if (mCursor != null)
+                {
+                    mCursor.moveToFirst();
+                    int size = mCursor.getInt(mCursor.getColumnIndex("COUNT"));
+                    allsize = allsize + size;
+                }
+            }
+
+            //情况表未同步数据
+            isexist=db.tableIsExist(BHQ_XHQK.class);
+            if (isexist)
+            {
+                sql = "SELECT  COUNT(*) AS COUNT FROM BHQ_XHQK  WHERE IsUpload = ?";
+                mCursor = sqLiteDatabase.rawQuery(sql, new String[]{"0"});
+                if (mCursor != null)
+                {
+                    mCursor.moveToFirst();
+                    int size = mCursor.getInt(mCursor.getColumnIndex("COUNT"));
+                    allsize = allsize + size;
+                }
+            }
+
+            //轨迹表未同步数据
+            isexist=db.tableIsExist(BHQ_XHQK_GJ.class);
+            if (isexist)
+            {
+                sql = "SELECT  COUNT(*) AS COUNT FROM BHQ_XHQK_GJ  WHERE IsUpload = ?";
+                mCursor = sqLiteDatabase.rawQuery(sql, new String[]{"0"});
+                if (mCursor != null)
+                {
+                    mCursor.moveToFirst();
+                    int size = mCursor.getInt(mCursor.getColumnIndex("COUNT"));
+                    allsize = allsize + size;
+                }
+            }
+
+            //附件表未同步数据
+            isexist=db.tableIsExist(FJ_SCFJ.class);
+            if (isexist)
+            {
+                sql = "SELECT  COUNT(*) AS COUNT FROM FJ_SCFJ  WHERE IsUpload = ?";
+                mCursor = sqLiteDatabase.rawQuery(sql, new String[]{"0"});
+                if (mCursor != null)
+                {
+                    mCursor.moveToFirst();
+                    int size = mCursor.getInt(mCursor.getColumnIndex("COUNT"));
+                    allsize = allsize + size;
+                }
+            }
+
+            //任务人员表未同步数据
+            isexist=db.tableIsExist(RW_CYR.class);
+            if (isexist)
+            {
+                sql = "SELECT  COUNT(*) AS COUNT FROM RW_CYR  WHERE IsUpload = ?";
+                mCursor = sqLiteDatabase.rawQuery(sql, new String[]{"0"});
+                if (mCursor != null)
+                {
+                    mCursor.moveToFirst();
+                    int size = mCursor.getInt(mCursor.getColumnIndex("COUNT"));
+                    allsize = allsize + size;
+                }
+            }
+
+            //任务表未同步数据
+            isexist=db.tableIsExist(RW_RW.class);
+            if (isexist)
+            {
+                sql = "SELECT  COUNT(*) AS COUNT FROM RW_RW  WHERE IsUpload = ?";
+                mCursor = sqLiteDatabase.rawQuery(sql, new String[]{"0"});
+                if (mCursor != null)
+                {
+                    mCursor.moveToFirst();
+                    int size = mCursor.getInt(mCursor.getColumnIndex("COUNT"));
+                    allsize = allsize + size;
+                }
+            }
+
+        } catch (JSONException e)
+        {
+            String a = e.getMessage();
+            e.printStackTrace();
+        } catch (DbException e)
+        {
+            e.printStackTrace();
+        }
+
+        return allsize;
+    }
+
+    public static String getNotUploadData_GJ(Context context)
+    {
+        InitDbutils(context);
+        StringBuffer builder = new StringBuffer();
+        try
+        {
+            String sql = "SELECT  * FROM BHQ_XHQK_GJ  WHERE IsUpload = ?";
+            String args = "0";
+            Cursor mCursor = sqLiteDatabase.rawQuery(sql, new String[]{args});
+            if (mCursor != null)
+            {
+                mCursor.moveToFirst();
+                builder.append("[");
+                while (mCursor.isAfterLast() == false)
+                {
+                    builder.append("{" + "\"" + "GJID" + "\"" + ":" + mCursor.getString(mCursor.getColumnIndex("GJID")) + "," + "\"" + "XHID" + "\"" + ":" + mCursor.getString(mCursor.getColumnIndex("XHID")) + "," + "\"" + "X" + "\"" + ":" + mCursor.getString(mCursor.getColumnIndex("X")) + "," + "\"" + "Y" + "\"" + ":" + mCursor.getString(mCursor.getColumnIndex("Y")) + "," + "\"" + "JLSJ" + "\"" + ":" + mCursor.getString(mCursor.getColumnIndex("JLSJ")) + "," + "\"" + "IsUpload" + "\"" + ":" + mCursor.getString(mCursor.getColumnIndex("IsUpload")) + "," + "\"" + "intervaldistance" + "\"" + ":" + mCursor.getString(mCursor.getColumnIndex("intervaldistance")) + "," + "\"" + "altitude" + "\"" + ":" + mCursor.getString(mCursor.getColumnIndex("altitude")) + "," + "accuracy" + "\"" + ":" + mCursor.getString(mCursor.getColumnIndex("accuracy")) + "," + "bearing" + "\"" + ":" + mCursor.getString(mCursor.getColumnIndex("bearing")) + "," + "speed" + "\"" + ":" + mCursor.getString(mCursor.getColumnIndex("speed")) + "},");
+                    mCursor.moveToNext();
+                }
+                builder.replace(0, builder.length() - 1, "");
+                builder.append("]");
+            } else
+            {
+                return "";
+            }
+        } catch (JSONException e)
+        {
+            String a = e.getMessage();
+            e.printStackTrace();
+        }
+
+        return builder.toString();
     }
 
     public static BHQ_XHXL getXHLX(Context context, String XLID)
@@ -845,6 +1074,7 @@ public class SqliteDb
         }
         return list;
     }
+
     public static <T> List<T> getAllFJ_SCFJ_HaveUpload(Context context)
     {
         InitDbutils(context);
@@ -862,6 +1092,7 @@ public class SqliteDb
         }
         return list;
     }
+
     public static <T> List<T> getEventList(Context context, Class<T> c, String SBR)
     {
         InitDbutils(context);
@@ -1137,6 +1368,7 @@ public class SqliteDb
         cv.put("BDLJ", values);
         sqLiteDatabase.update(table, cv, "BDLJ = ?", new String[]{id});
     }
+
     public static boolean deleteExceptionInfo(Context context, String exceptionid)
     {
         DbUtils db = DbUtils.create(context);
@@ -1149,6 +1381,7 @@ public class SqliteDb
         }
         return true;
     }
+
     public static <T> List<T> getExceptionInfo(Context context)
     {
 //        DbUtils db = DbUtils.create(context);
@@ -1163,6 +1396,7 @@ public class SqliteDb
         }
         return list;
     }
+
     public static void updateZSK(Context context, String table, String ZDID, String values)
     {
         InitDbutils(context);
@@ -1218,6 +1452,7 @@ public class SqliteDb
             }
         }
     }
+
     public static void insertUserData(Context context, String classname, String[] columnnames, JSONArray jsonArray_Rows)
     {
         InitDbutils(context);
