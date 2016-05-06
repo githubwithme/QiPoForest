@@ -162,7 +162,7 @@ public class Offline_PatrolControlFragment extends Fragment implements TencentLo
 
     String starttime;
     Double XHLC = 0D;
-    Double lastXHLC = 0D;
+//    Double lastXHLC = 0D;
     String XHXSS = "";
     String XHFZS = "";
 
@@ -221,7 +221,7 @@ public class Offline_PatrolControlFragment extends Fragment implements TencentLo
         tv_starttime.setVisibility(View.GONE);
         rl_mapmore.setVisibility(View.GONE);
         isStart = false;
-        lastlatLng=null;
+        lastlatLng = null;
         tencentMap.clearAllOverlays();
         FinishBHQ_XHQK(XHID);
         AddNewBHQ_XHQK_ZTCZ(XHID, "3");// 设置结束状态
@@ -433,6 +433,10 @@ public class Offline_PatrolControlFragment extends Fragment implements TencentLo
             appContext.setLOCATION_Y(String.valueOf(gPS_84.getWgLon()));
             // 每隔15秒记录轨迹
             newtime = System.currentTimeMillis();
+            if (lasttime == 0l)
+            {
+                lasttime = System.currentTimeMillis();
+            }
             int diff = (int) (newtime - lasttime) / 1000;
             if (diff > 15)
             {
@@ -441,19 +445,6 @@ public class Offline_PatrolControlFragment extends Fragment implements TencentLo
 //                    uploadLocationInfo(location, gPS_84);// 每隔15秒上次一次最新位置
 //                }
                 uploadLocationInfo(location, gPS_84);// 每隔15秒上次一次最新位置
-                //每隔15秒更新ui轨迹
-                if (isStart)
-                {
-                    // 画轨迹
-                    PolylineOptions lineOpt = new PolylineOptions();
-                    lineOpt.add(lastlatLng);
-                    lineOpt.add(location_latLng);
-                    Polyline line = tencentMap.addPolyline(lineOpt);
-                    line.setColor(getResources().getColor(R.color.black));
-                    line.setWidth(10f);
-                    Overlays.add(line);
-                }
-
                 lasttime = newtime;//传递值
             }
             //1记录轨迹点2更新UI信息
@@ -462,27 +453,47 @@ public class Offline_PatrolControlFragment extends Fragment implements TencentLo
                 tencentMap.animateTo(location_latLng);
                 if (lastlatLng != null)
                 {
-                    XHLC = XHLC + mProjection.distanceBetween(lastlatLng, location_latLng); // 计算总里程
-                    //实时更新ui中的里程信息
-                    if (String.valueOf(XHLC).length() > 5)
-                    {
-                        tv_runlength.setText(String.valueOf(XHLC).substring(0, String.valueOf(XHLC).lastIndexOf(".") + 3) + "m");
-                    } else
-                    {
-                        tv_runlength.setText(XHLC + "m");
-                    }
-                    // 添加轨迹
-                    Double distance = XHLC - lastXHLC;
-                    if (distance >= 3f)
+//                    XHLC = XHLC + mProjection.distanceBetween(lastlatLng, location_latLng); // 计算总里程
+//                    if (String.valueOf(XHLC).length() > 5)   //实时更新ui中的里程信息
+//                    {
+//                        tv_runlength.setText(String.valueOf(XHLC).substring(0, String.valueOf(XHLC).lastIndexOf(".") + 3) + "m");
+//                    } else
+//                    {
+//                        tv_runlength.setText(XHLC + "m");
+//                    }
+                    // 计算两点距离
+                    Double distance = mProjection.distanceBetween(lastlatLng, location_latLng);
+                    if (distance >= 50f)
                     {
                         AddNewBHQ_XHQK_GJ(location, XHID, String.valueOf(distance));//添加满足条件的轨迹点
-                        lastXHLC = XHLC;//上一段里程（以最后一次保存轨迹点为终点）
+//                        lastXHLC = XHLC;//上一段里程（以最后一次保存轨迹点为终点）
+                        // 画轨迹
+                        PolylineOptions lineOpt = new PolylineOptions();
+                        lineOpt.add(lastlatLng);
+                        lineOpt.add(location_latLng);
+                        Polyline line = tencentMap.addPolyline(lineOpt);
+                        line.setColor(getResources().getColor(R.color.black));
+                        line.setWidth(8f);
+                        Overlays.add(line);
+                        //实时更新ui中的里程信息
+                        XHLC = XHLC +distance; // 计算总里程
+                        if (String.valueOf(XHLC).length() > 5)
+                        {
+                            tv_runlength.setText(String.valueOf(XHLC).substring(0, String.valueOf(XHLC).lastIndexOf(".") + 3) + "m");
+                        } else
+                        {
+                            tv_runlength.setText(XHLC + "m");
+                        }
+
+                        lastlatLng = location_latLng;     // 传递值放在最后
                     }
                 } else
                 {
                     AddNewBHQ_XHQK_GJ(location, XHID, "0");// 添加开始点的轨迹
+                    lastlatLng = location_latLng;
                 }
-                lastlatLng = location_latLng;     // 传递值放在最后
+
+
             }
         }
 
@@ -746,6 +757,7 @@ public class Offline_PatrolControlFragment extends Fragment implements TencentLo
             @Override
             public void onSuccess(ResponseInfo<String> responseInfo)
             {
+                String a = responseInfo.result;
                 Result result = JSON.parseObject(responseInfo.result, Result.class);
                 if (result.getResultCode() == 200 && result.getAffectedRows() > 0)// 连接数据库成功
                 {

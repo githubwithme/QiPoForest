@@ -26,6 +26,7 @@ import android.widget.Toast;
 import com.alibaba.fastjson.JSON;
 import com.bhq.R;
 import com.bhq.app.AppConfig;
+import com.bhq.app.AppContext;
 import com.bhq.app.AppManager;
 import com.bhq.bean.ExceptionInfo;
 import com.bhq.bean.Result;
@@ -39,7 +40,6 @@ import com.lidroid.xutils.exception.HttpException;
 import com.lidroid.xutils.http.ResponseInfo;
 import com.lidroid.xutils.http.callback.RequestCallBack;
 import com.lidroid.xutils.http.client.HttpRequest;
-import com.service.DownloadData;
 import com.service.UpdateData;
 
 import org.androidannotations.annotations.AfterViews;
@@ -191,7 +191,7 @@ public class Offline_MainActivity extends Activity
         this.savedInstanceState = savedInstanceState;
 
         Intent intenttemp = new Intent(Offline_MainActivity.this, UpdateData.class);
-        intenttemp.setAction(DownloadData.ACTION_DOWNLOADDATA);
+        intenttemp.setAction(AppContext.ACTION_UpdateData);
         Offline_MainActivity.this.startService(intenttemp);
 
         int size = SqliteDb.getNotUploadData_Size(Offline_MainActivity.this);

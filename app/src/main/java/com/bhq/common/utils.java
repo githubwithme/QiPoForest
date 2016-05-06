@@ -239,6 +239,9 @@ public class utils
             if (hours < 10)
             {
                 h = "0" + hours;
+            }else
+            {
+                h=String.valueOf(hours);
             }
         } else
         {

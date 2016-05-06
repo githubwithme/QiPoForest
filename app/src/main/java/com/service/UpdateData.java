@@ -8,6 +8,7 @@ import android.os.IBinder;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.bhq.app.AppConfig;
+import com.bhq.app.AppContext;
 import com.bhq.bean.BHQ_XHXL;
 import com.bhq.bean.BHQ_XHXL_GJ;
 import com.bhq.bean.BHQ_ZSK;
@@ -33,7 +34,6 @@ import java.util.List;
 public class UpdateData extends Service
 {
     SharedPreferences sp;
-    public static final String ACTION_DOWNLOADDATA = "ACTION_DOWNLOADDATA";
     String action;
 
     @Override
@@ -54,7 +54,7 @@ public class UpdateData extends Service
     {
         action = intent.getAction();
 
-        if (ACTION_DOWNLOADDATA.equals(action))
+        if (AppContext.ACTION_UpdateData.equals(action))
         {
 //            Thread thread = new Thread(new Runnable()
 //            {
@@ -75,11 +75,11 @@ public class UpdateData extends Service
 
     private void startInitData()
     {
-         sp= this.getSharedPreferences("MY_PRE", MODE_PRIVATE);
+        sp = this.getSharedPreferences("MY_PRE", MODE_PRIVATE);
         String sysntime = sp.getString("sysntime", "1900-01-01");
-        InitTable("APP.InitDictionaryTable",sysntime, Dictionary.class);
-        InitTable("APP.InitBHQ_ZSKData",sysntime, BHQ_ZSK.class);
-        InitTable("APP.InitRW_RWData",sysntime, RW_RW.class);
+        InitTable("APP.InitDictionaryTable", sysntime, Dictionary.class);
+        InitTable("APP.InitBHQ_ZSKData", sysntime, BHQ_ZSK.class);
+        InitTable("APP.InitRW_RWData", sysntime, RW_RW.class);
         InitTable("APP.InitRW_CYRData", sysntime, RW_CYR.class);
         InitTable("APP.InitRW_YQBData", sysntime, RW_YQB.class);
         InitTable("APP.InitBHQ_XHXLData", sysntime, BHQ_XHXL.class);
@@ -90,7 +90,7 @@ public class UpdateData extends Service
         getServerSystemTime();
     }
 
-    private <T> void InitTable(final String action,final String sysntime, final Class<T> className)
+    private <T> void InitTable(final String action, final String sysntime, final Class<T> className)
     {
         HashMap<String, String> hashMap = new HashMap<String, String>();
         hashMap.put("sysntime", sysntime);
@@ -129,14 +129,13 @@ public class UpdateData extends Service
                             } else if (action.equals("APP.InitBHQ_XHXLData"))
                             {
                                 SqliteDb.insertData(UpdateData.this, "BHQ_XHXL", ColumnNames, jsonArray_Rows);
-                            }else if (action.equals("APP.InitBHQ_XHXL_GJInfo"))
+                            } else if (action.equals("APP.InitBHQ_XHXL_GJInfo"))
                             {
                                 SqliteDb.insertData(UpdateData.this, "BHQ_XHXL_GJ", ColumnNames, jsonArray_Rows);
-                            }else if (action.equals("APP.InitBQH_XHRYData"))
+                            } else if (action.equals("APP.InitBQH_XHRYData"))
                             {
                                 SqliteDb.insertData(UpdateData.this, "BQH_XHRY", ColumnNames, jsonArray_Rows);
-                            }
-                            else if (action.equals("APP.InitRW_YQBData"))
+                            } else if (action.equals("APP.InitRW_YQBData"))
                             {
                                 SqliteDb.insertData(UpdateData.this, "RW_YQB", ColumnNames, jsonArray_Rows);
                             } else if (action.equals("APP.InitUserData"))
@@ -200,6 +199,7 @@ public class UpdateData extends Service
         });
 
     }
+
     private <T> void initZSNR(String sysntime)
     {
         HashMap<String, String> hashMap = new HashMap<String, String>();
@@ -224,7 +224,7 @@ public class UpdateData extends Service
                         {
                             String zsid = result.getRows().getJSONArray(i).get(0).toString();
                             String zsnr = result.getRows().getJSONArray(i).get(1).toString();
-                            SqliteDb.updateZSK(UpdateData.this,"BHQ_ZSK",zsid,zsnr);
+                            SqliteDb.updateZSK(UpdateData.this, "BHQ_ZSK", zsid, zsnr);
                         }
                     }
                 } else
@@ -239,6 +239,7 @@ public class UpdateData extends Service
         });
 
     }
+
     public void saveData(List<?> listData, String action)
     {
         if (listData == null)
@@ -276,7 +277,7 @@ public class UpdateData extends Service
         }
     }
 
-//    public void saveSingleData(Object obj, String action)
+    //    public void saveSingleData(Object obj, String action)
 //    {
 //        if (obj == null)
 //        {
@@ -353,6 +354,7 @@ public class UpdateData extends Service
         });
 
     }
+
     public void getPhotos(String path, final String target)
     {
         HttpUtils http = new HttpUtils();
@@ -393,7 +395,7 @@ public class UpdateData extends Service
                 if (result.getResultCode() == 200)// 连接数据库成功
                 {
                     String zsnr = result.getRows().getJSONArray(0).get(0).toString();
-                    SqliteDb.updateZSK(UpdateData.this,"BHQ_ZSK",zsid,zsnr);
+                    SqliteDb.updateZSK(UpdateData.this, "BHQ_ZSK", zsid, zsnr);
                 } else
                 {
                 }

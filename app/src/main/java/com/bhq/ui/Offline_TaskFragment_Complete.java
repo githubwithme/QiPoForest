@@ -12,7 +12,7 @@ import com.bhq.R;
 import com.bhq.bean.RW_RW;
 import com.bhq.bean.dt_manager_offline;
 import com.bhq.common.SqliteDb;
-import com.swipelistview.Offline_SwipeListViewImpl_RW;
+import com.swipelistview.Offline_SwipeListViewImpl_CompleteRW;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
@@ -61,7 +61,7 @@ public class Offline_TaskFragment_Complete extends Fragment
 
 		if (list_rw.size() != 0)
 		{
-			Offline_SwipeListViewImpl_RW offline_SwipeListViewImpl_RW = new Offline_SwipeListViewImpl_RW();
+			Offline_SwipeListViewImpl_CompleteRW offline_SwipeListViewImpl_RW = new Offline_SwipeListViewImpl_CompleteRW();
 			offline_SwipeListViewImpl_RW.setMyadapter("CYR", getActivity(), swipe_list_ani, list_rw, swipe_list);
 		} else
 		{

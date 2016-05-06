@@ -18,6 +18,7 @@ import com.bhq.common.StringUtils;
 public class AppContext extends Application
 {
 	public static final String Progress_SynchronousData = "Progress_SynchronousData";
+	public final static String ACTION_UpdateData = "UpdateData";
 	public final static String ACTION_REFRESH_ANIMAL = "REFRESH_ANIMAL";
 	public final static String ACTION_REFRESH_PEST = "REFRESH_PEST";
 	public final static String ACTION_REFRESH_INTERFERE = "REFRESH_INTERFERE";

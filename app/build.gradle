@@ -43,7 +43,7 @@ android {
         minSdkVersion 15
         targetSdkVersion 22
         versionCode 1
-        versionName "3.2"
+        versionName "3.3"
     }
 
 //    buildTypes {
@@ -72,6 +72,8 @@ android {
         }
         release {
             signingConfig signingConfigs.release
+                        minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
 }

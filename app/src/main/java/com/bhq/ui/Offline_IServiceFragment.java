@@ -332,6 +332,7 @@ public class Offline_IServiceFragment extends Fragment
             }
         });
         customDialog = new CustomDialog(getActivity(), R.style.MyDialog, dialog_layout);
+        customDialog.setCanceledOnTouchOutside(false);
         customDialog.show();
     }
 

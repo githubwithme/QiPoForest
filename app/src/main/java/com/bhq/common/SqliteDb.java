@@ -677,21 +677,32 @@ public class SqliteDb
         StringBuffer builder = new StringBuffer();
         try
         {
-            String sql = "SELECT  COUNT(*) AS COUNT FROM BHQ_XHQK_GJ  WHERE IsUpload = ?";
-            String args = "0";
-            Cursor mCursor = sqLiteDatabase.rawQuery(sql, new String[]{args});
-            if (mCursor != null)
+            boolean isexist=db.tableIsExist(BHQ_XHQK_GJ.class);
+            if (isexist)
             {
-                mCursor.moveToFirst();
-                int size = mCursor.getInt(mCursor.getColumnIndex("COUNT"));
-                return size;
-            } else
+                String sql = "SELECT  COUNT(*) AS COUNT FROM BHQ_XHQK_GJ  WHERE IsUpload = ?";
+                String args = "0";
+                Cursor mCursor = sqLiteDatabase.rawQuery(sql, new String[]{args});
+                if (mCursor != null)
+                {
+                    mCursor.moveToFirst();
+                    int size = mCursor.getInt(mCursor.getColumnIndex("COUNT"));
+                    return size;
+                } else
+                {
+                    return 0;
+                }
+            }else
             {
                 return 0;
             }
+
         } catch (JSONException e)
         {
             String a = e.getMessage();
+            e.printStackTrace();
+        } catch (DbException e)
+        {
             e.printStackTrace();
         }
 
