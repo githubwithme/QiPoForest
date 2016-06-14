@@ -215,46 +215,58 @@ public class Login extends Activity
         if (hasInit.equals("true"))
         {
 //            Intent intenttemp = new Intent(Login.this, UpdateData.class);
-//            intenttemp.setAction(DownloadData.ACTION_DOWNLOADDATA);
+//            intenttemp.setAction(AppContext.ACTION_UpdateData);
 //            Login.this.startService(intenttemp);
-            if (model.equals("0"))
+            if (utils.isConnect(Login.this))
             {
-                dt_manager_offline dt_manager_offline = (dt_manager_offline) SqliteDb.getAutoLoginUser(Login.this, dt_manager_offline.class);
-                if (dt_manager_offline != null && !dt_manager_offline.getpassword().equals(""))
-                {
-                    ll_login.setVisibility(View.GONE);
-                    cb_autologin.setChecked(true);
-                    pb_logining.setVisibility(View.VISIBLE);
-                    et_name.setText(dt_manager_offline.getuser_name());
-                    et_psw.setText(dt_manager_offline.getpassword());
-                    AutoLoginOffLine(dt_manager_offline.getuser_name(), dt_manager_offline.getpassword());
-                } else
-                {
-
-                }
-
+                updateData();
             } else
             {
-                dt_manager dt_manager = (dt_manager) SqliteDb.getCurrentUser(Login.this, dt_manager.class);
-                if (dt_manager != null && !dt_manager.getpassword().equals(""))
-                {
-                    ll_login.setVisibility(View.GONE);
-                    cb_autologin.setChecked(true);
-                    pb_logining.setVisibility(View.VISIBLE);
-                    et_name.setText(dt_manager.getuser_name());
-                    et_psw.setText(dt_manager.getpassword());
-                    startLogin(dt_manager.getuser_name(), dt_manager.getpassword());
-                } else
-                {
-
-                }
-
+                login_offline();
             }
+
 
         } else
         {
 //			getAllCount();
             startInitData();
+        }
+    }
+
+    public void login_offline()
+    {
+        if (model.equals("0"))
+        {
+            dt_manager_offline dt_manager_offline = (dt_manager_offline) SqliteDb.getAutoLoginUser(Login.this, dt_manager_offline.class);
+            if (dt_manager_offline != null && !dt_manager_offline.getpassword().equals(""))
+            {
+                ll_login.setVisibility(View.GONE);
+                cb_autologin.setChecked(true);
+                pb_logining.setVisibility(View.VISIBLE);
+                et_name.setText(dt_manager_offline.getuser_name());
+                et_psw.setText(dt_manager_offline.getpassword());
+                AutoLoginOffLine(dt_manager_offline.getuser_name(), dt_manager_offline.getpassword());
+            } else
+            {
+
+            }
+
+        } else
+        {
+            dt_manager dt_manager = (dt_manager) SqliteDb.getCurrentUser(Login.this, dt_manager.class);
+            if (dt_manager != null && !dt_manager.getpassword().equals(""))
+            {
+                ll_login.setVisibility(View.GONE);
+                cb_autologin.setChecked(true);
+                pb_logining.setVisibility(View.VISIBLE);
+                et_name.setText(dt_manager.getuser_name());
+                et_psw.setText(dt_manager.getpassword());
+                startLogin(dt_manager.getuser_name(), dt_manager.getpassword());
+            } else
+            {
+
+            }
+
         }
     }
 
@@ -270,10 +282,68 @@ public class Login extends Activity
         InitTable("APP.InitBHQ_XHXLData", BHQ_XHXL.class);
         InitTable("APP.InitBHQ_XHXL_GJInfo", BHQ_XHXL_GJ.class);
         InitTable("APP.InitBQH_XHRYData", BQH_XHRY.class);
-		InitTable("APP.InitBHQ_ZSKData", BHQ_ZSK.class);
-		InitTable("APP.InitRW_RWData", RW_RW.class);
-		InitTable("APP.InitRW_CYRData", RW_CYR.class);
-		InitTable("APP.InitRW_YQBData", RW_YQB.class);
+        InitTable("APP.InitBHQ_ZSKData", BHQ_ZSK.class);
+        InitTable("APP.InitRW_RWData", RW_RW.class);
+        InitTable("APP.InitRW_CYRData", RW_CYR.class);
+        InitTable("APP.InitRW_YQBData", RW_YQB.class);
+    }
+
+    private void updateData()
+    {
+        ThreadNumber = 9;
+        latch = new CountDownLatch(ThreadNumber);
+        rl_inittip.setVisibility(View.GONE);
+        rl_pb.setVisibility(View.VISIBLE);
+
+        sp = this.getSharedPreferences("MY_PRE", MODE_PRIVATE);
+        String sysntime = sp.getString("sysntime", "1900-01-01");
+        updateTable("APP.InitDictionaryTable", sysntime, Dictionary.class);
+        updateTable("APP.InitBHQ_ZSKData", sysntime, BHQ_ZSK.class);
+        updateTable("APP.InitRW_RWData", sysntime, RW_RW.class);
+        updateTable("APP.InitRW_CYRData", sysntime, RW_CYR.class);
+        updateTable("APP.InitRW_YQBData", sysntime, RW_YQB.class);
+        updateTable("APP.InitBHQ_XHXLData", sysntime, BHQ_XHXL.class);
+        updateTable("APP.InitBHQ_XHXL_GJInfo", sysntime, BHQ_XHXL_GJ.class);
+        updateTable("APP.InitBQH_XHRYData", sysntime, BQH_XHRY.class);
+        updateTable("APP.InitUserData", sysntime, dt_manager_offline.class);
+
+        getServerSystemTime();
+    }
+
+    private <T> void getServerSystemTime()
+    {
+        HashMap<String, String> hashMap = new HashMap<String, String>();
+        String params = ConnectionHelper.setParams("APP.getServerSystemTime", "0", hashMap);
+        new HttpUtils().send(HttpRequest.HttpMethod.POST, AppConfig.dataBaseUrl, ConnectionHelper.getParas(params), new RequestCallBack<String>()
+        {
+            @Override
+            public void onSuccess(ResponseInfo<String> responseInfo)
+            {
+                String a = responseInfo.result;
+                Result result = JSON.parseObject(responseInfo.result, Result.class);
+                if (result.getResultCode() == 200)
+                {
+                    if (result.getAffectedRows() != 0)
+                    {
+                        JSONArray jsonArray_Rows = result.getRows();
+                        if (jsonArray_Rows.size() > 0)
+                        {
+                            SharedPreferences.Editor editor = sp.edit();
+                            editor.putString("sysntime", jsonArray_Rows.getJSONArray(0).get(0).toString());
+                            editor.commit();
+                        }
+                    }
+                } else
+                {
+                }
+            }
+
+            @Override
+            public void onFailure(HttpException error, String msg)
+            {
+            }
+        });
+
     }
 
     private void startLogin(final String username, final String psw)
@@ -528,6 +598,123 @@ public class Login extends Activity
         }
     }
 
+    private <T> void updateTable(final String action, final String sysntime, final Class<T> className)
+    {
+        HashMap<String, String> hashMap = new HashMap<String, String>();
+        hashMap.put("sysntime", sysntime);
+        String params = ConnectionHelper.setParams(action, "0", hashMap);
+        new HttpUtils().send(HttpRequest.HttpMethod.POST, AppConfig.dataBaseUrl, ConnectionHelper.getParas(params), new RequestCallBack<String>()
+        {
+            @Override
+            public void onSuccess(ResponseInfo<String> responseInfo)
+            {
+                String a = responseInfo.result;
+                List<?> listData = null;
+                Result result = JSON.parseObject(responseInfo.result, Result.class);
+                if (result.getResultCode() == 200)
+                {
+
+                    if (result.getAffectedRows() != 0)
+                    {
+                        JSONArray jsonArray_Rows = result.getRows();
+                        String[] ColumnNames = result.getColumnNames();
+                        if (jsonArray_Rows.size() > 0)
+                        {
+                            if (action.equals("APP.InitBHQ_ZSKData"))
+                            {
+                                SqliteDb.insertData(Login.this, "BHQ_ZSK", ColumnNames, jsonArray_Rows);
+                                initZSNR(sysntime);
+//                                for (int i = 0; i < jsonArray_Rows.size(); i++)
+//                                {
+//                                    getZSNR(jsonArray_Rows.getJSONArray(i).getString(0));
+//                                }
+                            } else if (action.equals("APP.InitRW_RWData"))
+                            {
+                                SqliteDb.insertRW_RWData(Login.this, "RW_RW", ColumnNames, jsonArray_Rows);
+                            } else if (action.equals("APP.InitRW_CYRData"))
+                            {
+                                SqliteDb.insertRW_CYRData(Login.this, "RW_CYR", ColumnNames, jsonArray_Rows);
+                            } else if (action.equals("APP.InitBHQ_XHXLData"))
+                            {
+                                SqliteDb.insertData(Login.this, "BHQ_XHXL", ColumnNames, jsonArray_Rows);
+                            } else if (action.equals("APP.InitBHQ_XHXL_GJInfo"))
+                            {
+                                SqliteDb.insertData(Login.this, "BHQ_XHXL_GJ", ColumnNames, jsonArray_Rows);
+                            } else if (action.equals("APP.InitBQH_XHRYData"))
+                            {
+                                SqliteDb.insertData(Login.this, "BQH_XHRY", ColumnNames, jsonArray_Rows);
+                            } else if (action.equals("APP.InitRW_YQBData"))
+                            {
+                                SqliteDb.insertData(Login.this, "RW_YQB", ColumnNames, jsonArray_Rows);
+                            } else if (action.equals("APP.InitUserData"))
+                            {
+                                SqliteDb.insertUserData(Login.this, "dt_manager_offline", ColumnNames, jsonArray_Rows);
+//                                for (int i = 0; i < jsonArray_Rows.size(); i++)
+//                                {
+//                                            String id=jsonArray_Rows.getJSONArray(i).getString(0);
+//                                            String url=jsonArray_Rows.getJSONArray(i).getString(26);
+//                                            if (url!=null && !url.equals(""))
+//                                            {
+//                                                String BDLJ = AppConfig.MEDIA_PATH +url.subSequence(url.lastIndexOf("/") + 1, url.length());
+//                                                SqliteDb.updatedt_manager_offline(UpdateData.this,"dt_manager_offline",id,BDLJ);
+//                                                getPhotos(AppConfig.url + url, BDLJ);
+//                                            }
+//                                }
+
+                            } else if (action.equals("APP.InitDictionaryTable"))
+                            {
+                                SqliteDb.deleteAllRecord(Login.this, Dictionary.class);//因为该表无法创建主键，所以避免重复数据插入，执行此。
+                                SqliteDb.insertData(Login.this, "Dictionary", ColumnNames, jsonArray_Rows);
+                            }
+                        }
+
+//                        int size = jsonArray_Rows.size() / 20;
+//                        if (size != 0)
+//                        {
+//                            for (int k = 0; k <= size; k++)
+//                            {
+//                                if (k == size)
+//                                {
+//                                    JSONArray jsonArry = new JSONArray();
+//                                    jsonArry.addAll(jsonArray_Rows.subList((k - 1) * 20, jsonArray_Rows.size()));
+//                                    listData = JSON.parseArray(ResultDeal.ConvertAllRow(jsonArry, ColumnNames), className);
+//                                    saveData(listData, action);
+//                                }
+//                                JSONArray jsonArry = new JSONArray();
+//                                if ((k + 1) * 20 <= jsonArray_Rows.size())
+//                                {
+//                                    jsonArry.addAll(jsonArray_Rows.subList(k * 20, (k + 1) * 20));
+//                                }
+//                                listData = JSON.parseArray(ResultDeal.ConvertAllRow(jsonArry, ColumnNames), className);
+//                                saveData(listData, action);
+//                            }
+//
+//                        } else
+//                        {
+//                            listData = JSON.parseArray(ResultDeal.getAllRow(result), className);
+//                            saveData(listData, action);
+//                        }
+                    }
+                    updateProgress();
+                    pb.setProgress(Integer.valueOf(utils.getRate(ThreadNumber - Integer.valueOf(String.valueOf(latch.getCount())), ThreadNumber)));
+                } else
+                {
+                    isfail = true;
+                    updateProgress();
+                }
+            }
+
+            @Override
+            public void onFailure(HttpException error, String msg)
+            {
+                String aa = error.getMessage();
+                isfail = true;
+                updateProgress();
+            }
+        });
+
+    }
+
     private <T> void InitTable(final String action, final Class<T> className)
     {
         HashMap<String, String> hashMap = new HashMap<String, String>();
@@ -564,16 +751,16 @@ public class Login extends Activity
                             } else if (action.equals("APP.InitBQH_XHRYData"))
                             {
                                 SqliteDb.insertData(Login.this, "BQH_XHRY", ColumnNames, jsonArray_Rows);
-                            }else if (action.equals("APP.InitRW_RWData"))
+                            } else if (action.equals("APP.InitRW_RWData"))
                             {
                                 SqliteDb.insertData(Login.this, "RW_RW", ColumnNames, jsonArray_Rows);
-                            }else if (action.equals("APP.InitRW_CYRData"))
+                            } else if (action.equals("APP.InitRW_CYRData"))
                             {
                                 SqliteDb.insertData(Login.this, "RW_CYR", ColumnNames, jsonArray_Rows);
-                            }else if (action.equals("APP.InitRW_YQBData"))
+                            } else if (action.equals("APP.InitRW_YQBData"))
                             {
                                 SqliteDb.insertData(Login.this, "RW_YQB", ColumnNames, jsonArray_Rows);
-                            }else if (action.equals("APP.InitBHQ_ZSKData"))
+                            } else if (action.equals("APP.InitBHQ_ZSKData"))
                             {
                                 SqliteDb.insertData(Login.this, "BHQ_ZSK", ColumnNames, jsonArray_Rows);
                                 initZSNR("1900-01-01");
@@ -654,6 +841,7 @@ public class Login extends Activity
         });
 
     }
+
     private <T> void initZSNR(String sysntime)
     {
         HashMap<String, String> hashMap = new HashMap<String, String>();
@@ -678,7 +866,7 @@ public class Login extends Activity
                         {
                             String zsid = result.getRows().getJSONArray(i).get(0).toString();
                             String zsnr = result.getRows().getJSONArray(i).get(1).toString();
-                            SqliteDb.updateZSK(Login.this,"BHQ_ZSK",zsid,zsnr);
+                            SqliteDb.updateZSK(Login.this, "BHQ_ZSK", zsid, zsnr);
                         }
                     }
                 } else
@@ -693,6 +881,7 @@ public class Login extends Activity
         });
 
     }
+
     private void getZSNR(final String zsid)
     {
         HashMap<String, String> hashMap = new HashMap<String, String>();
@@ -844,7 +1033,28 @@ public class Login extends Activity
                 rl_pb.setVisibility(View.GONE);
                 rl_inittip.setVisibility(View.GONE);
                 markTag();
-                Toast.makeText(Login.this, "初始化成功！请登陆使用", Toast.LENGTH_SHORT).show();
+                Toast.makeText(Login.this, "数据更新成功！", Toast.LENGTH_SHORT).show();
+            }
+
+        }
+    }
+
+    private void updateProgress()
+    {
+        latch.countDown();
+        Long l = latch.getCount();
+        if (l.intValue() == 0) // 全部线程是否已经结束
+        {
+            if (isfail)
+            {
+                showInitFailDialog();
+            } else
+            {
+                rl_pb.setVisibility(View.GONE);
+                rl_inittip.setVisibility(View.GONE);
+//                markTag();
+                Toast.makeText(Login.this, "数据更新成功！", Toast.LENGTH_SHORT).show();
+                login_offline();
             }
 
         }

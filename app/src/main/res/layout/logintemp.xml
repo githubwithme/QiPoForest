@@ -83,7 +83,7 @@
                 android:layout_below="@id/pb"
                 android:layout_centerHorizontal="true"
                 android:gravity="center"
-                android:text="首次使用需要初始化数据，正在初始化中..."
+                android:text="正在更新数据..."
                 android:textColor="@color/gray"
                 android:textSize="15sp" />
         </RelativeLayout>
@@ -100,7 +100,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:gravity="center"
-                android:text="首次使用初始化失败!网络异常，请检查网络!"
+                android:text="数据更新失败!网络异常，请检查网络!"
                 android:textColor="@color/gray"
                 android:textSize="15sp" />
 
@@ -113,7 +113,7 @@
                 android:layout_marginTop="10dip"
                 android:background="@null"
                 android:gravity="center"
-                android:text="重新初始化？"
+                android:text="重新更新？"
                 android:textColor="@android:color/holo_blue_dark"
                 android:textSize="15sp" />
         </RelativeLayout>
@@ -125,6 +125,8 @@
             android:layout_marginLeft="30dip"
             android:layout_marginRight="30dip"
             android:layout_marginTop="40dip"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             android:orientation="vertical" >
 
             <RelativeLayout

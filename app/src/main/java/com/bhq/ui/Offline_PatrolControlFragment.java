@@ -162,7 +162,7 @@ public class Offline_PatrolControlFragment extends Fragment implements TencentLo
 
     String starttime;
     Double XHLC = 0D;
-//    Double lastXHLC = 0D;
+    //    Double lastXHLC = 0D;
     String XHXSS = "";
     String XHFZS = "";
 
@@ -476,7 +476,7 @@ public class Offline_PatrolControlFragment extends Fragment implements TencentLo
                         line.setWidth(8f);
                         Overlays.add(line);
                         //实时更新ui中的里程信息
-                        XHLC = XHLC +distance; // 计算总里程
+                        XHLC = XHLC + distance; // 计算总里程
                         if (String.valueOf(XHLC).length() > 5)
                         {
                             tv_runlength.setText(String.valueOf(XHLC).substring(0, String.valueOf(XHLC).lastIndexOf(".") + 3) + "m");
