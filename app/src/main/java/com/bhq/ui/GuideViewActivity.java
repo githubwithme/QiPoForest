@@ -51,7 +51,7 @@ public class GuideViewActivity extends Activity
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		AppManager.getAppManager().addActivity(this);
 		// getActionBar().hide();
-		TrayNotification.addNotification(GuideViewActivity.this, R.drawable.appicon, "欢迎使用石门台保护区APP");// 让程序图标显示在托盘通知栏
+		TrayNotification.addNotification(GuideViewActivity.this, R.drawable.appicon, "欢迎使用广西国有七陂林场APP");// 让程序图标显示在托盘通知栏
 		sp = this.getSharedPreferences("MY_PRE", MODE_PRIVATE);
 		firstUse = sp.getString("firstUse", "");
 		if (firstUse.equals("true"))

@@ -33,7 +33,7 @@
     <application
         android:name=".app.AppContext"
         android:allowBackup="true"
-        android:icon="@drawable/appicon"
+        android:icon="@drawable/ic_login"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <meta-data
@@ -52,10 +52,13 @@
         <!-- 在线ui -->
         <activity android:name="com.bhq.ui.AddPest_" />
         <activity android:name="com.bhq.ui.AddInterfere_" />
+        <activity android:name="com.bhq.ui.Offline_AddSurvey_" />
+        <activity android:name="com.bhq.ui.Offline_ShowXBXX_" />
         <activity android:name="com.bhq.ui.AddSurvey_" />
         <activity android:name="com.bhq.ui.GuideViewDoor" />
         <activity android:name="com.bhq.ui.GuideViewActivity" />
         <activity android:name="com.bhq.ui.MainActivity_" />
+        <activity android:name="com.bhq.ui.Offline_XBList_" />
         <activity android:name="com.bhq.ui.ShowAnimal_" />
         <activity android:name="com.bhq.ui.EditAnimal_" />
         <activity android:name="com.bhq.ui.DiscoveryActivity_" />

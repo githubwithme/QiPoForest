@@ -5,21 +5,6 @@
               android:background="@color/white"
               android:orientation="vertical">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/titlebar_height"
-        android:background="@color/white">
-
-        <TextView
-            android:id="@+id/tv_username"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/titlebar_height"
-            android:layout_centerHorizontal="true"
-            android:gravity="center"
-            android:text="我"
-            android:textColor="@color/bg_text"
-            android:textSize="@dimen/titlebar_textsize"/>
-    </RelativeLayout>
 
     <ScrollView
         android:layout_width="match_parent"

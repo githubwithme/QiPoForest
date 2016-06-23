@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 
 import com.bhq.R;
 import com.bhq.app.AppContext;
@@ -36,6 +35,8 @@ public class Offline_MainFragment extends Fragment
 {
     Fragment mContent = new Fragment();
     @ViewById
+    LinearLayout ll_survey;
+    @ViewById
     LinearLayout ll_find;
     @ViewById
     LinearLayout ll_task;
@@ -43,8 +44,7 @@ public class Offline_MainFragment extends Fragment
     LinearLayout ll_eventhappen;
     @ViewById
     ImageButton btn_account;
-    @ViewById
-    RelativeLayout titlebar_home;
+
     @ViewById
     FrameLayout container_map;
     @ViewById
@@ -56,6 +56,13 @@ public class Offline_MainFragment extends Fragment
         Intent intent = new Intent();
         intent.setAction(AppContext.BROADCAST_OPENDL);
         getActivity().sendBroadcast(intent);
+    }
+
+    @Click
+    void ll_survey()
+    {
+        Intent intent = new Intent(getActivity(), Offline_XBList_.class);
+        getActivity().startActivity(intent);
     }
 
     @Click

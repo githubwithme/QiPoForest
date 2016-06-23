@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/rl_topbar"
+        android:layout_width="match_parent"
+        android:layout_height="50dip"
+        android:background="@color/color_topbar">
+
+        <ImageButton
+            android:id="@+id/btn_back"
+            android:layout_width="25dip"
+            android:layout_height="25dip"
+            android:layout_centerVertical="true"
+            android:background="@drawable/ic_back"/>
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dip"
+            android:layout_toRightOf="@+id/btn_back"
+            android:gravity="center"
+            android:text="七陂林场"
+            android:textColor="@color/white"
+            android:textSize="@dimen/titlebar_textsize"/>
+
+        <ImageButton
+            android:id="@+id/btn_add"
+            android:layout_width="25dip"
+            android:layout_height="25dip"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dip"
+            android:background="@mipmap/icon_add_white"/>
+    </RelativeLayout>
+
+    <com.bhq.widget.PullToRefreshListView
+        android:id="@+id/frame_listview_plant"
+        style="@style/widget_listview"
+        android:background="@color/line_color"/>
+
+</LinearLayout>

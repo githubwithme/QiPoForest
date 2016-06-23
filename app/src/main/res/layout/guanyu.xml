@@ -53,7 +53,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:hint="开发团队@copyright：北京盈创星空 \n\n合作方：广东石门台自然保护区"/>
+            android:hint="开发团队@copyright：广州海川信息科技有限公司 \n\n合作方：广西国有七陂林场"/>
 
 
     </LinearLayout>

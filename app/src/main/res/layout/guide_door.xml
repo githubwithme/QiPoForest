@@ -29,7 +29,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="广东石门台"
+            android:text="广西国有七陂林场"
             android:textColor="@color/black"
             android:textSize="20sp" />
 

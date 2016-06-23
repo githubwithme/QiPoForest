@@ -22,7 +22,7 @@
             android:layout_marginTop="15dip"
             android:background="@null"
             android:gravity="center"
-            android:text="广东石门台国家级自然保护区"
+            android:text="广西国有七陂林场"
             android:textColor="@color/bg_text"
             android:textSize="28sp"
             android:textStyle="bold" />

@@ -101,8 +101,7 @@ public class Offline_IServiceFragment extends Fragment
     TextView tv_renewversion;
     @ViewById
     TextView tv_name;
-    @ViewById
-    TextView tv_username;
+
     @ViewById
     TextView tv_phone;
     @ViewById
@@ -188,7 +187,6 @@ public class Offline_IServiceFragment extends Fragment
     {
         getListData();
         dt_manager_offline dt_manager_offline = (dt_manager_offline) SqliteDb.getCurrentUser(getActivity(), dt_manager_offline.class);
-        tv_username.setText(dt_manager_offline.getreal_name());
         tv_phone.setText(dt_manager_offline.getPhone());
         BitmapHelper.loadImage(getActivity(), circle_img, dt_manager_offline.getBDLJ());
 //        BitmapHelper.setImageViewBackground(getActivity(), circle_img, "http://img.popoho.com/UploadPic/2010-12/201012297441441.png");

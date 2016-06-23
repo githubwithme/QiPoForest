@@ -5,16 +5,6 @@
               android:background="@color/white"
               android:orientation="vertical">
 
-    <include
-        android:id="@+id/titlebar_home"
-        layout="@layout/titlebar_home"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/titlebar_height"/>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:background="@color/gray"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -27,6 +17,29 @@
             android:layout_height="0dip"
             android:layout_weight="1"
             android:orientation="horizontal">
+
+            <LinearLayout
+                android:id="@+id/ll_survey"
+                android:layout_width="0dip"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="45dip"
+                    android:layout_height="45dip"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="15dip"
+                    android:background="@drawable/sjsb"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="小班调查"
+                    android:textColor="@color/bg_text"
+                    android:textSize="@dimen/size_14"/>
+            </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/ll_find"
