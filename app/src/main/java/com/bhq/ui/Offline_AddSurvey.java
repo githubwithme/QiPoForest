@@ -12,19 +12,22 @@ import android.provider.MediaStore;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.TextView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.bhq.R;
 import com.bhq.app.AppContext;
 import com.bhq.bean.Dictionary;
 import com.bhq.bean.FJ_SCFJ;
+import com.bhq.bean.SLXBL;
 import com.bhq.bean.XBBean;
 import com.bhq.bean.dt_manager_offline;
 import com.bhq.common.BitmapHelper;
@@ -34,7 +37,6 @@ import com.bhq.widget.MyDialog;
 import com.bhq.widget.MyDialog.CustomDialogListener;
 import com.media.HomeFragmentActivity;
 import com.media.MediaChooser;
-import com.wheel.OneWheel;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -43,7 +45,9 @@ import org.androidannotations.annotations.ViewById;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author :hc-sima
@@ -56,9 +60,15 @@ import java.util.List;
 public class Offline_AddSurvey extends Activity
 {
     @ViewById
-    ProgressBar pb_upload;
+    Spinner provinceSpinner;
     @ViewById
-    TextView tv_xbh;
+    Spinner citySpinner;
+    @ViewById
+    Spinner countySpinner;
+    @ViewById
+    ProgressBar pb_upload;
+    //    @ViewById
+//    TextView tv_xbh;
     @ViewById
     EditText et_mgqzs;
     @ViewById
@@ -83,37 +93,66 @@ public class Offline_AddSurvey extends Activity
     String SJLXMC = "";
     String SJID;
     List<Dictionary> list_dic;
+    ArrayAdapter<String> provinceAdapter = null;  //省级适配器
+    ArrayAdapter<String> cityAdapter = null;    //地级适配器
+    ArrayAdapter<String> countyAdapter = null;    //县级适配器
+    static int provincePosition = 3;
+    /**
+     * 所有省
+     */
+    private String[] mProvinceDatas;
+    /**
+     * key - 省 value - 市s
+     */
+    private Map<String, String[]> mCitisDatasMap = new HashMap<String, String[]>();
+    /**
+     * key - 市 values - 区s
+     */
+    private Map<String, String[]> mAreaDatasMap = new HashMap<String, String[]>();
 
-    @Click
-    void tv_xbh()
-    {
-        String[] firstItemid = new String[]{};
-        String[] firstItemData = new String[]{};
-        List<String> list_id = new ArrayList<String>();
-        List<String> list_name = new ArrayList<String>();
-        for (int i = 0; i < list_dic.size(); i++)
-        {
-            if (list_dic.get(i).getLX().equals("SJLX"))
-            {
-                list_id.add(list_dic.get(i).getDID());
-                list_name.add(list_dic.get(i).getNAME());
-            }
-        }
-        firstItemid = new String[list_id.size()];
-        firstItemData = new String[list_id.size()];
-        for (int i = 0; i < list_id.size(); i++)
-        {
-            firstItemid[i] = list_id.get(i);
-            firstItemData[i] = list_name.get(i);
-        }
-        if (list_id.size() != 0)
-        {
-            OneWheel.showWheel(this, firstItemid, firstItemData, tv_xbh);
-        } else
-        {
-            Toast.makeText(Offline_AddSurvey.this, "数据获取异常，请重试！", Toast.LENGTH_SHORT).show();
-        }
-    }
+    /**
+     * 当前省的名称
+     */
+    private String mCurrentProviceName;
+    /**
+     * 当前市的名称
+     */
+    private String mCurrentCityName;
+    /**
+     * 当前区的名称
+     */
+    private String mCurrentAreaName = "";
+
+//    @Click
+//    void tv_xbh()
+//    {
+//        String[] firstItemid = new String[]{};
+//        String[] firstItemData = new String[]{};
+//        List<String> list_id = new ArrayList<String>();
+//        List<String> list_name = new ArrayList<String>();
+//        for (int i = 0; i < list_dic.size(); i++)
+//        {
+//            if (list_dic.get(i).getLX().equals("SJLX"))
+//            {
+//                list_id.add(list_dic.get(i).getDID());
+//                list_name.add(list_dic.get(i).getNAME());
+//            }
+//        }
+//        firstItemid = new String[list_id.size()];
+//        firstItemData = new String[list_id.size()];
+//        for (int i = 0; i < list_id.size(); i++)
+//        {
+//            firstItemid[i] = list_id.get(i);
+//            firstItemData[i] = list_name.get(i);
+//        }
+//        if (list_id.size() != 0)
+//        {
+//            OneWheel.showWheel(this, firstItemid, firstItemData, tv_xbh);
+//        } else
+//        {
+//            Toast.makeText(Offline_AddSurvey.this, "数据获取异常，请重试！", Toast.LENGTH_SHORT).show();
+//        }
+//    }
 
     @ViewById
     Button btn_upload;
@@ -153,6 +192,8 @@ public class Offline_AddSurvey extends Activity
     @AfterViews
     void afterOncreate()
     {
+        initCityDatas();
+        setSpinner();
         getDICS();
     }
 
@@ -334,7 +375,7 @@ public class Offline_AddSurvey extends Activity
     {
         XBBean xbBean = new XBBean();
         xbBean.setID(SJID);
-        xbBean.setXBH(tv_xbh.getText().toString());
+        xbBean.setXBH(provinceSpinner.getSelectedItem().toString() + citySpinner.getSelectedItem().toString() + countySpinner.getSelectedItem().toString());
         xbBean.setPJSG(et_pjsg.getText().toString());
         xbBean.setPJXJ(et_pjxj.getText().toString());
         xbBean.setMGQZS(et_mgqzs.getText().toString());
@@ -370,58 +411,7 @@ public class Offline_AddSurvey extends Activity
             Toast.makeText(Offline_AddSurvey.this, "上传失败", Toast.LENGTH_SHORT).show();
         }
     }
-//	private void uploadData()
-//	{
-//		if ((Bundle) tv_type.getTag() != null)
-//		{
-//			SJLX = ((Bundle) tv_type.getTag()).getString("FI");
-//			SJLXMC = ((Bundle) tv_type.getTag()).getString("FN");
-//		}
-//		BHQ_XHSJ bhq_XHSJ = new BHQ_XHSJ();
-//		bhq_XHSJ.setSJID(SJID);
-//		bhq_XHSJ.setSJLX(SJLX);
-//		bhq_XHSJ.setSJLXMC(SJLXMC);
-//		bhq_XHSJ.setSJMS(et_sjms.getText().toString());
-//		bhq_XHSJ.setCLQK(et_clqk.getText().toString());
-//		bhq_XHSJ.setSBR(dt_manager_offline.getid());
-//		bhq_XHSJ.setSBRXM(dt_manager_offline.getreal_name());
-//		bhq_XHSJ.setSBSJ(utils.getTime());
-//		bhq_XHSJ.setSSBHZ(dt_manager_offline.getDepartId());
-//		bhq_XHSJ.setLCZT("1");
-//		bhq_XHSJ.setX(appContext.getLOCATION_Y());
-//		bhq_XHSJ.setY(appContext.getLOCATION_X());
-//		bhq_XHSJ.setXHID(appContext.getXHID());
-//		bhq_XHSJ.setIsUpload("0");
-//		bhq_XHSJ.setSFSC("0");
-//		boolean issuccess = SqliteDb.save(Offline_AddSurvey.this, bhq_XHSJ);
-//		if (issuccess)
-//		{
-//			if (list_allfj.size() > 0)
-//			{
-//				boolean success = SqliteDb.saveAll(Offline_AddSurvey.this, list_allfj);
-//				if (success)
-//				{
-//					Toast.makeText(Offline_AddSurvey.this, "保存成功！", Toast.LENGTH_SHORT).show();
-//					finish();
-//				} else
-//				{
-//					pb_upload.setVisibility(View.GONE);
-//					btn_upload.setVisibility(View.VISIBLE);
-//					Toast.makeText(Offline_AddSurvey.this, "数据保存失败", Toast.LENGTH_SHORT).show();
-//				}
-//			} else
-//			{
-//				Toast.makeText(Offline_AddSurvey.this, "保存成功！", Toast.LENGTH_SHORT).show();
-//				finish();
-//			}
-//		} else
-//		{
-//			pb_upload.setVisibility(View.GONE);
-//			btn_upload.setVisibility(View.VISIBLE);
-//			Toast.makeText(Offline_AddSurvey.this, "上传失败", Toast.LENGTH_SHORT).show();
-//		}
-//
-//	}
+
 
     private void getDICS()
     {
@@ -431,5 +421,91 @@ public class Offline_AddSurvey extends Activity
             list_dic = new ArrayList<Dictionary>();
         }
 
+    }
+
+
+    /*
+   * 设置下拉框
+   */
+    private void setSpinner()
+    {
+        //绑定适配器和值
+        provinceAdapter = new ArrayAdapter<String>(Offline_AddSurvey.this, android.R.layout.simple_spinner_item, mProvinceDatas);
+        provinceSpinner.setAdapter(provinceAdapter);
+        provinceSpinner.setSelection(0, true);  //设置默认选中项，此处为默认选中第4个值
+        mCurrentProviceName = mProvinceDatas[0];
+
+        cityAdapter = new ArrayAdapter<String>(Offline_AddSurvey.this, android.R.layout.simple_spinner_item, mCitisDatasMap.get(mCurrentProviceName));
+        citySpinner.setAdapter(cityAdapter);
+        citySpinner.setSelection(0, true);  //默认选中第0个
+        mCurrentCityName = mCitisDatasMap.get(mCurrentProviceName)[0];
+
+        countyAdapter = new ArrayAdapter<String>(Offline_AddSurvey.this, android.R.layout.simple_spinner_item, mAreaDatasMap.get(mCurrentCityName));
+        countySpinner.setAdapter(countyAdapter);
+        countySpinner.setSelection(0, true);
+        mCurrentAreaName = mAreaDatasMap.get(mCurrentCityName)[0];
+
+        //省级下拉框监听
+        provinceSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
+        {
+            // 表示选项被改变的时候触发此方法，主要实现办法：动态改变地级适配器的绑定值
+            @Override
+            public void onItemSelected(AdapterView<?> arg0, View arg1, int position, long arg3)
+            {
+                provincePosition = position;    //记录当前省级序号，留给下面修改县级适配器时用
+                mCurrentProviceName = provinceSpinner.getSelectedItem().toString();
+                //position为当前省级选中的值的序号
+                //将地级适配器的值改变为city[position]中的值
+                cityAdapter = new ArrayAdapter<String>(Offline_AddSurvey.this, android.R.layout.simple_spinner_item, mCitisDatasMap.get(mCurrentProviceName));
+                // 设置二级下拉列表的选项内容适配器
+                citySpinner.setAdapter(cityAdapter);
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> arg0)
+            {
+
+            }
+
+        });
+
+
+        //地级下拉监听
+        citySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
+        {
+
+            @Override
+            public void onItemSelected(AdapterView<?> arg0, View arg1, int position, long arg3)
+            {
+                countyAdapter = new ArrayAdapter<String>(Offline_AddSurvey.this, android.R.layout.simple_spinner_item, mAreaDatasMap.get(mCitisDatasMap.get(mCurrentProviceName)[position]));
+                countySpinner.setAdapter(countyAdapter);
+                mCurrentCityName = citySpinner.getSelectedItem().toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> arg0)
+            {
+
+            }
+        });
+    }
+
+    /**
+     * 解析整个省市区的Json对象，完成后释放Json对象的内存
+     */
+    private void initCityDatas()
+    {
+        mProvinceDatas = SqliteDb.getSLXBL(Offline_AddSurvey.this, SLXBL.class, "XZM", "XM", "英德");
+        for (int i = 0; i < mProvinceDatas.length; i++)
+        {
+            String[] mCitiesDatas = SqliteDb.getSLXBL(Offline_AddSurvey.this, SLXBL.class, "CM", "XZM", mProvinceDatas[i]);
+            for (int j = 0; j < mCitiesDatas.length; j++)
+            {
+                String[] mAreasDatas = SqliteDb.getSLXBL(Offline_AddSurvey.this, SLXBL.class, "XBH", "CM", mCitiesDatas[j]);
+                mAreaDatasMap.put(mCitiesDatas[j], mAreasDatas);
+            }
+            mCitisDatasMap.put(mProvinceDatas[i], mCitiesDatas);
+        }
     }
 }

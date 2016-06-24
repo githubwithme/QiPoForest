@@ -22,6 +22,7 @@ import com.bhq.bean.FJ_SCFJ;
 import com.bhq.bean.RW_CYR;
 import com.bhq.bean.RW_RW;
 import com.bhq.bean.RW_YQB;
+import com.bhq.bean.SLXBL;
 import com.bhq.bean.dt_manager;
 import com.bhq.bean.dt_manager_offline;
 import com.lidroid.xutils.DbUtils;
@@ -677,7 +678,7 @@ public class SqliteDb
         StringBuffer builder = new StringBuffer();
         try
         {
-            boolean isexist=db.tableIsExist(BHQ_XHQK_GJ.class);
+            boolean isexist = db.tableIsExist(BHQ_XHQK_GJ.class);
             if (isexist)
             {
                 String sql = "SELECT  COUNT(*) AS COUNT FROM BHQ_XHQK_GJ  WHERE IsUpload = ?";
@@ -692,7 +693,7 @@ public class SqliteDb
                 {
                     return 0;
                 }
-            }else
+            } else
             {
                 return 0;
             }
@@ -712,7 +713,7 @@ public class SqliteDb
     public static int getNotUploadData_Size(Context context)
     {
         InitDbutils(context);
-        boolean isexist=false;
+        boolean isexist = false;
         String sql = "";
         Cursor mCursor = null;
         int allsize = 0;
@@ -721,7 +722,7 @@ public class SqliteDb
         try
         {
             //用户表未同步数据
-            isexist=db.tableIsExist(dt_manager_offline.class);
+            isexist = db.tableIsExist(dt_manager_offline.class);
             if (isexist)
             {
                 sql = "SELECT  COUNT(*) AS COUNT FROM dt_manager_offline  WHERE IsUpload = ?";
@@ -735,7 +736,7 @@ public class SqliteDb
             }
 
             //状态表未同步数据
-            isexist=db.tableIsExist(BHQ_XHQK_ZTCZ.class);
+            isexist = db.tableIsExist(BHQ_XHQK_ZTCZ.class);
             if (isexist)
             {
                 sql = "SELECT  COUNT(*) AS COUNT FROM BHQ_XHQK_ZTCZ  WHERE IsUpload = ?";
@@ -749,7 +750,7 @@ public class SqliteDb
             }
 
             //信息采集表未同步数据
-            isexist=db.tableIsExist(BHQ_XHSJCJ.class);
+            isexist = db.tableIsExist(BHQ_XHSJCJ.class);
             if (isexist)
             {
                 sql = "SELECT  COUNT(*) AS COUNT FROM BHQ_XHSJCJ  WHERE IsUpload = ?";
@@ -763,7 +764,7 @@ public class SqliteDb
             }
 
             //事件表未同步数据
-            isexist=db.tableIsExist(BHQ_XHSJ.class);
+            isexist = db.tableIsExist(BHQ_XHSJ.class);
             if (isexist)
             {
                 sql = "SELECT  COUNT(*) AS COUNT FROM BHQ_XHSJ  WHERE IsUpload = ?";
@@ -777,7 +778,7 @@ public class SqliteDb
             }
 
             //情况表未同步数据
-            isexist=db.tableIsExist(BHQ_XHQK.class);
+            isexist = db.tableIsExist(BHQ_XHQK.class);
             if (isexist)
             {
                 sql = "SELECT  COUNT(*) AS COUNT FROM BHQ_XHQK  WHERE IsUpload = ?";
@@ -791,7 +792,7 @@ public class SqliteDb
             }
 
             //轨迹表未同步数据
-            isexist=db.tableIsExist(BHQ_XHQK_GJ.class);
+            isexist = db.tableIsExist(BHQ_XHQK_GJ.class);
             if (isexist)
             {
                 sql = "SELECT  COUNT(*) AS COUNT FROM BHQ_XHQK_GJ  WHERE IsUpload = ?";
@@ -805,7 +806,7 @@ public class SqliteDb
             }
 
             //附件表未同步数据
-            isexist=db.tableIsExist(FJ_SCFJ.class);
+            isexist = db.tableIsExist(FJ_SCFJ.class);
             if (isexist)
             {
                 sql = "SELECT  COUNT(*) AS COUNT FROM FJ_SCFJ  WHERE IsUpload = ?";
@@ -819,7 +820,7 @@ public class SqliteDb
             }
 
             //任务人员表未同步数据
-            isexist=db.tableIsExist(RW_CYR.class);
+            isexist = db.tableIsExist(RW_CYR.class);
             if (isexist)
             {
                 sql = "SELECT  COUNT(*) AS COUNT FROM RW_CYR  WHERE IsUpload = ?";
@@ -833,7 +834,7 @@ public class SqliteDb
             }
 
             //任务表未同步数据
-            isexist=db.tableIsExist(RW_RW.class);
+            isexist = db.tableIsExist(RW_RW.class);
             if (isexist)
             {
                 sql = "SELECT  COUNT(*) AS COUNT FROM RW_RW  WHERE IsUpload = ?";
@@ -1050,6 +1051,30 @@ public class SqliteDb
         return list;
     }
 
+    public static <T> String[] getSLXBL(Context context, Class<T> c, String needfields, String fields, String values)
+    {
+        String[] str = null;
+        InitDbutils(context);
+        List<DbModel> list = null;
+        try
+        {
+            list = db.findDbModelAll(Selector.from(c).select("distinct " + needfields).where(fields, "=", values));
+        } catch (DbException e)
+        {
+            e.printStackTrace();
+        }
+        if (list != null)
+        {
+            str = new String[list.size()];
+            for (int i = 0; i < list.size(); i++)
+            {
+                String a= list.get(i).getString(needfields).toString();
+                str[i] = list.get(i).getString(needfields).toString();
+            }
+        }
+        return str;
+    }
+
     public static <T> List<T> getDics(Context context, Class<T> c)
     {
         InitDbutils(context);
@@ -1103,6 +1128,7 @@ public class SqliteDb
         }
         return list;
     }
+
     public static <T> List<T> getXBList(Context context, Class<T> c)
     {
         InitDbutils(context);
@@ -1120,6 +1146,7 @@ public class SqliteDb
         }
         return list;
     }
+
     public static <T> List<T> getEventList(Context context, Class<T> c, String SBR)
     {
         InitDbutils(context);
@@ -1461,7 +1488,6 @@ public class SqliteDb
             for (int i = 0; i < jsonArray_Rows.size(); i++)
             {
                 StringBuffer values = new StringBuffer();
-                ;
                 for (int j = 0; j < columnnames.length; j++)
                 {
                     values.append("\"" + jsonArray_Rows.getJSONArray(i).getString(j) + "\"" + ",");
@@ -1646,6 +1672,7 @@ public class SqliteDb
             db.createTableIfNotExist(BHQ_XHXL.class);
             db.createTableIfNotExist(BHQ_XHXL_GJ.class);
             db.createTableIfNotExist(BQH_XHRY.class);
+            db.createTableIfNotExist(SLXBL.class);
         } catch (DbException e)
         {
             e.printStackTrace();

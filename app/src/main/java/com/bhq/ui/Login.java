@@ -47,6 +47,7 @@ import com.bhq.bean.RW_RW;
 import com.bhq.bean.RW_YQB;
 import com.bhq.bean.Result;
 import com.bhq.bean.ResultDeal;
+import com.bhq.bean.SLXBL;
 import com.bhq.bean.dt_manager;
 import com.bhq.bean.dt_manager_offline;
 import com.bhq.common.ConnectionHelper;
@@ -273,7 +274,7 @@ public class Login extends Activity
     private void startInitData()
     {
         SqliteDb.createTable(Login.this);
-        ThreadNumber = 9;
+        ThreadNumber = 10;
         latch = new CountDownLatch(ThreadNumber);
         rl_inittip.setVisibility(View.GONE);
         rl_pb.setVisibility(View.VISIBLE);
@@ -286,11 +287,12 @@ public class Login extends Activity
         InitTable("APP.InitRW_RWData", RW_RW.class);
         InitTable("APP.InitRW_CYRData", RW_CYR.class);
         InitTable("APP.InitRW_YQBData", RW_YQB.class);
+        InitTable("APP.getLBList", SLXBL.class);
     }
 
     private void updateData()
     {
-        ThreadNumber = 9;
+        ThreadNumber = 10;
         latch = new CountDownLatch(ThreadNumber);
         rl_inittip.setVisibility(View.GONE);
         rl_pb.setVisibility(View.VISIBLE);
@@ -306,6 +308,7 @@ public class Login extends Activity
         updateTable("APP.InitBHQ_XHXL_GJInfo", sysntime, BHQ_XHXL_GJ.class);
         updateTable("APP.InitBQH_XHRYData", sysntime, BQH_XHRY.class);
         updateTable("APP.InitUserData", sysntime, dt_manager_offline.class);
+        updateTable("APP.getLBList", sysntime, SLXBL.class);
 
         getServerSystemTime();
     }
@@ -665,6 +668,9 @@ public class Login extends Activity
                             {
                                 SqliteDb.deleteAllRecord(Login.this, Dictionary.class);//因为该表无法创建主键，所以避免重复数据插入，执行此。
                                 SqliteDb.insertData(Login.this, "Dictionary", ColumnNames, jsonArray_Rows);
+                            } else if (action.equals("APP.getLBList"))
+                            {
+                                SqliteDb.insertData(Login.this, "SLXBL", ColumnNames, jsonArray_Rows);
                             }
                         }
 
@@ -764,6 +770,9 @@ public class Login extends Activity
                             {
                                 SqliteDb.insertData(Login.this, "BHQ_ZSK", ColumnNames, jsonArray_Rows);
                                 initZSNR("1900-01-01");
+                            } else if (action.equals("APP.getLBList"))
+                            {
+                                SqliteDb.insertData(Login.this, "SLXBL", ColumnNames, jsonArray_Rows);
                             }
                         }
                     }

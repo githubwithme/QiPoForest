@@ -40,7 +40,6 @@
 
     <com.bhq.widget.PullToRefreshListView
         android:id="@+id/frame_listview_plant"
-        style="@style/widget_listview"
-        android:background="@color/line_color"/>
+        style="@style/widget_listview"/>
 
 </LinearLayout>
