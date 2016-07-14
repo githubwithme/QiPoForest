@@ -59,12 +59,7 @@ import java.util.Map;
 @EActivity(R.layout.addsurvey)
 public class Offline_AddSurvey extends Activity
 {
-    @ViewById
-    Spinner provinceSpinner;
-    @ViewById
-    Spinner citySpinner;
-    @ViewById
-    Spinner countySpinner;
+
     @ViewById
     ProgressBar pb_upload;
     //    @ViewById
@@ -93,34 +88,22 @@ public class Offline_AddSurvey extends Activity
     String SJLXMC = "";
     String SJID;
     List<Dictionary> list_dic;
+
+    @ViewById
+    Spinner provinceSpinner;
+    @ViewById
+    Spinner citySpinner;
+    @ViewById
+    Spinner countySpinner;
     ArrayAdapter<String> provinceAdapter = null;  //省级适配器
     ArrayAdapter<String> cityAdapter = null;    //地级适配器
     ArrayAdapter<String> countyAdapter = null;    //县级适配器
     static int provincePosition = 3;
-    /**
-     * 所有省
-     */
     private String[] mProvinceDatas;
-    /**
-     * key - 省 value - 市s
-     */
     private Map<String, String[]> mCitisDatasMap = new HashMap<String, String[]>();
-    /**
-     * key - 市 values - 区s
-     */
     private Map<String, String[]> mAreaDatasMap = new HashMap<String, String[]>();
-
-    /**
-     * 当前省的名称
-     */
     private String mCurrentProviceName;
-    /**
-     * 当前市的名称
-     */
     private String mCurrentCityName;
-    /**
-     * 当前区的名称
-     */
     private String mCurrentAreaName = "";
 
 //    @Click
@@ -432,7 +415,7 @@ public class Offline_AddSurvey extends Activity
         //绑定适配器和值
         provinceAdapter = new ArrayAdapter<String>(Offline_AddSurvey.this, android.R.layout.simple_spinner_item, mProvinceDatas);
         provinceSpinner.setAdapter(provinceAdapter);
-        provinceSpinner.setSelection(0, true);  //设置默认选中项，此处为默认选中第4个值
+        provinceSpinner.setSelection(0, true);  //设置默认选中项，此处为默认选中第0个值
         mCurrentProviceName = mProvinceDatas[0];
 
         cityAdapter = new ArrayAdapter<String>(Offline_AddSurvey.this, android.R.layout.simple_spinner_item, mCitisDatasMap.get(mCurrentProviceName));

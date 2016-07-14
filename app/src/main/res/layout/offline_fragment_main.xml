@@ -23,6 +23,7 @@
                 android:layout_width="0dip"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:visibility="gone"
                 android:orientation="vertical">
 
                 <ImageView
@@ -59,7 +60,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
-                    android:text="巡护发现"
+                    android:text="日常生产"
                     android:textColor="@color/bg_text"
                     android:textSize="@dimen/size_14"/>
             </LinearLayout>

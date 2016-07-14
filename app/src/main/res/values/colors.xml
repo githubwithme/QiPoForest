@@ -2,6 +2,11 @@
 <resources>
     <color name="color_topbar">#393a3e</color>
     <color name="white">#ffffff</color>
+    <color name="defaultbackground">#eeeeee</color>
+    <color name="defaultbackground_light">#f8f8f8</color>
+    <color name="defaultbackground_tip">#fee7b1</color>
+    <color name="black_light">#65655b</color>
+    <color name="red_light">#fe5555</color>
     <!-- 圆形样式颜色 -->
     <color name="base_start_color_pressed">#ff3590c4</color>
     <color name="base_end_color_pressed">#ff2570ba</color>

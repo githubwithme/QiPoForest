@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/defaultbackground"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:background="@color/white"
+        android:layout_height="@dimen/titlebar_height" >
+
+        <ImageButton
+            android:id="@+id/imgbtn_back"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/titlebar_height"
+            android:layout_marginLeft="5dip"
+            android:background="@null"
+            android:contentDescription="@string/contentDescription_tonggao"
+            android:src="@drawable/back" />
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/titlebar_height"
+            android:gravity="center"
+            android:text="添加"
+            android:layout_toRightOf="@+id/imgbtn_back"
+            android:layout_marginLeft="5dip"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
+
+        <Button
+            android:id="@+id/btn_upload"
+            android:layout_width="60dip"
+            android:layout_height="35dip"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dip"
+            android:background="@null"
+            android:gravity="center"
+            android:text="保存"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
+
+        <ProgressBar
+            android:id="@+id/pb_upload"
+            android:layout_width="60dip"
+            android:layout_height="35dip"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dip"
+            android:background="@null"
+            android:gravity="center"
+            android:text="上传"
+            android:textColor="@color/white"
+            android:textSize="@dimen/titlebar_textsize"
+            android:visibility="gone" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/line"
+        android:background="@color/line_color" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:stretchColumns="1">
+            <TableRow
+                android:layout_width="match_parent"
+                android:background="@color/white"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="60dip"
+                    android:layout_height="match_parent"
+                    android:focusable="true"
+                    android:layout_marginLeft="15dip"
+                    android:focusableInTouchMode="true"
+                    android:gravity="left|center_vertical"
+                    android:text="类型"
+                    android:textColor="@color/bg_text"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/tv_type"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/height_colum"
+                    android:layout_span="3"
+                    android:layout_marginRight="10dip"
+                    android:background="@null"
+                    android:gravity="right|center_vertical"
+                    android:hint="请选择类型"
+                    android:paddingLeft="10dip"
+                    android:textColor="@color/gray"
+                    android:textSize="16sp" />
+            </TableRow>
+
+
+            <LinearLayout
+                android:id="@+id/ll_addpicture"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:layout_marginTop="10dip"
+                android:orientation="vertical" >
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:id="@+id/tv_wsw_picture"
+                        android:layout_width="60dip"
+                        android:layout_height="120dip"
+                        android:layout_marginLeft="15dip"
+                        android:gravity="left|center_vertical"
+                        android:text="照片"
+                        android:textColor="@color/bg_text"
+                        android:textSize="16sp" />
+
+                    <HorizontalScrollView
+                        android:layout_width="match_parent"
+                        android:layout_height="120dip"
+                        android:layout_marginRight="@dimen/size_60"
+                        android:layout_span="2"
+                        android:layout_marginLeft="10dip"
+                        android:layout_toRightOf="@id/tv_wsw_picture" >
+
+                        <LinearLayout
+                            android:id="@+id/ll_picture"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal" />
+                    </HorizontalScrollView>
+
+                    <ImageButton
+                        android:id="@+id/imgbtn_addpicture"
+                        android:layout_width="@dimen/size_60"
+                        android:layout_height="120dip"
+                        android:layout_marginRight="10dip"
+                        android:layout_alignParentRight="true"
+                        android:background="@null"
+                        android:src="@drawable/plus" />
+                </RelativeLayout>
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="200dip"
+                android:layout_marginTop="10dip"
+                android:background="@color/white"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="60dip"
+                    android:layout_height="40dip"
+                    android:focusable="true"
+                    android:layout_marginLeft="15dip"
+                    android:focusableInTouchMode="true"
+                    android:gravity="left|bottom"
+                    android:text="备注"
+                    android:textColor="@color/bg_text"
+                    android:textSize="@dimen/size_14" />
+
+                <EditText
+                    android:id="@+id/et_bz"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dip"
+                    android:paddingLeft="5dip"
+                    android:background="@drawable/background_view_rounded_single"
+                    android:gravity="left|top"
+                    android:hint="请输入备注"
+                    android:paddingTop="10dip"
+                    android:textColor="@color/gray"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+
+
+        </TableLayout>
+    </ScrollView>
+
+</LinearLayout>

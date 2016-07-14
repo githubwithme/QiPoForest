@@ -53,6 +53,9 @@
         <activity android:name="com.bhq.ui.AddPest_" />
         <activity android:name="com.bhq.ui.AddInterfere_" />
         <activity android:name="com.bhq.ui.Offline_AddSurvey_" />
+        <activity android:name="com.bhq.ui.Offline_ShowDailyProduct_" />
+        <activity android:name="com.bhq.ui.Offline_DailyProductActivity_" />
+        <activity android:name="com.bhq.ui.Offline_AddDailyProduct_" />
         <activity android:name="com.bhq.ui.Offline_ShowXBXX_" />
         <activity android:name="com.bhq.ui.AddSurvey_" />
         <activity android:name="com.bhq.ui.GuideViewDoor" />

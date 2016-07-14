@@ -68,7 +68,7 @@ public class Offline_MainFragment extends Fragment
     @Click
     void ll_find()
     {
-        Intent intent = new Intent(getActivity(), Offline_DiscoveryActivity_.class);
+        Intent intent = new Intent(getActivity(), Offline_DailyProductActivity_.class);
         getActivity().startActivity(intent);
     }
 
