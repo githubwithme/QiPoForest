@@ -24,7 +24,8 @@ public class AppConfig
     //服务地址
 //	public final static String url = "http://192.168.1.4:8078/";
 //	public final static String url_web = "http://192.168.1.4:8078/";
-	public final static String url = "http://183.234.8.166:8085/";
+//	public final static String url = "http://183.234.8.166:8085/";
+	public final static String url = "http://192.168.23.1:8078/";
 	public final static String url_web = "http://183.234.8.166/";
 //	public final static String url = "http://192.168.1.103:8066/";
 //	public final static String url_web = "http://192.168.1.103:8066/";
