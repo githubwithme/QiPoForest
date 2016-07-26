@@ -27,7 +27,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/selector_navigation_find"
-            android:text="法律法规"
+            android:text="作业规范"
             android:textColor="@color/black"
             android:textSize="12sp"/>
 

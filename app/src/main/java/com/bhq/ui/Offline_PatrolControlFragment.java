@@ -119,7 +119,7 @@ public class Offline_PatrolControlFragment extends Fragment implements TencentLo
     TencentMap tencentMap;
     String result = new String();
     // LatLng latLng = null;
-    LatLng location_latLng = new LatLng(24.430833, 113.298611);// 初始化定位
+    LatLng location_latLng = new LatLng( 22.663773,108.228593);// 初始化定位
     LatLng lastlatLng;// 初始化定位
     LatLng lastlatLng_xl;// 初始化定位
     String XHID;
@@ -144,8 +144,8 @@ public class Offline_PatrolControlFragment extends Fragment implements TencentLo
     TextView tv_starttime;
     @ViewById
     TextView tv_runtime;
-    @ViewById
-    RelativeLayout rl_mapmore;
+//    @ViewById
+//    RelativeLayout rl_mapmore;
     @ViewById
     RelativeLayout rl_selectlx;
     @ViewById
@@ -219,7 +219,7 @@ public class Offline_PatrolControlFragment extends Fragment implements TencentLo
         tv_runtime.setVisibility(View.GONE);
         tv_runlength.setVisibility(View.GONE);
         tv_starttime.setVisibility(View.GONE);
-        rl_mapmore.setVisibility(View.GONE);
+//        rl_mapmore.setVisibility(View.GONE);
         isStart = false;
         lastlatLng = null;
         tencentMap.clearAllOverlays();
@@ -266,9 +266,9 @@ public class Offline_PatrolControlFragment extends Fragment implements TencentLo
             tv_runlength.setVisibility(View.VISIBLE);
             tv_starttime.setVisibility(View.VISIBLE);
             ll_GPS.setVisibility(View.VISIBLE);
-            rl_mapmore.setVisibility(View.VISIBLE);
+//            rl_mapmore.setVisibility(View.VISIBLE);
             ll_GPS.setAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.in_left));
-            rl_mapmore.setAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.in_right));
+//            rl_mapmore.setAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.in_right));
             tv_runtime.setAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.in_left));
             tv_starttime.setAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.in_left));
             tv_runlength.setAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.in_left));

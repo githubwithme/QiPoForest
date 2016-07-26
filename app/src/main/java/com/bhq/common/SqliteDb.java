@@ -19,6 +19,7 @@ import com.bhq.bean.BQH_XHRY;
 import com.bhq.bean.Dictionary;
 import com.bhq.bean.ExceptionInfo;
 import com.bhq.bean.FJ_SCFJ;
+import com.bhq.bean.LCXBH;
 import com.bhq.bean.RW_CYR;
 import com.bhq.bean.RW_RW;
 import com.bhq.bean.RW_YQB;
@@ -1050,7 +1051,29 @@ public class SqliteDb
         }
         return list;
     }
-
+    public static <T> String[] getLCXBH(Context context, Class<T> c, String needfields, String fields, String values)
+    {
+        String[] str = null;
+        InitDbutils(context);
+        List<DbModel> list = null;
+        try
+        {
+            list = db.findDbModelAll(Selector.from(c).select("distinct " + needfields).where(fields, "=", values));
+        } catch (DbException e)
+        {
+            e.printStackTrace();
+        }
+        if (list != null)
+        {
+            str = new String[list.size()];
+            for (int i = 0; i < list.size(); i++)
+            {
+                String a= list.get(i).getString(needfields).toString();
+                str[i] = list.get(i).getString(needfields).toString();
+            }
+        }
+        return str;
+    }
     public static <T> String[] getSLXBL(Context context, Class<T> c, String needfields, String fields, String values)
     {
         String[] str = null;
@@ -1673,6 +1696,7 @@ public class SqliteDb
             db.createTableIfNotExist(BHQ_XHXL_GJ.class);
             db.createTableIfNotExist(BQH_XHRY.class);
             db.createTableIfNotExist(SLXBL.class);
+            db.createTableIfNotExist(LCXBH.class);
         } catch (DbException e)
         {
             e.printStackTrace();
@@ -1689,6 +1713,19 @@ public class SqliteDb
 //        sqLiteDatabase.execSQL(sql_RW_RW);
 //        sqLiteDatabase.execSQL(sql_RW_CYR);
 //        sqLiteDatabase.execSQL(sql_Dictionary);
+
+//        String sql="insert into LCXBH(ID,ZC,FC,LBH,XBH) values('1','七陂林场','七坡总场','',''，'新桥分场','上思一分场','上思二分场','贵港分场')";
+//        sqLiteDatabase.execSQL(sql);
+//        sql="insert into LCXBH(ID,ZC,FC,LBH,XBH) values('1','七陂林场','七坡总场','那丹站',''，'','','','')";
+//        sqLiteDatabase.execSQL(sql);
+//        sql="insert into LCXBH(ID,ZC,FC,LBH,XBH) values('1','七陂林场','康宁分场','那丹站',''，'','','','')";
+//        sqLiteDatabase.execSQL(sql);
+//        sql = "insert into LCXBH(ID,ZC,FC,LBH,XBH) values('1','七陂林场','那琴分场','那丹站',''，'','','','')";
+//        sqLiteDatabase.execSQL(sql);
+//        sql="insert into LCXBH(ID,ZC,FC,LBH,XBH) values('1','七陂林场','七坡总场','七坡站','那琴分场'，'新桥分场','上思一分场','上思二分场','贵港分场')";
+//        sqLiteDatabase.execSQL(sql);
+//        sql="insert into LCXBH(ID,ZC,FC,LBH,XBH) values('1','七陂林场','七坡总场','立新站','那琴分场'，'新桥分场','上思一分场','上思二分场','贵港分场')";
+//        sqLiteDatabase.execSQL(sql);
     }
 
     public static void updateRW_CYR(Context context, String RWCYID)// 这个方式可以

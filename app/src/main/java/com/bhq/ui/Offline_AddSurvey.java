@@ -27,7 +27,7 @@ import com.bhq.R;
 import com.bhq.app.AppContext;
 import com.bhq.bean.Dictionary;
 import com.bhq.bean.FJ_SCFJ;
-import com.bhq.bean.SLXBL;
+import com.bhq.bean.LCXBH;
 import com.bhq.bean.XBBean;
 import com.bhq.bean.dt_manager_offline;
 import com.bhq.common.BitmapHelper;
@@ -90,52 +90,27 @@ public class Offline_AddSurvey extends Activity
     List<Dictionary> list_dic;
 
     @ViewById
-    Spinner provinceSpinner;
+    Spinner firstSpinner;
     @ViewById
-    Spinner citySpinner;
+    Spinner secondSpinner;
     @ViewById
-    Spinner countySpinner;
+    Spinner thirdSpinner;
+    @ViewById
+    Spinner fourthSpinner;
+
     ArrayAdapter<String> provinceAdapter = null;  //省级适配器
     ArrayAdapter<String> cityAdapter = null;    //地级适配器
     ArrayAdapter<String> countyAdapter = null;    //县级适配器
+    ArrayAdapter<String> XBHAdapter = null;    //县级适配器
     static int provincePosition = 3;
     private String[] mProvinceDatas;
-    private Map<String, String[]> mCitisDatasMap = new HashMap<String, String[]>();
-    private Map<String, String[]> mAreaDatasMap = new HashMap<String, String[]>();
-    private String mCurrentProviceName;
-    private String mCurrentCityName;
-    private String mCurrentAreaName = "";
+    private Map<String, String[]> firstDatasMap = new HashMap<String, String[]>();
+    private Map<String, String[]> secondDatasMap = new HashMap<String, String[]>();
+    private Map<String, String[]> thirdDatasMap = new HashMap<String, String[]>();
+    private String currentFirstName;
+    private String currentSecondName;
+    private String currentThirdName = "";
 
-//    @Click
-//    void tv_xbh()
-//    {
-//        String[] firstItemid = new String[]{};
-//        String[] firstItemData = new String[]{};
-//        List<String> list_id = new ArrayList<String>();
-//        List<String> list_name = new ArrayList<String>();
-//        for (int i = 0; i < list_dic.size(); i++)
-//        {
-//            if (list_dic.get(i).getLX().equals("SJLX"))
-//            {
-//                list_id.add(list_dic.get(i).getDID());
-//                list_name.add(list_dic.get(i).getNAME());
-//            }
-//        }
-//        firstItemid = new String[list_id.size()];
-//        firstItemData = new String[list_id.size()];
-//        for (int i = 0; i < list_id.size(); i++)
-//        {
-//            firstItemid[i] = list_id.get(i);
-//            firstItemData[i] = list_name.get(i);
-//        }
-//        if (list_id.size() != 0)
-//        {
-//            OneWheel.showWheel(this, firstItemid, firstItemData, tv_xbh);
-//        } else
-//        {
-//            Toast.makeText(Offline_AddSurvey.this, "数据获取异常，请重试！", Toast.LENGTH_SHORT).show();
-//        }
-//    }
 
     @ViewById
     Button btn_upload;
@@ -175,7 +150,8 @@ public class Offline_AddSurvey extends Activity
     @AfterViews
     void afterOncreate()
     {
-        initCityDatas();
+//        initCityDatas();
+        initLCXBHData();
         setSpinner();
         getDICS();
     }
@@ -358,7 +334,7 @@ public class Offline_AddSurvey extends Activity
     {
         XBBean xbBean = new XBBean();
         xbBean.setID(SJID);
-        xbBean.setXBH(provinceSpinner.getSelectedItem().toString() + citySpinner.getSelectedItem().toString() + countySpinner.getSelectedItem().toString());
+        xbBean.setXBH(firstSpinner.getSelectedItem().toString() + secondSpinner.getSelectedItem().toString() + thirdSpinner.getSelectedItem().toString());
         xbBean.setPJSG(et_pjsg.getText().toString());
         xbBean.setPJXJ(et_pjxj.getText().toString());
         xbBean.setMGQZS(et_mgqzs.getText().toString());
@@ -414,34 +390,38 @@ public class Offline_AddSurvey extends Activity
     {
         //绑定适配器和值
         provinceAdapter = new ArrayAdapter<String>(Offline_AddSurvey.this, android.R.layout.simple_spinner_item, mProvinceDatas);
-        provinceSpinner.setAdapter(provinceAdapter);
-        provinceSpinner.setSelection(0, true);  //设置默认选中项，此处为默认选中第0个值
-        mCurrentProviceName = mProvinceDatas[0];
+        firstSpinner.setAdapter(provinceAdapter);
+        firstSpinner.setSelection(0, true);  //设置默认选中项，此处为默认选中第0个值
+        currentFirstName = mProvinceDatas[0];
 
-        cityAdapter = new ArrayAdapter<String>(Offline_AddSurvey.this, android.R.layout.simple_spinner_item, mCitisDatasMap.get(mCurrentProviceName));
-        citySpinner.setAdapter(cityAdapter);
-        citySpinner.setSelection(0, true);  //默认选中第0个
-        mCurrentCityName = mCitisDatasMap.get(mCurrentProviceName)[0];
+        cityAdapter = new ArrayAdapter<String>(Offline_AddSurvey.this, android.R.layout.simple_spinner_item, firstDatasMap.get(currentFirstName));
+        secondSpinner.setAdapter(cityAdapter);
+        secondSpinner.setSelection(0, true);  //默认选中第0个
+        currentSecondName = firstDatasMap.get(currentFirstName)[0];
 
-        countyAdapter = new ArrayAdapter<String>(Offline_AddSurvey.this, android.R.layout.simple_spinner_item, mAreaDatasMap.get(mCurrentCityName));
-        countySpinner.setAdapter(countyAdapter);
-        countySpinner.setSelection(0, true);
-        mCurrentAreaName = mAreaDatasMap.get(mCurrentCityName)[0];
+        countyAdapter = new ArrayAdapter<String>(Offline_AddSurvey.this, android.R.layout.simple_spinner_item, secondDatasMap.get(currentSecondName));
+        thirdSpinner.setAdapter(countyAdapter);
+        thirdSpinner.setSelection(0, true);
+        currentThirdName = secondDatasMap.get(currentSecondName)[0];
+
+        XBHAdapter = new ArrayAdapter<String>(Offline_AddSurvey.this, android.R.layout.simple_spinner_item, thirdDatasMap.get(currentThirdName));
+        fourthSpinner.setAdapter(XBHAdapter);
+        fourthSpinner.setSelection(0, true);
 
         //省级下拉框监听
-        provinceSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
+        firstSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
         {
             // 表示选项被改变的时候触发此方法，主要实现办法：动态改变地级适配器的绑定值
             @Override
             public void onItemSelected(AdapterView<?> arg0, View arg1, int position, long arg3)
             {
                 provincePosition = position;    //记录当前省级序号，留给下面修改县级适配器时用
-                mCurrentProviceName = provinceSpinner.getSelectedItem().toString();
+                currentFirstName = firstSpinner.getSelectedItem().toString();
                 //position为当前省级选中的值的序号
                 //将地级适配器的值改变为city[position]中的值
-                cityAdapter = new ArrayAdapter<String>(Offline_AddSurvey.this, android.R.layout.simple_spinner_item, mCitisDatasMap.get(mCurrentProviceName));
+                cityAdapter = new ArrayAdapter<String>(Offline_AddSurvey.this, android.R.layout.simple_spinner_item, firstDatasMap.get(currentFirstName));
                 // 设置二级下拉列表的选项内容适配器
-                citySpinner.setAdapter(cityAdapter);
+                secondSpinner.setAdapter(cityAdapter);
 
             }
 
@@ -455,15 +435,33 @@ public class Offline_AddSurvey extends Activity
 
 
         //地级下拉监听
-        citySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
+        secondSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
         {
 
             @Override
             public void onItemSelected(AdapterView<?> arg0, View arg1, int position, long arg3)
             {
-                countyAdapter = new ArrayAdapter<String>(Offline_AddSurvey.this, android.R.layout.simple_spinner_item, mAreaDatasMap.get(mCitisDatasMap.get(mCurrentProviceName)[position]));
-                countySpinner.setAdapter(countyAdapter);
-                mCurrentCityName = citySpinner.getSelectedItem().toString();
+                countyAdapter = new ArrayAdapter<String>(Offline_AddSurvey.this, android.R.layout.simple_spinner_item, secondDatasMap.get(firstDatasMap.get(currentFirstName)[position]));
+                thirdSpinner.setAdapter(countyAdapter);
+                currentSecondName = secondSpinner.getSelectedItem().toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> arg0)
+            {
+
+            }
+        });
+         //地级下拉监听
+        thirdSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
+        {
+
+            @Override
+            public void onItemSelected(AdapterView<?> arg0, View arg1, int position, long arg3)
+            {
+                XBHAdapter = new ArrayAdapter<String>(Offline_AddSurvey.this, android.R.layout.simple_spinner_item, thirdDatasMap.get(secondDatasMap.get(currentSecondName)[position]));
+                fourthSpinner.setAdapter(XBHAdapter);
+                currentThirdName = thirdSpinner.getSelectedItem().toString();
             }
 
             @Override
@@ -476,19 +474,58 @@ public class Offline_AddSurvey extends Activity
 
     /**
      * 解析整个省市区的Json对象，完成后释放Json对象的内存
+     * ZC:总场；FC：分场；ZD：站点；LBH:林班号；XBH:小班号
      */
     private void initCityDatas()
     {
-        mProvinceDatas = SqliteDb.getSLXBL(Offline_AddSurvey.this, SLXBL.class, "XZM", "XM", "英德");
+        mProvinceDatas = SqliteDb.getSLXBL(Offline_AddSurvey.this, LCXBH.class, "FC", "ZC", "英德");
         for (int i = 0; i < mProvinceDatas.length; i++)
         {
-            String[] mCitiesDatas = SqliteDb.getSLXBL(Offline_AddSurvey.this, SLXBL.class, "CM", "XZM", mProvinceDatas[i]);
+            String[] mCitiesDatas = SqliteDb.getSLXBL(Offline_AddSurvey.this, LCXBH.class, "ZD", "FC", mProvinceDatas[i]);
             for (int j = 0; j < mCitiesDatas.length; j++)
             {
-                String[] mAreasDatas = SqliteDb.getSLXBL(Offline_AddSurvey.this, SLXBL.class, "XBH", "CM", mCitiesDatas[j]);
-                mAreaDatasMap.put(mCitiesDatas[j], mAreasDatas);
+                String[] mAreasDatas = SqliteDb.getSLXBL(Offline_AddSurvey.this, LCXBH.class, "LBH", "ZD", mCitiesDatas[j]);
+                for (int k = 0; k < mAreasDatas.length; k++)
+                {
+                    String[] thirdDatas = SqliteDb.getSLXBL(Offline_AddSurvey.this, LCXBH.class, "XBH", "LBH", mAreasDatas[k]);
+                    thirdDatasMap.put(mAreasDatas[k], thirdDatas);
+                }
+                secondDatasMap.put(mCitiesDatas[j], mAreasDatas);
             }
-            mCitisDatasMap.put(mProvinceDatas[i], mCitiesDatas);
+            firstDatasMap.put(mProvinceDatas[i], mCitiesDatas);
         }
+    }
+
+    private void initLCXBHData()
+    {
+        //第一级数据
+        mProvinceDatas = new String[]{"七坡总场", "康宁分场"};
+
+        //二级数据
+        String[] tempdata = new String[]{"那丹站", "七坡站"};
+        firstDatasMap.put(mProvinceDatas[0], tempdata);
+        tempdata = new String[]{"康宁站", "那马站"};
+        firstDatasMap.put(mProvinceDatas[1], tempdata);
+
+        //三级数据
+        tempdata = new String[]{"452002001"};
+        secondDatasMap.put("那丹站", tempdata);
+        tempdata = new String[]{"452002002"};
+        secondDatasMap.put("七坡站", tempdata);
+        tempdata = new String[]{"452002003"};
+        secondDatasMap.put("康宁站", tempdata);
+        tempdata = new String[]{"452002004"};
+        secondDatasMap.put("那马站", tempdata);
+
+        //四级数据
+        tempdata = new String[]{"452002001001", "452002001002"};
+        thirdDatasMap.put("452002001", tempdata);
+        tempdata = new String[]{"452002002001", "452002002002"};
+        thirdDatasMap.put("452002002", tempdata);
+        tempdata = new String[]{"452002003001", "452002003002"};
+        thirdDatasMap.put("452002003", tempdata);
+        tempdata = new String[]{"452002004001", "452002004002"};
+        thirdDatasMap.put("452002004", tempdata);
+
     }
 }

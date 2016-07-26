@@ -121,7 +121,7 @@
             android:layout_gravity="right|top"
             android:layout_marginRight="15dip"
             android:layout_marginTop="15dip"
-            android:visibility="gone">
+            >
 
             <Button
                 android:id="@+id/btn_location"
